@@ -19,7 +19,7 @@ public class Mixer {
         double[] buffer = new double[SAMPLES];
         byte[] output = new byte[SAMPLES];
         for (Channel channel : channels) {
-            double[] channelData = channel.getData(bufferNumber);
+            double[] channelData = channel.readData(bufferNumber);
             for (int i = 0; i < SAMPLES; i++) {
                 buffer[i] += channelData[i] * channel.getVolume();
             }
@@ -27,7 +27,6 @@ public class Mixer {
 
         for (int i = 0; i < SAMPLES; i++) {
             output[i] = (byte) (buffer[i] * 127f);
-            //            output[i] = (byte) (Math.sin(angle) * 127f);
         }
 
         return output;

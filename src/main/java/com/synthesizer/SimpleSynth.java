@@ -2,6 +2,7 @@ package com.synthesizer;
 
 import com.synthesizer.channel.Generator;
 import com.synthesizer.channel.SynWave;
+import com.synthesizer.channel.TriangleWave;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
@@ -12,7 +13,7 @@ import java.awt.event.WindowEvent;
 
 public class SimpleSynth {
     public static int SAMPLE_RATE = 16 * 1024;
-    public static int SAMPLE_LENGTH = 1;
+    public static int SAMPLE_LENGTH = 2;
     public static int SAMPLES = (SAMPLE_LENGTH * SAMPLE_RATE) / 1000;
     private static AudioFormat audioFormat;
     private static int SAMPLE_SIZE_IN_BITS = 16;
@@ -25,8 +26,8 @@ public class SimpleSynth {
         SynthWindow synthWindow = new SynthWindow();
 
         Mixer mixer = new Mixer();
-        Generator synWave = new SynWave();
-        synWave.setVolume(1.0);
+
+        Generator synWave = new SynWave(1.0);
         synthWindow.addGenerator(synWave);
         mixer.addChannel(synWave);
 
@@ -42,7 +43,7 @@ public class SimpleSynth {
             }
         });
 
-        int i=0;
+        int i = 0;
         while (true) {
             byte[] mixBuffer = mixer.mix(i++);
             line.write(mixBuffer, 0, mixBuffer.length);

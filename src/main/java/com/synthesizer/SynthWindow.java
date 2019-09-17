@@ -2,6 +2,12 @@ package com.synthesizer;
 
 import com.synthesizer.channel.Generator;
 import com.synthesizer.model.Note;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.xy.DefaultXYDataset;
+import org.jfree.data.xy.XYDataset;
 
 import javax.swing.*;
 
@@ -17,6 +23,7 @@ public class SynthWindow extends JFrame {
     private JButton e;
     private JButton f;
     private JButton g;
+    private DefaultXYDataset chartDataset;
 
     private List<Generator> generators = new ArrayList<>();
 
@@ -38,9 +45,16 @@ public class SynthWindow extends JFrame {
         getContentPane().add(f);
         getContentPane().add(g);
 
+        chartDataset = new DefaultXYDataset();
+        JFreeChart chart = ChartFactory.createXYLineChart("Test Chart",
+                "x", "y", chartDataset, PlotOrientation.VERTICAL, true, true,
+                false);
+        ChartPanel chartPanel = new ChartPanel(chart);
+        getContentPane().add(chartPanel);
+
         getContentPane().setLayout(new FlowLayout());
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(700, 70);
+        setSize(700, 600);
         setVisible(true);
         setTitle("Simple Synth");
 
@@ -53,6 +67,20 @@ public class SynthWindow extends JFrame {
         g.addChangeListener(e1 -> createKeyListener(Note.G, g));
     }
 
+    private void updateDataset() {
+        if (generators.isEmpty()) {
+            return;
+        }
+        Generator g = generators.get(0);
+        double[] yAxis = g.getLastData();
+        double[] xAxis = new double[yAxis.length];
+        for (int i = 0; i < xAxis.length; i++) {
+            xAxis[i] = i;
+        }
+        double[][] data = {xAxis, yAxis};
+        chartDataset.addSeries(g.getClass().getSimpleName(), data);
+    }
+
     public void addGenerator(Generator generator) {
         this.generators.add(generator);
     }
@@ -62,6 +90,7 @@ public class SynthWindow extends JFrame {
         if (model.isArmed()) {
             for (Generator generator : generators) {
                 generator.startPlaying(note.getFrequency());
+                updateDataset();
             }
         } else {
             for (Generator generator : generators) {

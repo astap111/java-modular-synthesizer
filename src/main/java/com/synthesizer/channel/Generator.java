@@ -1,5 +1,8 @@
 package com.synthesizer.channel;
 
+import static com.synthesizer.SimpleSynth.SAMPLE_LENGTH;
+import static com.synthesizer.SimpleSynth.SAMPLE_RATE;
+
 public abstract class Generator implements Channel {
     protected volatile double[] output;
 
@@ -10,6 +13,29 @@ public abstract class Generator implements Channel {
     public Generator(double volume) {
         this.volume = volume;
     }
+
+    @Override
+    public double[] readData(int bufferNumber) {
+        int samples = (SAMPLE_LENGTH * SAMPLE_RATE) / 1000;
+        output = new double[samples];
+
+        if (isPlaying) {
+            genetateWave(output, bufferNumber);
+        } else if (frequency != 0) {
+            genetateWave(output, bufferNumber);
+            for (int i = 0; i < output.length; i++) {
+                frequency = 0;
+                if (i > 0 && output[i] * output[i - 1] <= 0) {
+                    output[i] = 0;
+                    return output;
+                }
+            }
+        }
+
+        return output;
+    }
+
+    protected abstract void genetateWave(double[] output, int bufferNumber);
 
     @Override
     public double getVolume() {

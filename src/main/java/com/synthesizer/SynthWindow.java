@@ -7,10 +7,8 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.xy.DefaultXYDataset;
-import org.jfree.data.xy.XYDataset;
 
 import javax.swing.*;
-
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +65,7 @@ public class SynthWindow extends JFrame {
         g.addChangeListener(e1 -> createKeyListener(Note.G, g));
     }
 
-    private void updateDataset() {
+    private void updateChartDataset() {
         if (generators.isEmpty()) {
             return;
         }
@@ -90,7 +88,7 @@ public class SynthWindow extends JFrame {
         if (model.isArmed()) {
             for (Generator generator : generators) {
                 generator.startPlaying(note.getFrequency());
-                updateDataset();
+                updateChartDataset();
             }
         } else {
             for (Generator generator : generators) {

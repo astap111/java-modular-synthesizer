@@ -13,7 +13,7 @@ import java.awt.event.WindowEvent;
 
 public class SimpleSynth {
     public static int SAMPLE_RATE = 16 * 1024;
-    public static int SAMPLE_LENGTH = 2;
+    public static int SAMPLE_LENGTH = 1;
     public static int SAMPLES = (SAMPLE_LENGTH * SAMPLE_RATE) / 1000;
     private static AudioFormat audioFormat;
     private static int SAMPLE_SIZE_IN_BITS = 16;
@@ -27,7 +27,7 @@ public class SimpleSynth {
 
         Mixer mixer = new Mixer();
 
-        Generator synWave = new SynWave(1.0);
+        Generator synWave = new TriangleWave(1.0);
         synthWindow.addGenerator(synWave);
         mixer.addChannel(synWave);
 

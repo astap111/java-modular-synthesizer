@@ -1,9 +1,6 @@
 package com.synthesizer;
 
-import com.synthesizer.channel.Generator;
-import com.synthesizer.channel.SquareWave;
-import com.synthesizer.channel.SineWave;
-import com.synthesizer.channel.TriangleWave;
+import com.synthesizer.channel.*;
 import com.synthesizer.model.Note;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -31,6 +28,7 @@ public class SynthWindow extends JFrame {
     private SineWave sineWave = new SineWave(0.3);
     private TriangleWave triangleWave = new TriangleWave(0.3);
     private SquareWave squareWave = new SquareWave(0.3);
+    private SawtoothWave sawtoothWave = new SawtoothWave(0.3);
 
 
     public SynthWindow(Mixer mixer) {
@@ -41,22 +39,27 @@ public class SynthWindow extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setTitle("Simple Synth");
 
-        JPanel SineWavePanel = new JPanel();
-        JPanel TrialgleWavePanel = new JPanel();
+        JPanel sineWavePanel = new JPanel();
+        JPanel trialgleWavePanel = new JPanel();
         JPanel squareWavePanel = new JPanel();
+        JPanel sawtoothWavePanel = new JPanel();
         JPanel keyPanel = new JPanel();
 
-        SineWavePanel.setBorder(BorderFactory.createTitledBorder("Sine"));
-        TrialgleWavePanel.setBorder(BorderFactory.createTitledBorder("Triangle"));
+        sineWavePanel.setBorder(BorderFactory.createTitledBorder("Sine"));
+        trialgleWavePanel.setBorder(BorderFactory.createTitledBorder("Triangle"));
         squareWavePanel.setBorder(BorderFactory.createTitledBorder("Square"));
+        sawtoothWavePanel.setBorder(BorderFactory.createTitledBorder("Sawtooth"));
         keyPanel.setBorder(BorderFactory.createTitledBorder("Keys"));
 
-        BoxLayout layout1 = new BoxLayout(SineWavePanel, BoxLayout.Y_AXIS);
-        BoxLayout layout2 = new BoxLayout(TrialgleWavePanel, BoxLayout.Y_AXIS);
+        BoxLayout layout1 = new BoxLayout(sineWavePanel, BoxLayout.Y_AXIS);
+        BoxLayout layout2 = new BoxLayout(trialgleWavePanel, BoxLayout.Y_AXIS);
         BoxLayout layout3 = new BoxLayout(squareWavePanel, BoxLayout.Y_AXIS);
-        SineWavePanel.setLayout(layout1);
-        TrialgleWavePanel.setLayout(layout2);
+        BoxLayout layout4 = new BoxLayout(sawtoothWavePanel, BoxLayout.Y_AXIS);
+
+        sineWavePanel.setLayout(layout1);
+        trialgleWavePanel.setLayout(layout2);
         squareWavePanel.setLayout(layout3);
+        sawtoothWavePanel.setLayout(layout4);
 
         a = new JButton("A");
         b = new JButton("B");
@@ -89,14 +92,14 @@ public class SynthWindow extends JFrame {
 
 
         JSlider volumeSine = new JSlider(JSlider.HORIZONTAL, 0, 100, 30);
-        SineWavePanel.add(volumeSine);
+        sineWavePanel.add(volumeSine);
         volumeSine.addChangeListener(e1 -> {
             JSlider source = (JSlider) e1.getSource();
             sineWave.setVolume((double) source.getValue() / 100);
         });
 
         JSlider volumeTriangle = new JSlider(JSlider.HORIZONTAL, 0, 100, 30);
-        TrialgleWavePanel.add(volumeTriangle);
+        trialgleWavePanel.add(volumeTriangle);
         volumeTriangle.addChangeListener(e1 -> {
             JSlider source = (JSlider) e1.getSource();
             triangleWave.setVolume((double) source.getValue() / 100);
@@ -109,16 +112,24 @@ public class SynthWindow extends JFrame {
             squareWave.setVolume((double) source.getValue() / 100);
         });
 
-        getContentPane().add(SineWavePanel);
-        getContentPane().add(TrialgleWavePanel);
+        JSlider volumeSawtooth = new JSlider(JSlider.HORIZONTAL, 0, 100, 30);
+        sawtoothWavePanel.add(volumeSawtooth);
+        volumeSawtooth.addChangeListener(e1 -> {
+            JSlider source = (JSlider) e1.getSource();
+            sawtoothWave.setVolume((double) source.getValue() / 100);
+        });
+
+        getContentPane().add(sineWavePanel);
+        getContentPane().add(trialgleWavePanel);
         getContentPane().add(squareWavePanel);
+        getContentPane().add(sawtoothWavePanel);
         getContentPane().add(chartPanel);
         getContentPane().add(keyPanel);
         pack();
         setSize(1000, 900);
         setVisible(true);
 
-        addGenerators(sineWave, triangleWave, squareWave);
+        addGenerators(sineWave, triangleWave, squareWave, sawtoothWave);
 
     }
 

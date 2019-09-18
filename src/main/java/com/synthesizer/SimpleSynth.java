@@ -1,9 +1,5 @@
 package com.synthesizer;
 
-import com.synthesizer.channel.Generator;
-import com.synthesizer.channel.SynWave;
-import com.synthesizer.channel.TriangleWave;
-
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.LineUnavailableException;
@@ -23,13 +19,9 @@ public class SimpleSynth {
     private static SourceDataLine line;
 
     public static void main(String[] args) throws LineUnavailableException {
-        SynthWindow synthWindow = new SynthWindow();
-
         Mixer mixer = new Mixer();
 
-        Generator synWave = new TriangleWave(1.0);
-        synthWindow.addGenerator(synWave);
-        mixer.addChannel(synWave);
+        SynthWindow synthWindow = new SynthWindow(mixer);
 
         audioFormat = new AudioFormat(SAMPLE_RATE, SAMPLE_SIZE_IN_BITS, CHANNELS, SIGNED, BIG_ENDIAN);
         line = AudioSystem.getSourceDataLine(audioFormat);

@@ -12,7 +12,7 @@ public class SquareWave extends Generator {
         double period = (double) SAMPLE_RATE / frequency;
         double halfPeriod = period / 2;
         double bufferStart = bufferNumber * output.length;
-        double waveStart = (int) (bufferStart / period) * period;
+        double waveStart = Math.floor(bufferStart / period) * period;
 
         for (int i = 0; i < output.length; i++) {
             double pointer = i + bufferStart - waveStart;
@@ -22,6 +22,7 @@ public class SquareWave extends Generator {
                 output[i] = -1;
             } else {
                 waveStart += period;
+                output[i] = 1;
             }
         }
     }

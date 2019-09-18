@@ -45,9 +45,6 @@ public class SynthWindow extends JFrame {
         JPanel TrialgleWavePanel = new JPanel();
         JPanel squareWavePanel = new JPanel();
         JPanel keyPanel = new JPanel();
-        getContentPane().add(SineWavePanel);
-        getContentPane().add(TrialgleWavePanel);
-        getContentPane().add(squareWavePanel);
 
         SineWavePanel.setBorder(BorderFactory.createTitledBorder("Sine"));
         TrialgleWavePanel.setBorder(BorderFactory.createTitledBorder("Triangle"));
@@ -75,7 +72,7 @@ public class SynthWindow extends JFrame {
         keyPanel.add(e);
         keyPanel.add(f);
         keyPanel.add(g);
-        getContentPane().add(keyPanel);
+
 //        a.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke('z'), "pressed");
         a.addChangeListener(e1 -> createKeyListener(Note.A, a));
         b.addChangeListener(e1 -> createKeyListener(Note.B, b));
@@ -89,7 +86,7 @@ public class SynthWindow extends JFrame {
         JFreeChart chart = ChartFactory.createXYLineChart("Test Chart", "x", "y", chartDataset, PlotOrientation.VERTICAL, true, true, false);
         ChartPanel chartPanel = new ChartPanel(chart);
         chartPanel.setSize(100, 100);
-        getContentPane().add(chartPanel);
+
 
         JSlider volumeSine = new JSlider(JSlider.HORIZONTAL, 0, 100, 30);
         SineWavePanel.add(volumeSine);
@@ -112,6 +109,11 @@ public class SynthWindow extends JFrame {
             squareWave.setVolume((double) source.getValue() / 100);
         });
 
+        getContentPane().add(SineWavePanel);
+        getContentPane().add(TrialgleWavePanel);
+        getContentPane().add(squareWavePanel);
+        getContentPane().add(chartPanel);
+        getContentPane().add(keyPanel);
         pack();
         setSize(1000, 900);
         setVisible(true);

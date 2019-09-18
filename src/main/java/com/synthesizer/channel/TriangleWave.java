@@ -13,7 +13,7 @@ public class TriangleWave extends Generator {
         double quaterPeriod = period / 4;
         double angle = 1 / quaterPeriod;
         double bufferStart = bufferNumber * output.length;
-        double waveStart = (int) (bufferStart / period) * period;
+        double waveStart = (int) Math.floor(bufferStart / period) * period;
 
         for (int i = 0; i < output.length; i++) {
             double pointer = i + bufferStart - waveStart;
@@ -25,6 +25,7 @@ public class TriangleWave extends Generator {
                 output[i] = angle * pointer - 4;
             } else {
                 waveStart += period;
+                output[i] = angle * pointer - 4;
             }
         }
     }

@@ -1,7 +1,6 @@
 package com.synthesizer.channel;
 
-import static com.synthesizer.SimpleSynth.SAMPLE_LENGTH;
-import static com.synthesizer.SimpleSynth.SAMPLE_RATE;
+import static com.synthesizer.SimpleSynth.*;
 
 public abstract class Generator implements Channel {
     protected volatile double[] output;
@@ -16,7 +15,7 @@ public abstract class Generator implements Channel {
 
     @Override
     public double[] readData(int bufferNumber) {
-        int samples = (SAMPLE_LENGTH * SAMPLE_RATE) / 1000;
+        int samples = SAMPLES;
         output = new double[samples];
 
         if (isPlaying) {

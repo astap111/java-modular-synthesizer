@@ -20,7 +20,7 @@ public class SawtoothWave extends Generator {
                 output[i] = angle * pointer - 1;
             } else {
                 waveStart += period;
-                output[i] = angle * pointer - 2;
+                output[i] = angle * pointer - 3;
             }
         }
     }

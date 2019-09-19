@@ -158,9 +158,9 @@ public class SynthWindow extends JFrame {
         if (model.isArmed()) {
             for (Generator generator : generators) {
                 generator.startPlaying(note.getFrequency());
-                updateChartDataset();
             }
         } else {
+            updateChartDataset();
             for (Generator generator : generators) {
                 generator.stopPlaying();
             }

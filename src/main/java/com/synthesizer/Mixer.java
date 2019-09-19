@@ -17,7 +17,8 @@ public class Mixer {
 
     byte[] mix(int bufferNumber) {
         double[] buffer = new double[SAMPLES];
-        byte[] outputByteBuffer = new byte[SAMPLES];
+        byte[] outputByteBuffer = new byte[SAMPLES * 2];
+        int bufferSize = 0;
         for (Channel channel : channels) {
             double[] channelData = channel.readData(bufferNumber);
             for (int i = 0; i < SAMPLES; i++) {
@@ -26,7 +27,15 @@ public class Mixer {
         }
 
         for (int i = 0; i < SAMPLES; i++) {
-            outputByteBuffer[i] = (byte) (buffer[i] * 127f);
+            //limiter
+            if (buffer[i] > 1) {
+                buffer[i] = 1;
+            } else if (buffer[i] < -1) {
+                buffer[i] = -1;
+            }
+            short s = (short) (Short.MAX_VALUE * buffer[i]);
+            outputByteBuffer[bufferSize++] = (byte) s;
+            outputByteBuffer[bufferSize++] = (byte) (s >> 8);   // little Endian
         }
 
         this.output = buffer;

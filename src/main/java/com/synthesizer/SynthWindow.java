@@ -22,13 +22,25 @@ public class SynthWindow extends JFrame {
     private JButton e;
     private JButton f;
     private JButton g;
-    private DefaultXYDataset chartDataset;
+
+    JSlider volumeSine;
+    JSlider volumeTriangle;
+    JSlider volumeSquare;
+    JSlider volumeSawtooth;
+
+    JPanel sineWavePanel = new JPanel();
+    JPanel trialgleWavePanel = new JPanel();
+    JPanel squareWavePanel = new JPanel();
+    JPanel sawtoothWavePanel = new JPanel();
+    JPanel keyPanel = new JPanel();
+
+    private DefaultXYDataset chartDataset = new DefaultXYDataset();;
     private Mixer mixer;
     private List<Generator> generators = new ArrayList<>();
-    private SineWave sineWave = new SineWave(0.3);
-    private TriangleWave triangleWave = new TriangleWave(0.3);
-    private SquareWave squareWave = new SquareWave(0.3);
-    private SawtoothWave sawtoothWave = new SawtoothWave(0.3);
+    private SineWave sineWave = new SineWave(1);
+    private TriangleWave triangleWave = new TriangleWave(0);
+    private SquareWave squareWave = new SquareWave(0);
+    private SawtoothWave sawtoothWave = new SawtoothWave(0);
 
 
     public SynthWindow(Mixer mixer) {
@@ -38,12 +50,6 @@ public class SynthWindow extends JFrame {
         getContentPane().setLayout(new FlowLayout());
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setTitle("Simple Synth");
-
-        JPanel sineWavePanel = new JPanel();
-        JPanel trialgleWavePanel = new JPanel();
-        JPanel squareWavePanel = new JPanel();
-        JPanel sawtoothWavePanel = new JPanel();
-        JPanel keyPanel = new JPanel();
 
         sineWavePanel.setBorder(BorderFactory.createTitledBorder("Sine"));
         trialgleWavePanel.setBorder(BorderFactory.createTitledBorder("Triangle"));
@@ -85,39 +91,22 @@ public class SynthWindow extends JFrame {
         f.addChangeListener(e1 -> createKeyListener(Note.F, f));
         g.addChangeListener(e1 -> createKeyListener(Note.G, g));
 
-        chartDataset = new DefaultXYDataset();
         JFreeChart chart = ChartFactory.createXYLineChart("Test Chart", "x", "y", chartDataset, PlotOrientation.VERTICAL, true, true, false);
         ChartPanel chartPanel = new ChartPanel(chart);
         chartPanel.setSize(100, 100);
 
 
-        JSlider volumeSine = new JSlider(JSlider.HORIZONTAL, 0, 100, 30);
+        volumeSine = createVolumeSlider(sineWave);
         sineWavePanel.add(volumeSine);
-        volumeSine.addChangeListener(e1 -> {
-            JSlider source = (JSlider) e1.getSource();
-            sineWave.setVolume((double) source.getValue() / 100);
-        });
 
-        JSlider volumeTriangle = new JSlider(JSlider.HORIZONTAL, 0, 100, 30);
+        volumeTriangle = createVolumeSlider(triangleWave);
         trialgleWavePanel.add(volumeTriangle);
-        volumeTriangle.addChangeListener(e1 -> {
-            JSlider source = (JSlider) e1.getSource();
-            triangleWave.setVolume((double) source.getValue() / 100);
-        });
 
-        JSlider volumeSquare = new JSlider(JSlider.HORIZONTAL, 0, 100, 30);
+        volumeSquare = createVolumeSlider(squareWave);
         squareWavePanel.add(volumeSquare);
-        volumeSquare.addChangeListener(e1 -> {
-            JSlider source = (JSlider) e1.getSource();
-            squareWave.setVolume((double) source.getValue() / 100);
-        });
 
-        JSlider volumeSawtooth = new JSlider(JSlider.HORIZONTAL, 0, 100, 30);
+        volumeSawtooth = createVolumeSlider(sawtoothWave);
         sawtoothWavePanel.add(volumeSawtooth);
-        volumeSawtooth.addChangeListener(e1 -> {
-            JSlider source = (JSlider) e1.getSource();
-            sawtoothWave.setVolume((double) source.getValue() / 100);
-        });
 
         getContentPane().add(sineWavePanel);
         getContentPane().add(trialgleWavePanel);
@@ -165,5 +154,14 @@ public class SynthWindow extends JFrame {
                 generator.stopPlaying();
             }
         }
+    }
+
+    private JSlider createVolumeSlider(Generator g) {
+        JSlider volumeSquare = new JSlider(JSlider.HORIZONTAL, 0, 100, (int) (g.getVolume() * 100));
+        volumeSquare.addChangeListener(e1 -> {
+            JSlider source = (JSlider) e1.getSource();
+            g.setVolume((double) source.getValue() / 100);
+        });
+        return volumeSquare;
     }
 }

@@ -1,18 +1,21 @@
 package com.synthesizer;
 
-import javax.sound.sampled.*;
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.SourceDataLine;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class SimpleSynth {
-    public static int SAMPLE_RATE = 44100; //samples per second
-    public static int SAMPLE_LENGTH = 5; //buffer in millis
+    public static int SAMPLE_RATE = 44100;
+    public static int SAMPLE_LENGTH = 5;
     public static int SAMPLES = (SAMPLE_LENGTH * SAMPLE_RATE) / 1000;
     private static AudioFormat audioFormat;
-    private static int SAMPLE_SIZE_IN_BITS = 8;
+    private static int SAMPLE_SIZE_IN_BITS = 16;
     private static int CHANNELS = 1;
     private static boolean SIGNED = true;
-    private static boolean BIG_ENDIAN = true;
+    private static boolean BIG_ENDIAN = false;
     private static SourceDataLine line;
 
     public static void main(String[] args) throws LineUnavailableException {
@@ -32,10 +35,13 @@ public class SimpleSynth {
             }
         });
 
-        int i = 0;
-        while (true) {
-            byte[] mixBuffer = mixer.mix(i++);
-            line.write(mixBuffer, 0, mixBuffer.length);
-        }
+        Thread t = new Thread(() -> {
+            int i = 0;
+            while (true) {
+                byte[] mixBuffer = mixer.mix(i++);
+                line.write(mixBuffer, 0, mixBuffer.length);
+            }
+        });
+        t.run();
     }
 }

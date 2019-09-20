@@ -1,7 +1,8 @@
 package com.synthesizer;
 
 import com.synthesizer.channel.*;
-import com.synthesizer.model.Note;
+import com.synthesizer.form.Key;
+import com.synthesizer.form.KeyboardPanel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -15,14 +16,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class SynthWindow extends JFrame {
-    private JButton a;
-    private JButton b;
-    private JButton c;
-    private JButton d;
-    private JButton e;
-    private JButton f;
-    private JButton g;
-
     JSlider volumeSine;
     JSlider volumeTriangle;
     JSlider volumeSquare;
@@ -32,9 +25,9 @@ public class SynthWindow extends JFrame {
     JPanel trialgleWavePanel = new JPanel();
     JPanel squareWavePanel = new JPanel();
     JPanel sawtoothWavePanel = new JPanel();
-    JPanel keyPanel = new JPanel();
+    KeyboardPanel keyboardPanel = new KeyboardPanel();
 
-    private DefaultXYDataset chartDataset = new DefaultXYDataset();;
+    private DefaultXYDataset chartDataset = new DefaultXYDataset();
     private Mixer mixer;
     private List<Generator> generators = new ArrayList<>();
     private SineWave sineWave = new SineWave(1);
@@ -55,7 +48,6 @@ public class SynthWindow extends JFrame {
         trialgleWavePanel.setBorder(BorderFactory.createTitledBorder("Triangle"));
         squareWavePanel.setBorder(BorderFactory.createTitledBorder("Square"));
         sawtoothWavePanel.setBorder(BorderFactory.createTitledBorder("Sawtooth"));
-        keyPanel.setBorder(BorderFactory.createTitledBorder("Keys"));
 
         BoxLayout layout1 = new BoxLayout(sineWavePanel, BoxLayout.Y_AXIS);
         BoxLayout layout2 = new BoxLayout(trialgleWavePanel, BoxLayout.Y_AXIS);
@@ -67,34 +59,12 @@ public class SynthWindow extends JFrame {
         squareWavePanel.setLayout(layout3);
         sawtoothWavePanel.setLayout(layout4);
 
-        a = new JButton("A");
-        b = new JButton("B");
-        c = new JButton("C");
-        d = new JButton("D");
-        e = new JButton("E");
-        f = new JButton("F");
-        g = new JButton("G");
-        keyPanel.add(a);
-        keyPanel.add(b);
-        keyPanel.add(c);
-        keyPanel.add(d);
-        keyPanel.add(e);
-        keyPanel.add(f);
-        keyPanel.add(g);
-
-//        a.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke('z'), "pressed");
-        a.addChangeListener(e1 -> createKeyListener(Note.A, a));
-        b.addChangeListener(e1 -> createKeyListener(Note.B, b));
-        c.addChangeListener(e1 -> createKeyListener(Note.C, c));
-        d.addChangeListener(e1 -> createKeyListener(Note.D, d));
-        e.addChangeListener(e1 -> createKeyListener(Note.E, e));
-        f.addChangeListener(e1 -> createKeyListener(Note.F, f));
-        g.addChangeListener(e1 -> createKeyListener(Note.G, g));
-
         JFreeChart chart = ChartFactory.createXYLineChart("Test Chart", "x", "y", chartDataset, PlotOrientation.VERTICAL, true, true, false);
         ChartPanel chartPanel = new ChartPanel(chart);
-        chartPanel.setSize(100, 100);
-
+        Dimension chartDimention = new Dimension();
+        chartDimention.setSize(50, 50);
+        chartPanel.setMaximumSize(chartDimention);
+        chartPanel.setSize(chartDimention);
 
         volumeSine = createVolumeSlider(sineWave);
         sineWavePanel.add(volumeSine);
@@ -108,12 +78,16 @@ public class SynthWindow extends JFrame {
         volumeSawtooth = createVolumeSlider(sawtoothWave);
         sawtoothWavePanel.add(volumeSawtooth);
 
+        for (Key key : keyboardPanel.getKeys()) {
+            key.addChangeListener(e1 -> createKeyListener(key));
+        }
+
         getContentPane().add(sineWavePanel);
         getContentPane().add(trialgleWavePanel);
         getContentPane().add(squareWavePanel);
         getContentPane().add(sawtoothWavePanel);
         getContentPane().add(chartPanel);
-        getContentPane().add(keyPanel);
+        getContentPane().add(new JScrollPane(keyboardPanel));
         pack();
         setSize(1000, 900);
         setVisible(true);
@@ -139,14 +113,14 @@ public class SynthWindow extends JFrame {
             xAxis[i] = i;
         }
         double[][] data = {xAxis, yAxis};
-        chartDataset.addSeries(g.getClass().getSimpleName(), data);
+        chartDataset.addSeries("Mixer data", data);
     }
 
-    private void createKeyListener(Note note, JButton key) {
+    private void createKeyListener(Key key) {
         ButtonModel model = key.getModel();
         if (model.isArmed()) {
             for (Generator generator : generators) {
-                generator.startPlaying(note.getFrequency());
+                generator.startPlaying(key.getNote());
             }
         } else {
             updateChartDataset();

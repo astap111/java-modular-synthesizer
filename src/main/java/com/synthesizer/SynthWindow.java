@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class SynthWindow extends JFrame {
+public class SynthWindow extends JFrame implements EventListener {
     JSlider volumeSine;
     JSlider volumeTriangle;
     JSlider volumeSquare;
@@ -39,6 +39,7 @@ public class SynthWindow extends JFrame {
     public SynthWindow(Mixer mixer) {
         super();
         this.mixer = mixer;
+        mixer.addChangeListener(this);
         JFrame.setDefaultLookAndFeelDecorated(true);
         getContentPane().setLayout(new FlowLayout());
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -123,7 +124,6 @@ public class SynthWindow extends JFrame {
                 generator.startPlaying(key.getNote());
             }
         } else {
-            updateChartDataset();
             for (Generator generator : generators) {
                 generator.stopPlaying();
             }
@@ -137,5 +137,10 @@ public class SynthWindow extends JFrame {
             g.setVolume((double) source.getValue() / 100);
         });
         return volumeSquare;
+    }
+
+    @Override
+    public void fireEvent() {
+        updateChartDataset();
     }
 }

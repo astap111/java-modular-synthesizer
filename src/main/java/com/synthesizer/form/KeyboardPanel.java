@@ -2,6 +2,8 @@ package com.synthesizer.form;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class KeyboardPanel extends JPanel {
     private WhiteKey[] whites = new WhiteKey[10];
@@ -46,5 +48,17 @@ public class KeyboardPanel extends JPanel {
             result[i++] = k;
         }
         return result;
+    }
+
+    class KeyboardKeyAdapter extends KeyAdapter {
+        @Override
+        public void keyPressed(KeyEvent e) {
+            super.keyPressed(e);
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+            super.keyReleased(e);
+        }
     }
 }

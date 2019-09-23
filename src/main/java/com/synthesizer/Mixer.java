@@ -10,6 +10,7 @@ import static com.synthesizer.SimpleSynth.SAMPLES;
 public class Mixer {
     private volatile double[] output;
     private List<Channel> channels = new ArrayList<>();
+    private EventListener listener;
 
     public void addChannel(Channel channel) {
         channels.add(channel);
@@ -39,10 +40,15 @@ public class Mixer {
         }
 
         this.output = buffer;
+        listener.fireEvent();
         return outputByteBuffer;
     }
 
     public double[] getLastData() {
         return output;
+    }
+
+    public void addChangeListener(EventListener listener) {
+        this.listener = listener;
     }
 }

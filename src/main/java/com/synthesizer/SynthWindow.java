@@ -11,6 +11,8 @@ import org.jfree.data.xy.DefaultXYDataset;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -92,6 +94,7 @@ public class SynthWindow extends JFrame implements EventListener {
         pack();
         setSize(1000, 900);
         setVisible(true);
+        addKeyboardShortcutListener();
 
         addGenerators(sineWave, triangleWave, squareWave, sawtoothWave);
 
@@ -124,6 +127,7 @@ public class SynthWindow extends JFrame implements EventListener {
                 generator.startPlaying(key.getNote());
             }
         } else {
+            updateChartDataset();
             for (Generator generator : generators) {
                 generator.stopPlaying();
             }
@@ -141,6 +145,28 @@ public class SynthWindow extends JFrame implements EventListener {
 
     @Override
     public void fireEvent() {
-        updateChartDataset();
+//        updateChartDataset();
+    }
+
+    private void addKeyboardShortcutListener() {
+        KeyboardFocusManager.getCurrentKeyboardFocusManager()
+                .addKeyEventDispatcher(keyEvent -> {
+                    if (keyEvent.getID() == KeyEvent.KEY_PRESSED) {
+                        Key key = keyboardPanel.getKey(keyEvent.getKeyCode());
+                        if (key != null) {
+                            ButtonModel model = key.getModel();
+                            model.setPressed(true);
+                            model.setArmed(true);
+                        }
+                    } else if (keyEvent.getID() == KeyEvent.KEY_RELEASED) {
+                        Key key = keyboardPanel.getKey(keyEvent.getKeyCode());
+                        if (key != null) {
+                            ButtonModel model = key.getModel();
+                            model.setPressed(false);
+                            model.setArmed(false);
+                        }
+                    }
+                    return false; //continue to monitor other key events
+                });
     }
 }

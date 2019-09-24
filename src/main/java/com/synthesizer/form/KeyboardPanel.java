@@ -47,4 +47,18 @@ public class KeyboardPanel extends JPanel {
         }
         return result;
     }
+
+    public Key getKey(int keyCode) {
+        for (WhiteKey white : whites) {
+            if (white.getKeyBinded() == keyCode) {
+                return white;
+            }
+        }
+        for (BlackKey black : blacks) {
+            if (black.getKeyBinded() == keyCode) {
+                return black;
+            }
+        }
+        return null;
+    }
 }

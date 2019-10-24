@@ -31,7 +31,9 @@ public class SimpleSynth {
         synthWindow.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 line.drain();
+                line.stop();
                 line.close();
+                line = null;
             }
         });
 

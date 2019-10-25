@@ -42,6 +42,7 @@ public abstract class Generator implements Channel {
 
     @Override
     public void setFrequency(double frequency) {
+        step = step * this.frequency / frequency;
         this.frequency = frequency;
     }
 

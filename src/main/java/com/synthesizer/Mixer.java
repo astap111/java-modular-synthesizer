@@ -8,7 +8,7 @@ import java.util.List;
 import static com.synthesizer.SimpleSynth.SAMPLES;
 
 public class Mixer {
-    private volatile double[] output;
+    private double[] output;
     private List<Channel> channels = new ArrayList<>();
     private EventListener listener;
 

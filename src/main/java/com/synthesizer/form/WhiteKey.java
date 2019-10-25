@@ -10,7 +10,7 @@ public class WhiteKey extends Key {
     private static final int keysBinded[] = {VK_Z, VK_X, VK_C, VK_V, VK_B, VK_N, VK_M, VK_COMMA, VK_PERIOD, VK_SLASH};
 
     public WhiteKey(int pos) {
-        note = aNoteFrequency * Math.pow(noteMultiplier, whiteKeys[pos]);
+        noteFrequency = aNoteFrequency * Math.pow(noteMultiplier, whiteKeys[pos]);
         keyBinded = keysBinded[pos];
 
         int left = 10 + WWD * pos;

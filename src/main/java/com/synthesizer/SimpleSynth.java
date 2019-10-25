@@ -33,14 +33,15 @@ public class SimpleSynth {
                 line.drain();
                 line.stop();
                 line.close();
-                line = null;
             }
         });
 
         Thread t = new Thread(() -> {
             while (true) {
                 byte[] mixBuffer = mixer.mix();
-                line.write(mixBuffer, 0, mixBuffer.length);
+                if (line.isOpen()) {
+                    line.write(mixBuffer, 0, mixBuffer.length);
+                }
             }
         });
         t.run();

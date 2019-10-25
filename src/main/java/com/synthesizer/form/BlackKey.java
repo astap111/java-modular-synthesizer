@@ -11,7 +11,7 @@ public class BlackKey extends Key {
     private static final int keysBinded[] = {VK_S, VK_D, VK_G, VK_H, VK_J, VK_L, VK_SEMICOLON};
 
     public BlackKey(int pos) {
-        note = aNoteFrequency * Math.pow(noteMultiplier, blackKeys[pos]);
+        noteFrequency = aNoteFrequency * Math.pow(noteMultiplier, blackKeys[pos]);
         keyBinded = keysBinded[pos];
 
         int left = 10 + WD
@@ -21,7 +21,7 @@ public class BlackKey extends Key {
         setBounds(left, 10, WD, HT);
     }
 
-    public double getNote() {
-        return note;
+    public double getNoteFrequency() {
+        return noteFrequency;
     }
 }

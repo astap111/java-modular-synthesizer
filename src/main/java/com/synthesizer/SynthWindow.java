@@ -17,16 +17,16 @@ import java.util.Arrays;
 import java.util.List;
 
 public class SynthWindow extends JFrame implements EventListener {
-    JSlider volumeSine;
-    JSlider volumeTriangle;
-    JSlider volumeSquare;
-    JSlider volumeSawtooth;
+    private JSlider volumeSine;
+    private JSlider volumeTriangle;
+    private JSlider volumeSquare;
+    private JSlider volumeSawtooth;
 
-    JPanel sineWavePanel = new JPanel();
-    JPanel trialgleWavePanel = new JPanel();
-    JPanel squareWavePanel = new JPanel();
-    JPanel sawtoothWavePanel = new JPanel();
-    KeyboardPanel keyboardPanel = new KeyboardPanel();
+    private JPanel sineWavePanel = new JPanel();
+    private JPanel trialgleWavePanel = new JPanel();
+    private JPanel squareWavePanel = new JPanel();
+    private JPanel sawtoothWavePanel = new JPanel();
+    private KeyboardPanel keyboardPanel = new KeyboardPanel();
 
     private DefaultXYDataset chartDataset = new DefaultXYDataset();
     private Mixer mixer;
@@ -35,6 +35,8 @@ public class SynthWindow extends JFrame implements EventListener {
     private TriangleWave triangleWave = new TriangleWave(0);
     private SquareWave squareWave = new SquareWave(0);
     private SawtoothWave sawtoothWave = new SawtoothWave(0);
+
+    private volatile double currentFrequency;
 
 
     public SynthWindow(Mixer mixer) {
@@ -122,17 +124,34 @@ public class SynthWindow extends JFrame implements EventListener {
 
     private void createKeyListener(Key key) {
         ButtonModel model = key.getModel();
-        if (model.isArmed()) {
+        //logModel(key);
+        if (model.isArmed() && model.isPressed()) {
             for (Generator generator : generators) {
-                //todo attack
-                generator.setFrequency(key.getNote());
+                if (currentFrequency == 0) {
+                    //todo attack
+                }
+                generator.setFrequency(key.getNoteFrequency());
+                currentFrequency = key.getNoteFrequency();
             }
         } else {
             updateChartDataset();
             for (Generator generator : generators) {
-                //todo release
+                if (currentFrequency == key.getNoteFrequency()) {
+                    //todo release
+                }
             }
         }
+    }
+
+    private void logModel(Key key) {
+        ButtonModel model = key.getModel();
+        System.out.println(key.getNoteFrequency());
+        System.out.println("isArmed:" + model.isArmed());
+        System.out.println("isPressed:" + model.isPressed());
+        System.out.println("isRollover:" + model.isRollover());
+        System.out.println("isSelected:" + model.isSelected());
+        System.out.println("isEnabled:" + model.isEnabled());
+        System.out.println("--------");
     }
 
     private JSlider createVolumeSlider(Generator g) {

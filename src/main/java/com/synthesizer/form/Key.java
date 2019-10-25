@@ -3,7 +3,7 @@ package com.synthesizer.form;
 import javax.swing.*;
 
 public abstract class Key extends JButton {
-    protected double note;
+    protected double noteFrequency;
     protected int keyBinded;
     protected int aNoteFrequency = 440;
     protected double noteMultiplier = Math.pow(2, 1.0 / 12);
@@ -11,8 +11,8 @@ public abstract class Key extends JButton {
     int WD = 40;
     int HT = (WD * 9) / 2;
 
-    public double getNote() {
-        return note;
+    public double getNoteFrequency() {
+        return noteFrequency;
     }
 
     public int getKeyBinded() {

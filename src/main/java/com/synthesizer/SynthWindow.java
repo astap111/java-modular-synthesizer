@@ -1,6 +1,6 @@
 package com.synthesizer;
 
-import com.synthesizer.channel.*;
+import com.synthesizer.channel.generator.*;
 import com.synthesizer.form.Key;
 import com.synthesizer.form.KeyboardPanel;
 import org.jfree.chart.ChartFactory;
@@ -12,7 +12,6 @@ import org.jfree.data.xy.DefaultXYDataset;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -103,6 +102,7 @@ public class SynthWindow extends JFrame implements EventListener {
     private void addGenerators(Generator... gens) {
         generators.addAll(Arrays.asList(gens));
         for (Generator g : gens) {
+            g.setFrequency(440);
             mixer.addChannel(g);
         }
     }
@@ -124,12 +124,13 @@ public class SynthWindow extends JFrame implements EventListener {
         ButtonModel model = key.getModel();
         if (model.isArmed()) {
             for (Generator generator : generators) {
-                generator.startPlaying(key.getNote());
+                //todo attack
+                generator.setFrequency(key.getNote());
             }
         } else {
             updateChartDataset();
             for (Generator generator : generators) {
-                generator.stopPlaying();
+                //todo release
             }
         }
     }

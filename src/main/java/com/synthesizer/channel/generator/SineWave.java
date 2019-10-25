@@ -1,4 +1,4 @@
-package com.synthesizer.channel;
+package com.synthesizer.channel.generator;
 
 import static com.synthesizer.SimpleSynth.SAMPLE_RATE;
 
@@ -8,10 +8,10 @@ public class SineWave extends Generator {
     }
 
     @Override
-    protected void genetateWave(double[] output, int bufferNumber) {
+    protected void genetateWave(double[] output) {
         double period = (double) SAMPLE_RATE / frequency;
         for (int i = 0; i < output.length; i++) {
-            double angle = 2.0 * Math.PI * (i + bufferNumber * output.length) / period;
+            double angle = 2.0 * Math.PI * nextStep() / period;
             output[i] = Math.sin(angle);
         }
     }

@@ -16,12 +16,12 @@ public class Mixer {
         channels.add(channel);
     }
 
-    byte[] mix(int bufferNumber) {
+    byte[] mix() {
         double[] buffer = new double[SAMPLES];
         byte[] outputByteBuffer = new byte[SAMPLES * 2];
         int bufferSize = 0;
         for (Channel channel : channels) {
-            double[] channelData = channel.readData(bufferNumber);
+            double[] channelData = channel.readData();
             for (int i = 0; i < SAMPLES; i++) {
                 buffer[i] += channelData[i] * channel.getVolume();
             }

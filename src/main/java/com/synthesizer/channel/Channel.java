@@ -1,7 +1,13 @@
 package com.synthesizer.channel;
 
 public interface Channel {
+    double[] readData();
+
     double getVolume();
+
     void setVolume(double volume);
-    double[] readData(int bufferNumber);
+
+    void setFrequency(double frequency);
+
+    double getFrequency();
 }

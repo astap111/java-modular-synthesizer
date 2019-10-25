@@ -38,9 +38,8 @@ public class SimpleSynth {
         });
 
         Thread t = new Thread(() -> {
-            int i = 0;
             while (true) {
-                byte[] mixBuffer = mixer.mix(i++);
+                byte[] mixBuffer = mixer.mix();
                 line.write(mixBuffer, 0, mixBuffer.length);
             }
         });

@@ -6,10 +6,12 @@ import static com.synthesizer.SimpleSynth.*;
 
 public abstract class Generator implements Channel {
     protected volatile double[] output;
-
     protected double volume;
     protected double frequency;
     private double step = 0;
+
+    public Generator() {
+    }
 
     public Generator(double volume) {
         this.volume = volume;
@@ -61,5 +63,15 @@ public abstract class Generator implements Channel {
 
     public void setStep(double step) {
         this.step = step;
+    }
+
+    @Override
+    public void attack() {
+
+    }
+
+    @Override
+    public void release() {
+
     }
 }

@@ -3,6 +3,10 @@ package com.synthesizer.channel.generator;
 import static com.synthesizer.SimpleSynth.SAMPLE_RATE;
 
 public class SineWave extends Generator {
+    public SineWave() {
+        super();
+    }
+
     public SineWave(double volume) {
         super(volume);
     }

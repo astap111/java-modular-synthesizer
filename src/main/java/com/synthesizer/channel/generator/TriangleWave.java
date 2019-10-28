@@ -3,6 +3,10 @@ package com.synthesizer.channel.generator;
 import static com.synthesizer.SimpleSynth.SAMPLE_RATE;
 
 public class TriangleWave extends Generator {
+    public TriangleWave() {
+        super();
+    }
+
     public TriangleWave(double volume) {
         super(volume);
     }

@@ -3,6 +3,10 @@ package com.synthesizer.channel.generator;
 import static com.synthesizer.SimpleSynth.SAMPLE_RATE;
 
 public class SawtoothWave extends Generator {
+    public SawtoothWave() {
+        super();
+    }
+
     public SawtoothWave(double volume) {
         super(volume);
     }

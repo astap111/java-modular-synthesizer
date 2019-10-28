@@ -10,4 +10,8 @@ public interface Channel {
     void setFrequency(double frequency);
 
     double getFrequency();
+
+    void attack();
+
+    void release();
 }

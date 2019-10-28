@@ -3,6 +3,10 @@ package com.synthesizer.channel.generator;
 import static com.synthesizer.SimpleSynth.SAMPLE_RATE;
 
 public class SquareWave extends Generator {
+    public SquareWave() {
+        super();
+    }
+
     public SquareWave(double volume) {
         super(volume);
     }

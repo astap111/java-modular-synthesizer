@@ -124,7 +124,6 @@ public class ADSREnvelope implements Channel {
     @Override
     public void attack() {
         this.stage = Stage.ATTACK;
-        this.curve = 0;
         this.isPushed = true;
     }
 

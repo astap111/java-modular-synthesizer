@@ -35,8 +35,8 @@ public class Mixer {
                 buffer[i] = -1;
             }
             short s = (short) (Short.MAX_VALUE * buffer[i]);
-            outputByteBuffer[bufferSize++] = (byte) s;
-            outputByteBuffer[bufferSize++] = (byte) (s >> 8);   // little Endian
+            outputByteBuffer[bufferSize++] = (byte) (s >> 8);
+            outputByteBuffer[bufferSize++] = (byte) s; //big Endian
         }
 
         this.output = buffer;

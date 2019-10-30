@@ -15,7 +15,7 @@ public class SimpleSynth {
     private static int SAMPLE_SIZE_IN_BITS = 16;
     private static int CHANNELS = 1;
     private static boolean SIGNED = true;
-    private static boolean BIG_ENDIAN = false;
+    private static boolean BIG_ENDIAN = true;
     private static SourceDataLine line;
 
     public static void main(String[] args) throws LineUnavailableException {

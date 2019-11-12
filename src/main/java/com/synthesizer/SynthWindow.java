@@ -85,15 +85,18 @@ public class SynthWindow extends JFrame implements EventListener {
         squareWavePanel.setLayout(layout3);
         sawtoothWavePanel.setLayout(layout4);
 
-        JFreeChart chart = ChartFactory.createXYLineChart("Test Chart", "x", "y", chartDataset, PlotOrientation.VERTICAL, true, true, false);
+        JFreeChart chart = ChartFactory.createXYLineChart("Mixer Graph", null, null, chartDataset, PlotOrientation.VERTICAL, false, false, false);
         XYPlot plot = (XYPlot) chart.getPlot();
         plot.getRangeAxis().setRange(-1.0, 1.0);
+        plot.setDomainGridlinesVisible(false);
+        plot.setRangeGridlinesVisible(false);
+        plot.getRangeAxis();
 
         ChartPanel chartPanel = new ChartPanel(chart);
-        Dimension chartDimention = new Dimension();
-        chartDimention.setSize(50, 50);
-        chartPanel.setMaximumSize(chartDimention);
-        chartPanel.setSize(chartDimention);
+//        Dimension chartDimention = new Dimension();
+//        chartDimention.setSize(1000, 1000);
+//        chartPanel.setMaximumSize(chartDimention);
+//        chartPanel.setSize(chartDimention);
 
         volumeSine = createVolumeSlider(sineWave);
         sineWavePanel.add(volumeSine);
@@ -133,13 +136,14 @@ public class SynthWindow extends JFrame implements EventListener {
             xAxis[i] = i;
         }
         double[][] data = {xAxis, yAxis};
-        chartDataset.addSeries("Mixer data", data);
+        SwingUtilities.invokeLater(() -> {
+            chartDataset.addSeries(0, data);
+        });
     }
 
     private void createKeyListener(Key key) {
         ButtonModel model = key.getModel();
         //logModel(key);
-        updateChartDataset();
         if (model.isArmed() && model.isPressed()) {
             if (currentFrequency == 0) {
                 channel.attack();
@@ -147,7 +151,6 @@ public class SynthWindow extends JFrame implements EventListener {
             channel.setFrequency(key.getNoteFrequency());
             currentFrequency = key.getNoteFrequency();
         } else {
-            updateChartDataset();
             if (currentFrequency == 0 || currentFrequency == key.getNoteFrequency()) {
                 channel.release();
                 currentFrequency = 0;
@@ -177,7 +180,7 @@ public class SynthWindow extends JFrame implements EventListener {
 
     @Override
     public void fireEvent() {
-//        updateChartDataset();
+        updateChartDataset();
     }
 
     private void addKeyboardShortcutListener() {

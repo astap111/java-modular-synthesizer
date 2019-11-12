@@ -23,6 +23,11 @@ public class ADSREnvelope implements Channel {
     }
 
     @Override
+    public void addChannel(Channel channel) {
+        this.channel = channel;
+    }
+
+    @Override
     public double[] readData() {
         double[] data = channel.readData();
         for (int i = 0; i < data.length; i++) {

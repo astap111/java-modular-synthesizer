@@ -18,6 +18,10 @@ public abstract class Generator implements Channel {
     }
 
     @Override
+    public void addChannel(Channel channel) {
+    }
+
+    @Override
     public double[] readData() {
         output = new double[SAMPLES];
         genetateWave(output);

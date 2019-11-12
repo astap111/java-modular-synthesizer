@@ -1,6 +1,8 @@
 package com.synthesizer.channel;
 
 public interface Channel {
+    void addChannel(Channel channel);
+
     double[] readData();
 
     double getVolume();

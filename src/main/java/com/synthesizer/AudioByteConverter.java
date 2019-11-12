@@ -2,38 +2,23 @@ package com.synthesizer;
 
 import com.synthesizer.channel.Channel;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static com.synthesizer.SimpleSynth.SAMPLES;
 
-public class Mixer {
+public class AudioByteConverter {
     private double[] output;
-    private List<Channel> channels = new ArrayList<>();
+    private Channel channel;
     private EventListener listener;
 
     public void addChannel(Channel channel) {
-        channels.add(channel);
+        this.channel = channel;
     }
 
-    byte[] mix() {
-        double[] buffer = new double[SAMPLES];
+    byte[] getByteArray() {
         byte[] outputByteBuffer = new byte[SAMPLES * 2];
         int bufferSize = 0;
-        for (Channel channel : channels) {
-            double[] channelData = channel.readData();
-            for (int i = 0; i < SAMPLES; i++) {
-                buffer[i] += channelData[i] * channel.getVolume();
-            }
-        }
+        double[] buffer = channel.readData();
 
         for (int i = 0; i < SAMPLES; i++) {
-            //limiter
-            if (buffer[i] > 1) {
-                buffer[i] = 1;
-            } else if (buffer[i] < -1) {
-                buffer[i] = -1;
-            }
             short s = (short) (Short.MAX_VALUE * buffer[i]);
             outputByteBuffer[bufferSize++] = (byte) (s >> 8);
             outputByteBuffer[bufferSize++] = (byte) s; //big Endian

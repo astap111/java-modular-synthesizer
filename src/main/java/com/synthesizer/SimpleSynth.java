@@ -19,7 +19,7 @@ public class SimpleSynth {
     private static SourceDataLine line;
 
     public static void main(String[] args) throws LineUnavailableException {
-        Mixer mixer = new Mixer();
+        AudioByteConverter mixer = new AudioByteConverter();
 
         SynthWindow synthWindow = new SynthWindow(mixer);
 
@@ -38,7 +38,7 @@ public class SimpleSynth {
 
         Thread t = new Thread(() -> {
             while (true) {
-                byte[] mixBuffer = mixer.mix();
+                byte[] mixBuffer = mixer.getByteArray();
                 if (line.isOpen()) {
                     line.write(mixBuffer, 0, mixBuffer.length);
                 }

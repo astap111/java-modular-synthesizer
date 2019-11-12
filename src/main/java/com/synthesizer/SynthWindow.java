@@ -1,28 +1,36 @@
 package com.synthesizer;
 
 import com.synthesizer.channel.Channel;
-import com.synthesizer.channel.generator.*;
+import com.synthesizer.channel.generator.SawtoothWave;
+import com.synthesizer.channel.generator.SineWave;
+import com.synthesizer.channel.generator.SquareWave;
+import com.synthesizer.channel.generator.TriangleWave;
 import com.synthesizer.channel.processor.ADSREnvelope;
+import com.synthesizer.channel.processor.Delay;
+import com.synthesizer.channel.processor.Limiter;
+import com.synthesizer.channel.processor.Mixer;
 import com.synthesizer.form.Key;
 import com.synthesizer.form.KeyboardPanel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.xy.DefaultXYDataset;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class SynthWindow extends JFrame implements EventListener {
+    //ADSR
     private double attack = 3;
     private double decay = 6;
     private double sustain = 0.6;
     private double release = 3;
+    //delay
+    private double delay = 0.3;
+    private double delayDecay = 0.6;
 
     private JSlider volumeSine;
     private JSlider volumeTriangle;
@@ -36,24 +44,27 @@ public class SynthWindow extends JFrame implements EventListener {
     private KeyboardPanel keyboardPanel = new KeyboardPanel();
 
     private DefaultXYDataset chartDataset = new DefaultXYDataset();
-    private Mixer mixer;
-    private List<Channel> channels = new ArrayList<>();
-    private SineWave sineWave = new SineWave(1);
-    private TriangleWave triangleWave = new TriangleWave(0);
-    private SquareWave squareWave = new SquareWave(0);
+    private AudioByteConverter byteConverter;
+    private SineWave sineWave = new SineWave(0.6);
+    private TriangleWave triangleWave = new TriangleWave(0.6);
+    private SquareWave squareWave = new SquareWave(0.3);
     private SawtoothWave sawtoothWave = new SawtoothWave(0);
     private ADSREnvelope sineAdsrEnvelope = new ADSREnvelope(sineWave, attack, decay, sustain, release);
     private ADSREnvelope triangleAdsrEnvelope = new ADSREnvelope(triangleWave, attack, decay, sustain, release);
     private ADSREnvelope squareAdsrEnvelope = new ADSREnvelope(squareWave, attack, decay, sustain, release);
     private ADSREnvelope sawtoothAdsrEnvelope = new ADSREnvelope(sawtoothWave, attack, decay, sustain, release);
+    private Mixer mixerChannel = new Mixer(sineAdsrEnvelope, triangleAdsrEnvelope, squareAdsrEnvelope, sawtoothAdsrEnvelope);
+    private Delay delayChannel = new Delay(mixerChannel, delay, delayDecay);
+    private Limiter mixerLimiter = new Limiter(delayChannel);
+    private Channel channel = mixerLimiter;
 
     private volatile double currentFrequency;
 
 
-    public SynthWindow(Mixer mixer) {
+    public SynthWindow(AudioByteConverter byteConverter) {
         super();
-        this.mixer = mixer;
-        mixer.addChangeListener(this);
+        this.byteConverter = byteConverter;
+        this.byteConverter.addChangeListener(this);
         JFrame.setDefaultLookAndFeelDecorated(true);
         getContentPane().setLayout(new FlowLayout());
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -75,22 +86,25 @@ public class SynthWindow extends JFrame implements EventListener {
         sawtoothWavePanel.setLayout(layout4);
 
         JFreeChart chart = ChartFactory.createXYLineChart("Test Chart", "x", "y", chartDataset, PlotOrientation.VERTICAL, true, true, false);
+        XYPlot plot = (XYPlot) chart.getPlot();
+        plot.getRangeAxis().setRange(-1.0, 1.0);
+
         ChartPanel chartPanel = new ChartPanel(chart);
         Dimension chartDimention = new Dimension();
         chartDimention.setSize(50, 50);
         chartPanel.setMaximumSize(chartDimention);
         chartPanel.setSize(chartDimention);
 
-        volumeSine = createVolumeSlider(sineAdsrEnvelope);
+        volumeSine = createVolumeSlider(sineWave);
         sineWavePanel.add(volumeSine);
 
-        volumeTriangle = createVolumeSlider(triangleAdsrEnvelope);
+        volumeTriangle = createVolumeSlider(triangleWave);
         trialgleWavePanel.add(volumeTriangle);
 
-        volumeSquare = createVolumeSlider(squareAdsrEnvelope);
+        volumeSquare = createVolumeSlider(squareWave);
         squareWavePanel.add(volumeSquare);
 
-        volumeSawtooth = createVolumeSlider(sawtoothAdsrEnvelope);
+        volumeSawtooth = createVolumeSlider(sawtoothWave);
         sawtoothWavePanel.add(volumeSawtooth);
 
         for (Key key : keyboardPanel.getKeys()) {
@@ -108,22 +122,12 @@ public class SynthWindow extends JFrame implements EventListener {
         setVisible(true);
         addKeyboardShortcutListener();
 
-        addChannels(sineAdsrEnvelope, triangleAdsrEnvelope, squareAdsrEnvelope, sawtoothAdsrEnvelope);
-    }
-
-    private void addChannels(Channel... chans) {
-        channels.addAll(Arrays.asList(chans));
-        for (Channel c : chans) {
-            c.setFrequency(440);
-            mixer.addChannel(c);
-        }
+        mixerLimiter.setFrequency(440);
+        byteConverter.addChannel(mixerLimiter);
     }
 
     private void updateChartDataset() {
-        if (channels.isEmpty()) {
-            return;
-        }
-        double[] yAxis = mixer.getLastData();
+        double[] yAxis = byteConverter.getLastData();
         double[] xAxis = new double[yAxis.length];
         for (int i = 0; i < xAxis.length; i++) {
             xAxis[i] = i;
@@ -137,20 +141,16 @@ public class SynthWindow extends JFrame implements EventListener {
         //logModel(key);
         updateChartDataset();
         if (model.isArmed() && model.isPressed()) {
-            for (Channel channel : channels) {
-                if (currentFrequency == 0) {
-                    channel.attack();
-                }
-                channel.setFrequency(key.getNoteFrequency());
+            if (currentFrequency == 0) {
+                channel.attack();
             }
+            channel.setFrequency(key.getNoteFrequency());
             currentFrequency = key.getNoteFrequency();
         } else {
             updateChartDataset();
-            for (Channel channel : channels) {
-                if (currentFrequency == 0 || currentFrequency == key.getNoteFrequency()) {
-                    channel.release();
-                    currentFrequency = 0;
-                }
+            if (currentFrequency == 0 || currentFrequency == key.getNoteFrequency()) {
+                channel.release();
+                currentFrequency = 0;
             }
         }
     }

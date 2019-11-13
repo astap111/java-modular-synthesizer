@@ -8,14 +8,16 @@ public class Delay implements Channel {
     private Channel channel;
     private double delay;
     private double decay;
+    private double dryWetFactor;
     private int delayInSamples;
     private double[] delayBuffer;
     private int bufferPosition = 0;
 
-    public Delay(Channel channel, double delay, double decay) {
+    public Delay(Channel channel, double delay, double decay, double dryWetFactor) {
         this.channel = channel;
         setDelay(delay);
         this.decay = decay;
+        this.dryWetFactor = dryWetFactor;
         delayBuffer = new double[delayInSamples];
     }
 
@@ -30,7 +32,7 @@ public class Delay implements Channel {
 
         for (int i = 0; i < data.length; i++) {
             data[i] += delayBuffer[bufferPosition] * decay;
-            delayBuffer[bufferPosition] = data[i];
+            delayBuffer[bufferPosition] = data[i] * dryWetFactor;
             bufferPosition++;
             if (bufferPosition >= delayBuffer.length) {
                 bufferPosition = 0;

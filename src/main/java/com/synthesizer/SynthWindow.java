@@ -31,6 +31,7 @@ public class SynthWindow extends JFrame implements EventListener {
     //delay
     private double delay = 0.3;
     private double delayDecay = 0.6;
+    private double dryWetFactor = 0.5;
 
     private JSlider volumeSine;
     private JSlider volumeTriangle;
@@ -45,8 +46,8 @@ public class SynthWindow extends JFrame implements EventListener {
 
     private DefaultXYDataset chartDataset = new DefaultXYDataset();
     private AudioByteConverter byteConverter;
-    private SineWave sineWave = new SineWave(0.6);
-    private TriangleWave triangleWave = new TriangleWave(0.6);
+    private SineWave sineWave = new SineWave(0.4);
+    private TriangleWave triangleWave = new TriangleWave(0.4);
     private SquareWave squareWave = new SquareWave(0.3);
     private SawtoothWave sawtoothWave = new SawtoothWave(0);
     private ADSREnvelope sineAdsrEnvelope = new ADSREnvelope(sineWave, attack, decay, sustain, release);
@@ -54,7 +55,7 @@ public class SynthWindow extends JFrame implements EventListener {
     private ADSREnvelope squareAdsrEnvelope = new ADSREnvelope(squareWave, attack, decay, sustain, release);
     private ADSREnvelope sawtoothAdsrEnvelope = new ADSREnvelope(sawtoothWave, attack, decay, sustain, release);
     private Mixer mixerChannel = new Mixer(sineAdsrEnvelope, triangleAdsrEnvelope, squareAdsrEnvelope, sawtoothAdsrEnvelope);
-    private Delay delayChannel = new Delay(mixerChannel, delay, delayDecay);
+    private Delay delayChannel = new Delay(mixerChannel, delay, delayDecay, dryWetFactor);
     private Limiter mixerLimiter = new Limiter(delayChannel);
     private Channel channel = mixerLimiter;
 

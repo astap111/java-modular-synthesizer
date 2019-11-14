@@ -66,7 +66,7 @@ public class SynthWindow extends JFrame implements EventListener {
     private Mixer mixerChannel = new Mixer(sineAdsrEnvelope, triangleAdsrEnvelope, squareAdsrEnvelope, sawtoothAdsrEnvelope);
     private Delay delayChannel = new Delay(mixerChannel, delay, delayDecay, dryWetFactor);
     private Limiter mixerLimiter = new Limiter(delayChannel);
-    private Channel channel = mixerLimiter;
+    private Channel rootChannel = mixerLimiter;
 
     private volatile double currentFrequency;
 
@@ -174,13 +174,13 @@ public class SynthWindow extends JFrame implements EventListener {
         //logModel(key);
         if (model.isArmed() && model.isPressed()) {
             if (currentFrequency == 0) {
-                channel.attack();
+                rootChannel.attack();
             }
-            channel.setFrequency(key.getNoteFrequency());
+            rootChannel.setFrequency(key.getNoteFrequency());
             currentFrequency = key.getNoteFrequency();
         } else {
             if (currentFrequency == 0 || currentFrequency == key.getNoteFrequency()) {
-                channel.release();
+                rootChannel.release();
                 currentFrequency = 0;
             }
         }

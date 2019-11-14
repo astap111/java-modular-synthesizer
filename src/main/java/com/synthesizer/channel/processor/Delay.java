@@ -2,6 +2,7 @@ package com.synthesizer.channel.processor;
 
 import com.synthesizer.channel.Channel;
 
+import static com.synthesizer.SimpleSynth.SAMPLES;
 import static com.synthesizer.SimpleSynth.SAMPLE_RATE;
 
 public class Delay implements Channel {
@@ -28,18 +29,20 @@ public class Delay implements Channel {
 
     @Override
     public double[] readData() {
-        double[] data = channel.readData();
+        double[] result = new double[SAMPLES];
+        double[] channelData = channel.readData();
 
-        for (int i = 0; i < data.length; i++) {
-            data[i] += delayBuffer[bufferPosition] * decay;
-            delayBuffer[bufferPosition] = data[i] * dryWetFactor;
+        for (int i = 0; i < result.length; i++) {
+            //result[i] += channelData[i] * Math.abs(Math.log(dryWetFactor)) + delayBuffer[bufferPosition] * decay / Math.abs(Math.log(dryWetFactor));
+            result[i] += channelData[i] + delayBuffer[bufferPosition] * decay;
+            delayBuffer[bufferPosition] = result[i];
             bufferPosition++;
             if (bufferPosition >= delayBuffer.length) {
                 bufferPosition = 0;
             }
         }
 
-        return data;
+        return result;
     }
 
     @Override
@@ -87,6 +90,8 @@ public class Delay implements Channel {
     public void setDelay(double delay) {
         this.delay = delay;
         delayInSamples = (int) (SAMPLE_RATE * delay);
+        delayBuffer = new double[delayInSamples];
+        bufferPosition = 0;
     }
 
     public double getDecay() {
@@ -95,5 +100,13 @@ public class Delay implements Channel {
 
     public void setDecay(double decay) {
         this.decay = decay;
+    }
+
+    public double getDryWetFactor() {
+        return dryWetFactor;
+    }
+
+    public void setDryWetFactor(double dryWetFactor) {
+        this.dryWetFactor = dryWetFactor;
     }
 }

@@ -23,33 +23,42 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 
 public class SynthWindow extends JFrame implements EventListener {
+    //Volume
+    private double sineVolume = 0.4;
+    private double triangleVolume = 0;
+    private double squareVolume = 0.35;
+    private double sawtoothVolume = 0.3;
     //ADSR
     private double attack = 3;
     private double decay = 6;
     private double sustain = 0.6;
-    private double release = 3;
+    private double release = 4;
     //delay
-    private double delay = 0.3;
-    private double delayDecay = 0.6;
-    private double dryWetFactor = 0.5;
+    private double delay = 0.33;
+    private double delayDecay = 0.3;
+    private double dryWetFactor = 0.4;
 
-    private JSlider volumeSine;
-    private JSlider volumeTriangle;
-    private JSlider volumeSquare;
-    private JSlider volumeSawtooth;
+    private JSlider volumeSineSlider;
+    private JSlider volumeTriangleSlider;
+    private JSlider volumeSquareSlider;
+    private JSlider volumeSawtoothSlider;
+    private JSlider delaySlider;
+    private JSlider delayDecaySlider;
+    private JSlider delayDryWetFactorSlider;
 
     private JPanel sineWavePanel = new JPanel();
     private JPanel trialgleWavePanel = new JPanel();
     private JPanel squareWavePanel = new JPanel();
     private JPanel sawtoothWavePanel = new JPanel();
+    private JPanel delayPanel = new JPanel();
     private KeyboardPanel keyboardPanel = new KeyboardPanel();
 
     private DefaultXYDataset chartDataset = new DefaultXYDataset();
     private AudioByteConverter byteConverter;
-    private SineWave sineWave = new SineWave(0.4);
-    private TriangleWave triangleWave = new TriangleWave(0.4);
-    private SquareWave squareWave = new SquareWave(0.3);
-    private SawtoothWave sawtoothWave = new SawtoothWave(0);
+    private SineWave sineWave = new SineWave(sineVolume);
+    private TriangleWave triangleWave = new TriangleWave(triangleVolume);
+    private SquareWave squareWave = new SquareWave(squareVolume);
+    private SawtoothWave sawtoothWave = new SawtoothWave(sawtoothVolume);
     private ADSREnvelope sineAdsrEnvelope = new ADSREnvelope(sineWave, attack, decay, sustain, release);
     private ADSREnvelope triangleAdsrEnvelope = new ADSREnvelope(triangleWave, attack, decay, sustain, release);
     private ADSREnvelope squareAdsrEnvelope = new ADSREnvelope(squareWave, attack, decay, sustain, release);
@@ -94,22 +103,39 @@ public class SynthWindow extends JFrame implements EventListener {
         plot.getRangeAxis();
 
         ChartPanel chartPanel = new ChartPanel(chart);
-//        Dimension chartDimention = new Dimension();
-//        chartDimention.setSize(1000, 1000);
-//        chartPanel.setMaximumSize(chartDimention);
-//        chartPanel.setSize(chartDimention);
 
-        volumeSine = createVolumeSlider(sineWave);
-        sineWavePanel.add(volumeSine);
+        volumeSineSlider = createVolumeSlider(sineWave);
+        sineWavePanel.add(volumeSineSlider);
 
-        volumeTriangle = createVolumeSlider(triangleWave);
-        trialgleWavePanel.add(volumeTriangle);
+        volumeTriangleSlider = createVolumeSlider(triangleWave);
+        trialgleWavePanel.add(volumeTriangleSlider);
 
-        volumeSquare = createVolumeSlider(squareWave);
-        squareWavePanel.add(volumeSquare);
+        volumeSquareSlider = createVolumeSlider(squareWave);
+        squareWavePanel.add(volumeSquareSlider);
 
-        volumeSawtooth = createVolumeSlider(sawtoothWave);
-        sawtoothWavePanel.add(volumeSawtooth);
+        volumeSawtoothSlider = createVolumeSlider(sawtoothWave);
+        sawtoothWavePanel.add(volumeSawtoothSlider);
+
+        delaySlider = new JSlider(JSlider.HORIZONTAL, 1, 100, (int) (delayChannel.getDelay() * 100));
+        delaySlider.addChangeListener(e1 -> {
+            JSlider source = (JSlider) e1.getSource();
+            delayChannel.setDelay((double) source.getValue() / 100);
+        });
+        delayPanel.add(delaySlider);
+
+        delayDecaySlider = new JSlider(JSlider.HORIZONTAL, 0, 100, (int) (delayChannel.getDecay() * 100));
+        delayDecaySlider.addChangeListener(e1 -> {
+            JSlider source = (JSlider) e1.getSource();
+            delayChannel.setDecay((double) source.getValue() / 100);
+        });
+        delayPanel.add(delayDecaySlider);
+
+        delayDryWetFactorSlider = new JSlider(JSlider.HORIZONTAL, 0, 99, (int) (delayChannel.getDryWetFactor() * 100));
+        delayDryWetFactorSlider.addChangeListener(e1 -> {
+            JSlider source = (JSlider) e1.getSource();
+            delayChannel.setDryWetFactor((double) source.getValue() / 100);
+        });
+        delayPanel.add(delayDryWetFactorSlider);
 
         for (Key key : keyboardPanel.getKeys()) {
             key.addChangeListener(e1 -> createKeyListener(key));
@@ -119,6 +145,7 @@ public class SynthWindow extends JFrame implements EventListener {
         getContentPane().add(trialgleWavePanel);
         getContentPane().add(squareWavePanel);
         getContentPane().add(sawtoothWavePanel);
+        getContentPane().add(delayPanel);
         getContentPane().add(chartPanel);
         getContentPane().add(new JScrollPane(keyboardPanel));
         pack();

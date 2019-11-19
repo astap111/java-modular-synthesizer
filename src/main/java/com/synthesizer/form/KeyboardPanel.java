@@ -61,4 +61,13 @@ public class KeyboardPanel extends JPanel {
         }
         return null;
     }
+
+    public void setOctave(int i) {
+        for (WhiteKey white : whites) {
+            white.setOctave(i);
+        }
+        for (BlackKey black : blacks) {
+            black.setOctave(i);
+        }
+    }
 }

@@ -20,8 +20,4 @@ public class BlackKey extends Key {
         setBackground(Color.BLACK);
         setBounds(left, 10, WD, HT);
     }
-
-    public double getNoteFrequency() {
-        return noteFrequency;
-    }
 }

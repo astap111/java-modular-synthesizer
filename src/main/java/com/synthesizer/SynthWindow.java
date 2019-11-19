@@ -21,24 +21,26 @@ import java.awt.event.KeyEvent;
 
 public class SynthWindow extends JFrame implements EventListener {
     //Volume
-    private double sineVolume = 0.4;
+    private double sineVolume = 0;
     private double triangleVolume = 0;
-    private double squareVolume = 0.35;
-    private double sawtoothVolume = 0.3;
+    private double squareVolume = 0;
+    private double sawtoothVolume = 0.8;
     //ADSR
     private double attack = 3;
     private double decay = 6;
     private double sustain = 0.6;
     private double release = 4;
     //delay
-    private double delay = 0.33;
-    private double delayDecay = 0.3;
-    private double dryWetFactor = 0.4;
+    private double delay = 1;
+    private double delayDecay = 0;
+    private double dryWetFactor = 0;
     //LowPassFilter
     private BiQuadraticFilter.FilterType lpfType = BiQuadraticFilter.FilterType.LOWPASS;
     private double lpfCutoffFreq = 200;
     private double lpfQ = 0.75;
     private double lpfGain = 0.5;
+
+    private int octave = 0;
 
     private JSlider volumeSineSlider;
     private JSlider volumeTriangleSlider;
@@ -57,6 +59,7 @@ public class SynthWindow extends JFrame implements EventListener {
     private JPanel delayPanel = new JPanel();
     private JPanel lpfPanel = new JPanel();
     private KeyboardPanel keyboardPanel = new KeyboardPanel();
+    private JPanel octavePanel = new JPanel();
 
     private DefaultXYDataset chartDataset = new DefaultXYDataset();
     private AudioByteConverter byteConverter;
@@ -124,10 +127,7 @@ public class SynthWindow extends JFrame implements EventListener {
 
         configureDelayPanel();
         configureLowPassFilterPanel();
-
-        for (Key key : keyboardPanel.getKeys()) {
-            key.addChangeListener(e1 -> createKeyListener(key));
-        }
+        configureKeyboardPanel();
 
         getContentPane().add(sineWavePanel);
         getContentPane().add(trialgleWavePanel);
@@ -136,7 +136,10 @@ public class SynthWindow extends JFrame implements EventListener {
         getContentPane().add(delayPanel);
         getContentPane().add(lpfPanel);
         getContentPane().add(chartPanel);
-        getContentPane().add(new JScrollPane(keyboardPanel));
+        JPanel keyboard = new JPanel();
+        keyboard.add(octavePanel);
+        keyboard.add(keyboardPanel);
+        getContentPane().add(keyboard);
         pack();
         setSize(1000, 900);
         setVisible(true);
@@ -144,6 +147,32 @@ public class SynthWindow extends JFrame implements EventListener {
 
         rootChannel.setFrequency(440);
         byteConverter.addChannel(rootChannel);
+    }
+
+    private void configureKeyboardPanel() {
+        for (Key key : keyboardPanel.getKeys()) {
+            key.addChangeListener(e1 -> createKeyListener(key));
+        }
+
+        BoxLayout octavePanelLayout = new BoxLayout(octavePanel, BoxLayout.Y_AXIS);
+        octavePanel.setLayout(octavePanelLayout);
+        octavePanel.setAlignmentX(0.5f);
+        JLabel octaveLabel = new JLabel("0");
+        JButton octavePlus = new JButton("+");
+        octavePlus.addActionListener(e1 -> {
+            octave++;
+            keyboardPanel.setOctave(octave);
+            octaveLabel.setText(String.valueOf(octave));
+        });
+        JButton octaveMinus = new JButton("-");
+        octaveMinus.addActionListener(e1 -> {
+            octave--;
+            keyboardPanel.setOctave(octave);
+            octaveLabel.setText(String.valueOf(octave));
+        });
+        octavePanel.add(octavePlus);
+        octavePanel.add(octaveLabel);
+        octavePanel.add(octaveMinus);
     }
 
     private void configureDelayPanel() {

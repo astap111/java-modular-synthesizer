@@ -5,10 +5,7 @@ import com.synthesizer.channel.generator.SawtoothWave;
 import com.synthesizer.channel.generator.SineWave;
 import com.synthesizer.channel.generator.SquareWave;
 import com.synthesizer.channel.generator.TriangleWave;
-import com.synthesizer.channel.processor.ADSREnvelope;
-import com.synthesizer.channel.processor.Delay;
-import com.synthesizer.channel.processor.Limiter;
-import com.synthesizer.channel.processor.Mixer;
+import com.synthesizer.channel.processor.*;
 import com.synthesizer.form.Key;
 import com.synthesizer.form.KeyboardPanel;
 import org.jfree.chart.ChartFactory;
@@ -37,6 +34,11 @@ public class SynthWindow extends JFrame implements EventListener {
     private double delay = 0.33;
     private double delayDecay = 0.3;
     private double dryWetFactor = 0.4;
+    //LowPassFilter
+    private BiQuadraticFilter.FilterType lpfType = BiQuadraticFilter.FilterType.LOWPASS;
+    private double lpfCutoffFreq = 200;
+    private double lpfQ = 0.75;
+    private double lpfGain = 0.5;
 
     private JSlider volumeSineSlider;
     private JSlider volumeTriangleSlider;
@@ -45,12 +47,15 @@ public class SynthWindow extends JFrame implements EventListener {
     private JSlider delaySlider;
     private JSlider delayDecaySlider;
     private JSlider delayDryWetFactorSlider;
+    private JSlider lpfCutOffFrequency;
+    private JCheckBox lpfEnable;
 
     private JPanel sineWavePanel = new JPanel();
     private JPanel trialgleWavePanel = new JPanel();
     private JPanel squareWavePanel = new JPanel();
     private JPanel sawtoothWavePanel = new JPanel();
     private JPanel delayPanel = new JPanel();
+    private JPanel lpfPanel = new JPanel();
     private KeyboardPanel keyboardPanel = new KeyboardPanel();
 
     private DefaultXYDataset chartDataset = new DefaultXYDataset();
@@ -64,7 +69,8 @@ public class SynthWindow extends JFrame implements EventListener {
     private ADSREnvelope squareAdsrEnvelope = new ADSREnvelope(squareWave, attack, decay, sustain, release);
     private ADSREnvelope sawtoothAdsrEnvelope = new ADSREnvelope(sawtoothWave, attack, decay, sustain, release);
     private Mixer mixerChannel = new Mixer(sineAdsrEnvelope, triangleAdsrEnvelope, squareAdsrEnvelope, sawtoothAdsrEnvelope);
-    private Delay delayChannel = new Delay(mixerChannel, delay, delayDecay, dryWetFactor);
+    private Equalizer lpfChannel = new Equalizer(mixerChannel, lpfType, lpfCutoffFreq, lpfQ, lpfGain);
+    private Delay delayChannel = new Delay(lpfChannel, delay, delayDecay, dryWetFactor);
     private Limiter mixerLimiter = new Limiter(delayChannel);
     private Channel rootChannel = mixerLimiter;
 
@@ -116,6 +122,33 @@ public class SynthWindow extends JFrame implements EventListener {
         volumeSawtoothSlider = createVolumeSlider(sawtoothWave);
         sawtoothWavePanel.add(volumeSawtoothSlider);
 
+        configureDelayPanel();
+        configureLowPassFilterPanel();
+
+        for (Key key : keyboardPanel.getKeys()) {
+            key.addChangeListener(e1 -> createKeyListener(key));
+        }
+
+        getContentPane().add(sineWavePanel);
+        getContentPane().add(trialgleWavePanel);
+        getContentPane().add(squareWavePanel);
+        getContentPane().add(sawtoothWavePanel);
+        getContentPane().add(delayPanel);
+        getContentPane().add(lpfPanel);
+        getContentPane().add(chartPanel);
+        getContentPane().add(new JScrollPane(keyboardPanel));
+        pack();
+        setSize(1000, 900);
+        setVisible(true);
+        addKeyboardShortcutListener();
+
+        rootChannel.setFrequency(440);
+        byteConverter.addChannel(rootChannel);
+    }
+
+    private void configureDelayPanel() {
+        delayPanel.setBorder(BorderFactory.createTitledBorder("Delay"));
+
         delaySlider = new JSlider(JSlider.HORIZONTAL, 1, 100, (int) (delayChannel.getDelay() * 100));
         delaySlider.addChangeListener(e1 -> {
             JSlider source = (JSlider) e1.getSource();
@@ -136,25 +169,24 @@ public class SynthWindow extends JFrame implements EventListener {
             delayChannel.setDryWetFactor((double) source.getValue() / 100);
         });
         delayPanel.add(delayDryWetFactorSlider);
+    }
 
-        for (Key key : keyboardPanel.getKeys()) {
-            key.addChangeListener(e1 -> createKeyListener(key));
-        }
+    private void configureLowPassFilterPanel() {
+        lpfPanel.setBorder(BorderFactory.createTitledBorder("Low-Pass Filter"));
 
-        getContentPane().add(sineWavePanel);
-        getContentPane().add(trialgleWavePanel);
-        getContentPane().add(squareWavePanel);
-        getContentPane().add(sawtoothWavePanel);
-        getContentPane().add(delayPanel);
-        getContentPane().add(chartPanel);
-        getContentPane().add(new JScrollPane(keyboardPanel));
-        pack();
-        setSize(1000, 900);
-        setVisible(true);
-        addKeyboardShortcutListener();
+        lpfEnable = new JCheckBox();
+        lpfEnable.addChangeListener(e1 -> {
+            JCheckBox source = (JCheckBox) e1.getSource();
+            lpfChannel.setEnabled(source.isSelected());
+        });
+        lpfPanel.add(lpfEnable);
 
-        mixerLimiter.setFrequency(440);
-        byteConverter.addChannel(mixerLimiter);
+        lpfCutOffFrequency = new JSlider(JSlider.HORIZONTAL, 100, 1000, (int) (lpfCutoffFreq));
+        lpfCutOffFrequency.addChangeListener(e1 -> {
+            JSlider source = (JSlider) e1.getSource();
+            lpfChannel.setCutOffFrequency((double) source.getValue());
+        });
+        lpfPanel.add(lpfCutOffFrequency);
     }
 
     private void updateChartDataset() {

@@ -33,9 +33,8 @@ public class Delay implements Channel {
         double[] channelData = channel.readData();
 
         for (int i = 0; i < result.length; i++) {
-            //result[i] += channelData[i] * Math.abs(Math.log(dryWetFactor)) + delayBuffer[bufferPosition] * decay / Math.abs(Math.log(dryWetFactor));
-            result[i] += channelData[i] + delayBuffer[bufferPosition] * decay;
-            delayBuffer[bufferPosition] = result[i];
+            result[i] += channelData[i] * (1 - dryWetFactor) + delayBuffer[bufferPosition] * decay * dryWetFactor;
+            delayBuffer[bufferPosition] = channelData[i] + delayBuffer[bufferPosition] * decay;
             bufferPosition++;
             if (bufferPosition >= delayBuffer.length) {
                 bufferPosition = 0;

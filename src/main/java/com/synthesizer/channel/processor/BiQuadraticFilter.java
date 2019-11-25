@@ -178,6 +178,10 @@ public class BiQuadraticFilter {
         return (y);
     }
 
+    public void setQ(double q) {
+        this.Q = q;
+    }
+
     public enum FilterType {
         LOWPASS, HIGHPASS, BANDPASS, PEAK, NOTCH, LOWSHELF, HIGHSHELF;
     }

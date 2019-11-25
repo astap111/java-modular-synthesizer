@@ -9,10 +9,12 @@ public class Equalizer implements Channel {
     private Channel channel;
     private BiQuadraticFilter filter;
     private boolean enabled;
+    private double cutOffFrequency;
 
-    public Equalizer(Channel channel, BiQuadraticFilter.FilterType filterType, double frequency, double q, double gain) {
+    public Equalizer(Channel channel, BiQuadraticFilter.FilterType filterType, double cutOffFrequency, double q, double gain) {
+        this.cutOffFrequency = cutOffFrequency;
         this.channel = channel;
-        this.filter = new BiQuadraticFilter(filterType, frequency, SAMPLE_RATE, q, gain);
+        this.filter = new BiQuadraticFilter(filterType, cutOffFrequency, SAMPLE_RATE, q, gain);
     }
 
     @Override
@@ -64,11 +66,17 @@ public class Equalizer implements Channel {
         this.channel.release();
     }
 
-    public void setCutOffFrequency(double value) {
-        this.filter.reconfigure(value);
+    public void setCutOffFrequency(double cutOffFrequency) {
+        this.cutOffFrequency = cutOffFrequency;
+        this.filter.reconfigure(cutOffFrequency);
     }
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public void setResonance(double q) {
+        this.filter.setQ(q);
+        this.filter.reconfigure(this.cutOffFrequency);
     }
 }

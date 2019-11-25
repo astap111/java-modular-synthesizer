@@ -1,10 +1,7 @@
 package com.synthesizer;
 
 import com.synthesizer.channel.Channel;
-import com.synthesizer.channel.generator.SawtoothWave;
-import com.synthesizer.channel.generator.SineWave;
-import com.synthesizer.channel.generator.SquareWave;
-import com.synthesizer.channel.generator.TriangleWave;
+import com.synthesizer.channel.generator.*;
 import com.synthesizer.channel.processor.*;
 import com.synthesizer.form.Key;
 import com.synthesizer.form.KeyboardPanel;
@@ -24,21 +21,22 @@ public class SynthWindow extends JFrame implements EventListener {
     private double sineVolume = 0;
     private double triangleVolume = 0;
     private double squareVolume = 0;
-    private double sawtoothVolume = 0.8;
+    private double sawtoothVolume = 1;
+    private double noiseVolume = 0;
     //ADSR
     private double attack = 3;
-    private double decay = 6;
+    private double decay = 60;
     private double sustain = 0.6;
     private double release = 4;
     //delay
-    private double delay = 1;
-    private double delayDecay = 0;
-    private double dryWetFactor = 0;
+    private double delay = 0.3;
+    private double delayDecay = 0.5;
+    private double dryWetFactor = 0.2;
     //LowPassFilter
     private BiQuadraticFilter.FilterType lpfType = BiQuadraticFilter.FilterType.LOWPASS;
-    private double lpfCutoffFreq = 200;
-    private double lpfQ = 0.75;
-    private double lpfGain = 0.5;
+    private double lpfCutoffFreq = 800;
+    private double lpfQ = 0.7;
+    private double lpfGain = 1;
 
     private int octave = 0;
 
@@ -46,16 +44,19 @@ public class SynthWindow extends JFrame implements EventListener {
     private JSlider volumeTriangleSlider;
     private JSlider volumeSquareSlider;
     private JSlider volumeSawtoothSlider;
+    private JSlider noiseSlider;
     private JSlider delaySlider;
     private JSlider delayDecaySlider;
     private JSlider delayDryWetFactorSlider;
-    private JSlider lpfCutOffFrequency;
-    private JCheckBox lpfEnable;
+    private JSlider lpfCutOffFrequencySlider;
+    private JSlider lpfSineResonanceSlider;
+    private JCheckBox lpfEnableCheckbox;
 
     private JPanel sineWavePanel = new JPanel();
     private JPanel trialgleWavePanel = new JPanel();
     private JPanel squareWavePanel = new JPanel();
     private JPanel sawtoothWavePanel = new JPanel();
+    private JPanel noisePanel = new JPanel();
     private JPanel delayPanel = new JPanel();
     private JPanel lpfPanel = new JPanel();
     private KeyboardPanel keyboardPanel = new KeyboardPanel();
@@ -67,12 +68,10 @@ public class SynthWindow extends JFrame implements EventListener {
     private TriangleWave triangleWave = new TriangleWave(triangleVolume);
     private SquareWave squareWave = new SquareWave(squareVolume);
     private SawtoothWave sawtoothWave = new SawtoothWave(sawtoothVolume);
-    private ADSREnvelope sineAdsrEnvelope = new ADSREnvelope(sineWave, attack, decay, sustain, release);
-    private ADSREnvelope triangleAdsrEnvelope = new ADSREnvelope(triangleWave, attack, decay, sustain, release);
-    private ADSREnvelope squareAdsrEnvelope = new ADSREnvelope(squareWave, attack, decay, sustain, release);
-    private ADSREnvelope sawtoothAdsrEnvelope = new ADSREnvelope(sawtoothWave, attack, decay, sustain, release);
-    private Mixer mixerChannel = new Mixer(sineAdsrEnvelope, triangleAdsrEnvelope, squareAdsrEnvelope, sawtoothAdsrEnvelope);
-    private Equalizer lpfChannel = new Equalizer(mixerChannel, lpfType, lpfCutoffFreq, lpfQ, lpfGain);
+    private Noise noise = new Noise(noiseVolume);
+    private Mixer mixerChannel = new Mixer(sineWave, triangleWave, squareWave, sawtoothWave, noise);
+    private ADSREnvelope adsrEnvelope = new ADSREnvelope(mixerChannel, attack, decay, sustain, release);
+    private Equalizer lpfChannel = new Equalizer(adsrEnvelope, lpfType, lpfCutoffFreq, lpfQ, lpfGain);
     private Delay delayChannel = new Delay(lpfChannel, delay, delayDecay, dryWetFactor);
     private Limiter mixerLimiter = new Limiter(delayChannel);
     private Channel rootChannel = mixerLimiter;
@@ -93,16 +92,19 @@ public class SynthWindow extends JFrame implements EventListener {
         trialgleWavePanel.setBorder(BorderFactory.createTitledBorder("Triangle"));
         squareWavePanel.setBorder(BorderFactory.createTitledBorder("Square"));
         sawtoothWavePanel.setBorder(BorderFactory.createTitledBorder("Sawtooth"));
+        noisePanel.setBorder(BorderFactory.createTitledBorder("Noise"));
 
         BoxLayout layout1 = new BoxLayout(sineWavePanel, BoxLayout.Y_AXIS);
         BoxLayout layout2 = new BoxLayout(trialgleWavePanel, BoxLayout.Y_AXIS);
         BoxLayout layout3 = new BoxLayout(squareWavePanel, BoxLayout.Y_AXIS);
         BoxLayout layout4 = new BoxLayout(sawtoothWavePanel, BoxLayout.Y_AXIS);
+        BoxLayout layout5 = new BoxLayout(noisePanel, BoxLayout.Y_AXIS);
 
         sineWavePanel.setLayout(layout1);
         trialgleWavePanel.setLayout(layout2);
         squareWavePanel.setLayout(layout3);
         sawtoothWavePanel.setLayout(layout4);
+        noisePanel.setLayout(layout5);
 
         JFreeChart chart = ChartFactory.createXYLineChart("Mixer Graph", null, null, chartDataset, PlotOrientation.VERTICAL, false, false, false);
         XYPlot plot = (XYPlot) chart.getPlot();
@@ -125,6 +127,9 @@ public class SynthWindow extends JFrame implements EventListener {
         volumeSawtoothSlider = createVolumeSlider(sawtoothWave);
         sawtoothWavePanel.add(volumeSawtoothSlider);
 
+        noiseSlider = createVolumeSlider(noise);
+        noisePanel.add(noiseSlider);
+
         configureDelayPanel();
         configureLowPassFilterPanel();
         configureKeyboardPanel();
@@ -133,6 +138,7 @@ public class SynthWindow extends JFrame implements EventListener {
         getContentPane().add(trialgleWavePanel);
         getContentPane().add(squareWavePanel);
         getContentPane().add(sawtoothWavePanel);
+        getContentPane().add(noisePanel);
         getContentPane().add(delayPanel);
         getContentPane().add(lpfPanel);
         getContentPane().add(chartPanel);
@@ -178,21 +184,21 @@ public class SynthWindow extends JFrame implements EventListener {
     private void configureDelayPanel() {
         delayPanel.setBorder(BorderFactory.createTitledBorder("Delay"));
 
-        delaySlider = new JSlider(JSlider.HORIZONTAL, 1, 100, (int) (delayChannel.getDelay() * 100));
+        delaySlider = new JSlider(JSlider.HORIZONTAL, 1, 100, (int) (delay * 100));
         delaySlider.addChangeListener(e1 -> {
             JSlider source = (JSlider) e1.getSource();
             delayChannel.setDelay((double) source.getValue() / 100);
         });
         delayPanel.add(delaySlider);
 
-        delayDecaySlider = new JSlider(JSlider.HORIZONTAL, 0, 100, (int) (delayChannel.getDecay() * 100));
+        delayDecaySlider = new JSlider(JSlider.HORIZONTAL, 0, 100, (int) (delayDecay * 100));
         delayDecaySlider.addChangeListener(e1 -> {
             JSlider source = (JSlider) e1.getSource();
             delayChannel.setDecay((double) source.getValue() / 100);
         });
         delayPanel.add(delayDecaySlider);
 
-        delayDryWetFactorSlider = new JSlider(JSlider.HORIZONTAL, 0, 99, (int) (delayChannel.getDryWetFactor() * 100));
+        delayDryWetFactorSlider = new JSlider(JSlider.HORIZONTAL, 0, 99, (int) (dryWetFactor * 100));
         delayDryWetFactorSlider.addChangeListener(e1 -> {
             JSlider source = (JSlider) e1.getSource();
             delayChannel.setDryWetFactor((double) source.getValue() / 100);
@@ -203,19 +209,27 @@ public class SynthWindow extends JFrame implements EventListener {
     private void configureLowPassFilterPanel() {
         lpfPanel.setBorder(BorderFactory.createTitledBorder("Low-Pass Filter"));
 
-        lpfEnable = new JCheckBox();
-        lpfEnable.addChangeListener(e1 -> {
+        lpfEnableCheckbox = new JCheckBox();
+        lpfEnableCheckbox.addChangeListener(e1 -> {
             JCheckBox source = (JCheckBox) e1.getSource();
             lpfChannel.setEnabled(source.isSelected());
         });
-        lpfPanel.add(lpfEnable);
+        lpfPanel.add(lpfEnableCheckbox);
 
-        lpfCutOffFrequency = new JSlider(JSlider.HORIZONTAL, 100, 1000, (int) (lpfCutoffFreq));
-        lpfCutOffFrequency.addChangeListener(e1 -> {
+        lpfCutOffFrequencySlider = new JSlider(JSlider.HORIZONTAL, 100, 10000, (int) (lpfCutoffFreq));
+        lpfCutOffFrequencySlider.addChangeListener(e1 -> {
             JSlider source = (JSlider) e1.getSource();
             lpfChannel.setCutOffFrequency((double) source.getValue());
         });
-        lpfPanel.add(lpfCutOffFrequency);
+        lpfPanel.add(lpfCutOffFrequencySlider);
+
+        lpfSineResonanceSlider = new JSlider(JSlider.HORIZONTAL, 70, 500, (int) (lpfQ * 100));
+        lpfSineResonanceSlider.addChangeListener(e1 -> {
+            JSlider source = (JSlider) e1.getSource();
+            lpfChannel.setResonance((double) source.getValue() / 100);
+        });
+
+        lpfPanel.add(lpfSineResonanceSlider);
     }
 
     private void updateChartDataset() {

@@ -9,7 +9,7 @@ public abstract class Key extends JButton {
     protected int octave = 0;
     protected double noteMultiplier = Math.pow(2, 1.0 / 12);
     // change WD to suit your screen
-    int WD = 30;
+    int WD = 20;
     int HT = (WD * 9) / 2;
 
     public double getNoteFrequency() {

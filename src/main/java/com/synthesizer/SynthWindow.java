@@ -24,20 +24,21 @@ public class SynthWindow extends JFrame implements EventListener {
     private double sawtoothVolume = 1;
     private double noiseVolume = 0;
     //ADSR
-    private double attack = 2;
-    private double decay = 300;
+    private double attack = 1;
+    private double decay = 600;
     private double sustain = 0.6;
-    private double release = 300;
+    private double release = 600;
     //delay
     private double delay = 0.3;
     private double delayDecay = 0.5;
     private double dryWetFactor = 0;
     //LowPassFilter
     private BiQuadraticFilter.FilterType lpfType = BiQuadraticFilter.FilterType.LOWPASS;
-    private double lpfCutoffFreq = 1200;
+    private boolean lpfEnabled = true;
+    private double lpfCutoffFreq = 300;
     private double lpfQ = 2;
-    private double lpfGain = 1;
-    private double lpfCutoffEnvelopeDepth = 1;
+    private double lpfGain = 20;
+    private double lpfCutoffEnvelopeDepth = 700;
 
     private int octave = -2;
 
@@ -46,6 +47,10 @@ public class SynthWindow extends JFrame implements EventListener {
     private JSlider volumeSquareSlider;
     private JSlider volumeSawtoothSlider;
     private JSlider noiseSlider;
+    private JSlider attackSlider;
+    private JSlider decaySlider;
+    private JSlider sustainSlider;
+    private JSlider releaseSlider;
     private JSlider delaySlider;
     private JSlider delayDecaySlider;
     private JSlider delayDryWetFactorSlider;
@@ -54,11 +59,8 @@ public class SynthWindow extends JFrame implements EventListener {
     private JSlider lpfCutoffEnvelopeDepthSlider;
     private JCheckBox lpfEnableCheckbox;
 
-    private JPanel sineWavePanel = new JPanel();
-    private JPanel trialgleWavePanel = new JPanel();
-    private JPanel squareWavePanel = new JPanel();
-    private JPanel sawtoothWavePanel = new JPanel();
-    private JPanel noisePanel = new JPanel();
+    private JPanel oscillatorsPanel = new JPanel();
+    private JPanel adsrPanel = new JPanel();
     private JPanel delayPanel = new JPanel();
     private JPanel lpfPanel = new JPanel();
     private KeyboardPanel keyboardPanel = new KeyboardPanel();
@@ -87,6 +89,7 @@ public class SynthWindow extends JFrame implements EventListener {
         mixerChannel.addVolumeEnvelope(volumeAdsrEnvelope);
         lpfChannel.addCutoffEnvelope(volumeAdsrEnvelope);
         lpfChannel.setCutoffEnvelopeDepth(lpfCutoffEnvelopeDepth);
+        lpfChannel.setEnabled(lpfEnabled);
         this.byteConverter = byteConverter;
         this.byteConverter.addChangeListener(this);
         JFrame.setDefaultLookAndFeelDecorated(true);
@@ -94,11 +97,6 @@ public class SynthWindow extends JFrame implements EventListener {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setTitle("Simple Synth");
 
-        sineWavePanel.setBorder(BorderFactory.createTitledBorder("Sine"));
-        trialgleWavePanel.setBorder(BorderFactory.createTitledBorder("Triangle"));
-        squareWavePanel.setBorder(BorderFactory.createTitledBorder("Square"));
-        sawtoothWavePanel.setBorder(BorderFactory.createTitledBorder("Sawtooth"));
-        noisePanel.setBorder(BorderFactory.createTitledBorder("Noise"));
 
         JFreeChart chart = ChartFactory.createXYLineChart("Mixer Graph", null, null, chartDataset, PlotOrientation.VERTICAL, false, false, false);
         XYPlot plot = (XYPlot) chart.getPlot();
@@ -108,32 +106,16 @@ public class SynthWindow extends JFrame implements EventListener {
         plot.getRangeAxis();
 
         ChartPanel chartPanel = new ChartPanel(chart);
-        chartPanel.setPreferredSize(new Dimension(300,200));
+        chartPanel.setPreferredSize(new Dimension(300, 200));
 
-        volumeSineSlider = createVolumeSlider(sineWave);
-        sineWavePanel.add(volumeSineSlider);
-
-        volumeTriangleSlider = createVolumeSlider(triangleWave);
-        trialgleWavePanel.add(volumeTriangleSlider);
-
-        volumeSquareSlider = createVolumeSlider(squareWave);
-        squareWavePanel.add(volumeSquareSlider);
-
-        volumeSawtoothSlider = createVolumeSlider(sawtoothWave);
-        sawtoothWavePanel.add(volumeSawtoothSlider);
-
-        noiseSlider = createVolumeSlider(noise);
-        noisePanel.add(noiseSlider);
-
+        configureOscillatorsPanel();
+        configureAdsrPanel();
         configureDelayPanel();
         configureLowPassFilterPanel();
         configureKeyboardPanel();
 
-        getContentPane().add(sineWavePanel);
-        getContentPane().add(trialgleWavePanel);
-        getContentPane().add(squareWavePanel);
-        getContentPane().add(sawtoothWavePanel);
-        getContentPane().add(noisePanel);
+        getContentPane().add(oscillatorsPanel);
+        getContentPane().add(adsrPanel);
         getContentPane().add(delayPanel);
         getContentPane().add(lpfPanel);
         getContentPane().add(chartPanel);
@@ -148,6 +130,58 @@ public class SynthWindow extends JFrame implements EventListener {
 
         rootChannel.setFrequency(440);
         byteConverter.addChannel(rootChannel);
+    }
+
+    private void configureOscillatorsPanel() {
+        oscillatorsPanel.setBorder(BorderFactory.createTitledBorder("Oscillators"));
+
+        volumeSineSlider = createVolumeSlider(sineWave);
+        oscillatorsPanel.add(volumeSineSlider);
+
+        volumeTriangleSlider = createVolumeSlider(triangleWave);
+        oscillatorsPanel.add(volumeTriangleSlider);
+
+        volumeSquareSlider = createVolumeSlider(squareWave);
+        oscillatorsPanel.add(volumeSquareSlider);
+
+        volumeSawtoothSlider = createVolumeSlider(sawtoothWave);
+        oscillatorsPanel.add(volumeSawtoothSlider);
+
+        noiseSlider = createVolumeSlider(noise);
+        oscillatorsPanel.add(noiseSlider);
+    }
+
+    private void configureAdsrPanel() {
+        adsrPanel.setBorder(BorderFactory.createTitledBorder("ADSR"));
+
+        attackSlider = new JSlider(JSlider.VERTICAL, 0, 1000, (int) attack);
+        attackSlider.addChangeListener(e1 -> {
+            JSlider source = (JSlider) e1.getSource();
+            volumeAdsrEnvelope.setAttack(source.getValue());
+        });
+        adsrPanel.add(attackSlider);
+
+        releaseSlider = new JSlider(JSlider.VERTICAL, 0, 1000, (int) release);
+        releaseSlider.addChangeListener(e1 -> {
+            JSlider source = (JSlider) e1.getSource();
+            volumeAdsrEnvelope.setRelease(source.getValue());
+        });
+        adsrPanel.add(releaseSlider);
+
+        sustainSlider = new JSlider(JSlider.VERTICAL, 0, 100, (int) (sustain * 100));
+        sustainSlider.addChangeListener(e1 -> {
+            JSlider source = (JSlider) e1.getSource();
+            volumeAdsrEnvelope.setSustain((double) source.getValue() / 100);
+        });
+        adsrPanel.add(sustainSlider);
+
+
+        decaySlider = new JSlider(JSlider.VERTICAL, 0, 1000, (int) decay);
+        decaySlider.addChangeListener(e1 -> {
+            JSlider source = (JSlider) e1.getSource();
+            volumeAdsrEnvelope.setDecay(source.getValue());
+        });
+        adsrPanel.add(decaySlider);
     }
 
     private void configureKeyboardPanel() {
@@ -180,21 +214,21 @@ public class SynthWindow extends JFrame implements EventListener {
     private void configureDelayPanel() {
         delayPanel.setBorder(BorderFactory.createTitledBorder("Delay"));
 
-        delaySlider = new JSlider(JSlider.HORIZONTAL, 1, 100, (int) (delay * 100));
+        delaySlider = new JSlider(JSlider.VERTICAL, 1, 100, (int) (delay * 100));
         delaySlider.addChangeListener(e1 -> {
             JSlider source = (JSlider) e1.getSource();
             delayChannel.setDelay((double) source.getValue() / 100);
         });
         delayPanel.add(delaySlider);
 
-        delayDecaySlider = new JSlider(JSlider.HORIZONTAL, 0, 100, (int) (delayDecay * 100));
+        delayDecaySlider = new JSlider(JSlider.VERTICAL, 0, 100, (int) (delayDecay * 100));
         delayDecaySlider.addChangeListener(e1 -> {
             JSlider source = (JSlider) e1.getSource();
             delayChannel.setDecay((double) source.getValue() / 100);
         });
         delayPanel.add(delayDecaySlider);
 
-        delayDryWetFactorSlider = new JSlider(JSlider.HORIZONTAL, 0, 99, (int) (dryWetFactor * 100));
+        delayDryWetFactorSlider = new JSlider(JSlider.VERTICAL, 0, 99, (int) (dryWetFactor * 100));
         delayDryWetFactorSlider.addChangeListener(e1 -> {
             JSlider source = (JSlider) e1.getSource();
             delayChannel.setDryWetFactor((double) source.getValue() / 100);
@@ -205,28 +239,28 @@ public class SynthWindow extends JFrame implements EventListener {
     private void configureLowPassFilterPanel() {
         lpfPanel.setBorder(BorderFactory.createTitledBorder("Low-Pass Filter"));
 
-        lpfEnableCheckbox = new JCheckBox();
+        lpfEnableCheckbox = new JCheckBox("enable", lpfEnabled);
         lpfEnableCheckbox.addChangeListener(e1 -> {
             JCheckBox source = (JCheckBox) e1.getSource();
             lpfChannel.setEnabled(source.isSelected());
         });
         lpfPanel.add(lpfEnableCheckbox);
 
-        lpfCutOffFrequencySlider = new JSlider(JSlider.HORIZONTAL, 100, 10000, (int) (lpfCutoffFreq));
+        lpfCutOffFrequencySlider = new JSlider(JSlider.VERTICAL, 100, 10000, (int) (lpfCutoffFreq));
         lpfCutOffFrequencySlider.addChangeListener(e1 -> {
             JSlider source = (JSlider) e1.getSource();
             lpfChannel.setCutOffFrequency((double) source.getValue());
         });
         lpfPanel.add(lpfCutOffFrequencySlider);
 
-        lpfResonanceSlider = new JSlider(JSlider.HORIZONTAL, 70, 1000, (int) (lpfQ * 100));
+        lpfResonanceSlider = new JSlider(JSlider.VERTICAL, 70, 1000, (int) (lpfQ * 100));
         lpfResonanceSlider.addChangeListener(e1 -> {
             JSlider source = (JSlider) e1.getSource();
             lpfChannel.setResonance((double) source.getValue() / 100);
         });
         lpfPanel.add(lpfResonanceSlider);
 
-        lpfCutoffEnvelopeDepthSlider = new JSlider(JSlider.HORIZONTAL, 0, 10000, (int) (lpfCutoffEnvelopeDepth));
+        lpfCutoffEnvelopeDepthSlider = new JSlider(JSlider.VERTICAL, 0, 10000, (int) (lpfCutoffEnvelopeDepth));
         lpfCutoffEnvelopeDepthSlider.addChangeListener(e1 -> {
             JSlider source = (JSlider) e1.getSource();
             lpfChannel.setCutoffEnvelopeDepth((double) source.getValue());
@@ -264,7 +298,7 @@ public class SynthWindow extends JFrame implements EventListener {
     }
 
     private JSlider createVolumeSlider(Channel c) {
-        JSlider volumeSquare = new JSlider(JSlider.HORIZONTAL, 0, 100, (int) (c.getVolume() * 100));
+        JSlider volumeSquare = new JSlider(JSlider.VERTICAL, 0, 100, (int) (c.getVolume() * 100));
         volumeSquare.addChangeListener(e1 -> {
             JSlider source = (JSlider) e1.getSource();
             c.setVolume((double) source.getValue() / 100);

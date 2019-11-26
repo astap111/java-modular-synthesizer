@@ -26,20 +26,20 @@ public class SynthWindow extends JFrame implements EventListener {
     //ADSR
     private double attack = 2;
     private double decay = 300;
-    private double sustain = 0;
+    private double sustain = 0.6;
     private double release = 300;
     //delay
     private double delay = 0.3;
     private double delayDecay = 0.5;
-    private double dryWetFactor = 0.2;
+    private double dryWetFactor = 0;
     //LowPassFilter
     private BiQuadraticFilter.FilterType lpfType = BiQuadraticFilter.FilterType.LOWPASS;
-    private double lpfCutoffFreq = 800;
-    private double lpfQ = 0.7;
+    private double lpfCutoffFreq = 1200;
+    private double lpfQ = 2;
     private double lpfGain = 1;
-    private double lpfCutoffEnvelopeDepth = 0;
+    private double lpfCutoffEnvelopeDepth = 1;
 
-    private int octave = 0;
+    private int octave = -2;
 
     private JSlider volumeSineSlider;
     private JSlider volumeTriangleSlider;
@@ -100,18 +100,6 @@ public class SynthWindow extends JFrame implements EventListener {
         sawtoothWavePanel.setBorder(BorderFactory.createTitledBorder("Sawtooth"));
         noisePanel.setBorder(BorderFactory.createTitledBorder("Noise"));
 
-        BoxLayout layout1 = new BoxLayout(sineWavePanel, BoxLayout.Y_AXIS);
-        BoxLayout layout2 = new BoxLayout(trialgleWavePanel, BoxLayout.Y_AXIS);
-        BoxLayout layout3 = new BoxLayout(squareWavePanel, BoxLayout.Y_AXIS);
-        BoxLayout layout4 = new BoxLayout(sawtoothWavePanel, BoxLayout.Y_AXIS);
-        BoxLayout layout5 = new BoxLayout(noisePanel, BoxLayout.Y_AXIS);
-
-        sineWavePanel.setLayout(layout1);
-        trialgleWavePanel.setLayout(layout2);
-        squareWavePanel.setLayout(layout3);
-        sawtoothWavePanel.setLayout(layout4);
-        noisePanel.setLayout(layout5);
-
         JFreeChart chart = ChartFactory.createXYLineChart("Mixer Graph", null, null, chartDataset, PlotOrientation.VERTICAL, false, false, false);
         XYPlot plot = (XYPlot) chart.getPlot();
         plot.getRangeAxis().setRange(-1.0, 1.0);
@@ -120,6 +108,7 @@ public class SynthWindow extends JFrame implements EventListener {
         plot.getRangeAxis();
 
         ChartPanel chartPanel = new ChartPanel(chart);
+        chartPanel.setPreferredSize(new Dimension(300,200));
 
         volumeSineSlider = createVolumeSlider(sineWave);
         sineWavePanel.add(volumeSineSlider);
@@ -169,7 +158,8 @@ public class SynthWindow extends JFrame implements EventListener {
         BoxLayout octavePanelLayout = new BoxLayout(octavePanel, BoxLayout.Y_AXIS);
         octavePanel.setLayout(octavePanelLayout);
         octavePanel.setAlignmentX(0.5f);
-        JLabel octaveLabel = new JLabel("0");
+        JLabel octaveLabel = new JLabel(String.valueOf(octave));
+        keyboardPanel.setOctave(octave);
         JButton octavePlus = new JButton("+");
         octavePlus.addActionListener(e1 -> {
             octave++;

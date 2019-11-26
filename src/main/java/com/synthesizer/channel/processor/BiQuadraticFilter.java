@@ -65,6 +65,7 @@ public class BiQuadraticFilter {
 
     // allow parameter change while running
     public void reconfigure(double cf) {
+        Q = (Q == 0) ? 1e-9 : Q;
         center_freq = cf;
         // only used for peaking and shelving filters
         gain_abs = Math.pow(10, gainDB / 40);

@@ -24,10 +24,10 @@ public class SynthWindow extends JFrame implements EventListener {
     private double sawtoothVolume = 1;
     private double noiseVolume = 0;
     //ADSR
-    private double attack = 3;
-    private double decay = 60;
-    private double sustain = 0.6;
-    private double release = 4;
+    private double attack = 2;
+    private double decay = 300;
+    private double sustain = 0;
+    private double release = 300;
     //delay
     private double delay = 0.3;
     private double delayDecay = 0.5;
@@ -70,8 +70,8 @@ public class SynthWindow extends JFrame implements EventListener {
     private SawtoothWave sawtoothWave = new SawtoothWave(sawtoothVolume);
     private Noise noise = new Noise(noiseVolume);
     private Mixer mixerChannel = new Mixer(sineWave, triangleWave, squareWave, sawtoothWave, noise);
-    private ADSREnvelope adsrEnvelope = new ADSREnvelope(mixerChannel, attack, decay, sustain, release);
-    private Equalizer lpfChannel = new Equalizer(adsrEnvelope, lpfType, lpfCutoffFreq, lpfQ, lpfGain);
+    private ADSREnvelope volumeAdsrEnvelope = new ADSREnvelope(attack, decay, sustain, release);
+    private Equalizer lpfChannel = new Equalizer(mixerChannel, lpfType, lpfCutoffFreq, lpfQ, lpfGain);
     private Delay delayChannel = new Delay(lpfChannel, delay, delayDecay, dryWetFactor);
     private Limiter mixerLimiter = new Limiter(delayChannel);
     private Channel rootChannel = mixerLimiter;
@@ -81,6 +81,9 @@ public class SynthWindow extends JFrame implements EventListener {
 
     public SynthWindow(AudioByteConverter byteConverter) {
         super();
+
+        mixerChannel.addVolumeEnvelope(volumeAdsrEnvelope);
+        lpfChannel.addResonanceEnvelope(volumeAdsrEnvelope);
         this.byteConverter = byteConverter;
         this.byteConverter.addChangeListener(this);
         JFrame.setDefaultLookAndFeelDecorated(true);
@@ -223,7 +226,7 @@ public class SynthWindow extends JFrame implements EventListener {
         });
         lpfPanel.add(lpfCutOffFrequencySlider);
 
-        lpfSineResonanceSlider = new JSlider(JSlider.HORIZONTAL, 70, 500, (int) (lpfQ * 100));
+        lpfSineResonanceSlider = new JSlider(JSlider.HORIZONTAL, 70, 1000, (int) (lpfQ * 100));
         lpfSineResonanceSlider.addChangeListener(e1 -> {
             JSlider source = (JSlider) e1.getSource();
             lpfChannel.setResonance((double) source.getValue() / 100);
@@ -249,27 +252,16 @@ public class SynthWindow extends JFrame implements EventListener {
         //logModel(key);
         if (model.isArmed() && model.isPressed()) {
             if (currentFrequency == 0) {
-                rootChannel.attack();
+                volumeAdsrEnvelope.attack();
             }
             rootChannel.setFrequency(key.getNoteFrequency());
             currentFrequency = key.getNoteFrequency();
         } else {
             if (currentFrequency == 0 || currentFrequency == key.getNoteFrequency()) {
-                rootChannel.release();
+                volumeAdsrEnvelope.release();
                 currentFrequency = 0;
             }
         }
-    }
-
-    private void logModel(Key key) {
-        ButtonModel model = key.getModel();
-        System.out.println(key.getNoteFrequency());
-        System.out.println("isArmed:" + model.isArmed());
-        System.out.println("isPressed:" + model.isPressed());
-        System.out.println("isRollover:" + model.isRollover());
-        System.out.println("isSelected:" + model.isSelected());
-        System.out.println("isEnabled:" + model.isEnabled());
-        System.out.println("--------");
     }
 
     private JSlider createVolumeSlider(Channel c) {

@@ -1,6 +1,7 @@
 package com.synthesizer.channel.processor;
 
 import com.synthesizer.channel.Channel;
+import com.synthesizer.channel.generator.Generator;
 
 import java.util.Arrays;
 import java.util.List;
@@ -9,9 +10,23 @@ import static com.synthesizer.SimpleSynth.SAMPLES;
 
 public class Mixer implements Channel {
     private List<Channel> channels;
+    private Generator volumeEnvelope;
 
     public Mixer(Channel... channels) {
         this.channels = Arrays.asList(channels);
+    }
+
+    @Override
+    public double[] readData() {
+        double[] result = new double[SAMPLES];
+        double[] volumeEnvelopeData = volumeEnvelope.readData();
+        for (Channel channel : channels) {
+            double[] channelData = channel.readData();
+            for (int i = 0; i < result.length; i++) {
+                result[i] += channelData[i] * channel.getVolume() * volumeEnvelopeData[i];
+            }
+        }
+        return result;
     }
 
     @Override
@@ -19,16 +34,8 @@ public class Mixer implements Channel {
         this.channels.add(channel);
     }
 
-    @Override
-    public double[] readData() {
-        double[] result = new double[SAMPLES];
-        for (Channel channel : channels) {
-            double[] channelData = channel.readData();
-            for (int i = 0; i < result.length; i++) {
-                result[i] += channelData[i] * channel.getVolume();
-            }
-        }
-        return result;
+    public void addVolumeEnvelope(Generator volumeEnvelope) {
+        this.volumeEnvelope = volumeEnvelope;
     }
 
     @Override

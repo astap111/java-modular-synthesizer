@@ -1,11 +1,10 @@
 package com.synthesizer.channel.processor;
 
-import com.synthesizer.channel.Channel;
+import com.synthesizer.channel.generator.Generator;
 
 import static com.synthesizer.SimpleSynth.SAMPLE_RATE;
 
-public class ADSREnvelope implements Channel {
-    private Channel channel;
+public class ADSREnvelope extends Generator {
     private double attack;
     private double decay;
     private double sustain;
@@ -14,8 +13,7 @@ public class ADSREnvelope implements Channel {
     private boolean isPushed;
     private Stage stage;
 
-    public ADSREnvelope(Channel channel, double attack, double decay, double sustain, double release) {
-        this.channel = channel;
+    public ADSREnvelope(double attack, double decay, double sustain, double release) {
         this.attack = attack;
         this.decay = decay;
         this.sustain = sustain;
@@ -23,14 +21,8 @@ public class ADSREnvelope implements Channel {
     }
 
     @Override
-    public void addChannel(Channel channel) {
-        this.channel = channel;
-    }
-
-    @Override
-    public double[] readData() {
-        double[] data = channel.readData();
-        for (int i = 0; i < data.length; i++) {
+    protected void genetateWave(double[] output) {
+        for (int i = 0; i < output.length; i++) {
             if (isPushed) {
                 switch (stage) {
                     case ATTACK:
@@ -61,37 +53,8 @@ public class ADSREnvelope implements Channel {
                     }
                 }
             }
-            data[i] = data[i] * curve;
+            output[i] = curve;
         }
-        return data;
-    }
-
-    @Override
-    public double getVolume() {
-        return this.channel.getVolume();
-    }
-
-    @Override
-    public void setVolume(double volume) {
-        this.channel.setVolume(volume);
-    }
-
-    @Override
-    public void setFrequency(double frequency) {
-        this.channel.setFrequency(frequency);
-    }
-
-    @Override
-    public double getFrequency() {
-        return this.channel.getFrequency();
-    }
-
-    public Channel getChannel() {
-        return channel;
-    }
-
-    public void setChannel(Channel channel) {
-        this.channel = channel;
     }
 
     public double getAttack() {

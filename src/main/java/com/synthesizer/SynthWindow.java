@@ -37,6 +37,7 @@ public class SynthWindow extends JFrame implements EventListener {
     private double lpfCutoffFreq = 800;
     private double lpfQ = 0.7;
     private double lpfGain = 1;
+    private double lpfCutoffEnvelopeDepth = 0;
 
     private int octave = 0;
 
@@ -49,7 +50,8 @@ public class SynthWindow extends JFrame implements EventListener {
     private JSlider delayDecaySlider;
     private JSlider delayDryWetFactorSlider;
     private JSlider lpfCutOffFrequencySlider;
-    private JSlider lpfSineResonanceSlider;
+    private JSlider lpfResonanceSlider;
+    private JSlider lpfCutoffEnvelopeDepthSlider;
     private JCheckBox lpfEnableCheckbox;
 
     private JPanel sineWavePanel = new JPanel();
@@ -83,7 +85,8 @@ public class SynthWindow extends JFrame implements EventListener {
         super();
 
         mixerChannel.addVolumeEnvelope(volumeAdsrEnvelope);
-        lpfChannel.addResonanceEnvelope(volumeAdsrEnvelope);
+        lpfChannel.addCutoffEnvelope(volumeAdsrEnvelope);
+        lpfChannel.setCutoffEnvelopeDepth(lpfCutoffEnvelopeDepth);
         this.byteConverter = byteConverter;
         this.byteConverter.addChangeListener(this);
         JFrame.setDefaultLookAndFeelDecorated(true);
@@ -226,13 +229,19 @@ public class SynthWindow extends JFrame implements EventListener {
         });
         lpfPanel.add(lpfCutOffFrequencySlider);
 
-        lpfSineResonanceSlider = new JSlider(JSlider.HORIZONTAL, 70, 1000, (int) (lpfQ * 100));
-        lpfSineResonanceSlider.addChangeListener(e1 -> {
+        lpfResonanceSlider = new JSlider(JSlider.HORIZONTAL, 70, 1000, (int) (lpfQ * 100));
+        lpfResonanceSlider.addChangeListener(e1 -> {
             JSlider source = (JSlider) e1.getSource();
             lpfChannel.setResonance((double) source.getValue() / 100);
         });
+        lpfPanel.add(lpfResonanceSlider);
 
-        lpfPanel.add(lpfSineResonanceSlider);
+        lpfCutoffEnvelopeDepthSlider = new JSlider(JSlider.HORIZONTAL, 0, 10000, (int) (lpfCutoffEnvelopeDepth));
+        lpfCutoffEnvelopeDepthSlider.addChangeListener(e1 -> {
+            JSlider source = (JSlider) e1.getSource();
+            lpfChannel.setCutoffEnvelopeDepth((double) source.getValue());
+        });
+        lpfPanel.add(lpfCutoffEnvelopeDepthSlider);
     }
 
     private void updateChartDataset() {

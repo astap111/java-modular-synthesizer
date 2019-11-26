@@ -11,12 +11,11 @@ public class Equalizer implements Channel {
     private BiQuadraticFilter biQuadraticFilter;
     private boolean enabled;
     private double cutOffFrequency;
-    private Generator resonanceEnvelope;
-    private double resonance;
+    private Generator cutoffEnvelope;
+    private double cutoffEnvelopeDepth;
 
     public Equalizer(Channel channel, BiQuadraticFilter.FilterType filterType, double cutOffFrequency, double resonance, double gain) {
         this.cutOffFrequency = cutOffFrequency;
-        this.resonance = resonance;
         this.channel = channel;
         this.biQuadraticFilter = new BiQuadraticFilter(filterType, cutOffFrequency, SAMPLE_RATE, resonance, gain);
     }
@@ -30,13 +29,12 @@ public class Equalizer implements Channel {
     public double[] readData() {
         double[] result = new double[SAMPLES];
         double[] channelData = channel.readData();
-        double[] resonanceEnvelopeData = resonanceEnvelope.readData();
+        double[] cutoffEnvelopeData = cutoffEnvelope.readData();
 
         for (int i = 0; i < channelData.length; i++) {
             if (enabled) {
-                if (resonanceEnvelope != null) {
-                    this.biQuadraticFilter.setQ(resonance * resonanceEnvelopeData[i]);
-                    this.biQuadraticFilter.reconfigure(this.cutOffFrequency);
+                if (cutoffEnvelope != null) {
+                    this.biQuadraticFilter.reconfigure(this.cutOffFrequency + cutoffEnvelopeDepth * cutoffEnvelopeData[i]);
                 }
                 result[i] = biQuadraticFilter.filter(channelData[i]);
             } else {
@@ -46,8 +44,12 @@ public class Equalizer implements Channel {
         return result;
     }
 
-    public void addResonanceEnvelope(Generator resonanceEnvelope) {
-        this.resonanceEnvelope = resonanceEnvelope;
+    public void addCutoffEnvelope(Generator cutoffEnvelope) {
+        this.cutoffEnvelope = cutoffEnvelope;
+    }
+
+    public void setCutoffEnvelopeDepth(double cutoffEnvelopeDepth) {
+        this.cutoffEnvelopeDepth = cutoffEnvelopeDepth;
     }
 
     @Override
@@ -90,7 +92,6 @@ public class Equalizer implements Channel {
     }
 
     public void setResonance(double resonance) {
-        this.resonance = resonance;
         this.biQuadraticFilter.setQ(resonance);
         this.biQuadraticFilter.reconfigure(this.cutOffFrequency);
     }

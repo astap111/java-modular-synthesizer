@@ -4,9 +4,8 @@ import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.CubicCurve;
 import javafx.scene.shape.Polyline;
-import javafx.scene.shape.Shape;
 
-public enum Waveform implements KnobContent {
+public enum WaveformKnob implements KnobContent {
     SINE(CubicCurve.class, 0, 0, 10, -20, 10, 20, 20, 0),
     SQUARE(Polyline.class, 0, 0, 0, -5, 10, -5, 10, 5, 20, 5, 20, 0),
     PULSE(Polyline.class, 0, 0, 0, -5, 6, -5, 6, 5, 20, 5, 20, 0),
@@ -17,7 +16,7 @@ public enum Waveform implements KnobContent {
     private final Class shapeClass;
     private final double[] params;
 
-    Waveform(Class shapeClass, double... params) {
+    WaveformKnob(Class shapeClass, double... params) {
         this.shapeClass = shapeClass;
         this.params = params;
     }

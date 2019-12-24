@@ -263,6 +263,46 @@
                               <Polyline layoutX="61.0" layoutY="211.0" points="0,0,0,-3,7,-3,7,3,14,3,14,0" stroke="BLACK" />
                               <Polyline layoutX="29.0" layoutY="212.0" points="0,0,0,-8,8,0" stroke="BLACK" />
                               <Polyline layoutX="81.0" layoutY="233.0" points="0,0,0,-3,4,-3,4,3,14,3,14,0" stroke="BLACK" />
+                              <Label layoutX="130.0" layoutY="24.0" text="8'">
+                                 <font>
+                                    <Font name="Calibri" size="10.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="181.0" layoutY="48.0" text="2'">
+                                 <font>
+                                    <Font name="Calibri" size="10.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="164.0" layoutY="24.0" text="4'">
+                                 <font>
+                                    <Font name="Calibri" size="10.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="107.0" layoutY="48.0" text="16'">
+                                 <font>
+                                    <Font name="Calibri" size="10.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="29.0" layoutY="24.0" text="16'">
+                                 <font>
+                                    <Font name="Calibri" size="10.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="81.0" layoutY="48.0" text="4'">
+                                 <font>
+                                    <Font name="Calibri" size="10.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="64.0" layoutY="24.0" text="8'">
+                                 <font>
+                                    <Font name="Calibri" size="10.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="7.0" layoutY="48.0" text="32'">
+                                 <font>
+                                    <Font name="Calibri" size="10.0" />
+                                 </font>
+                              </Label>
                                     </children>
                                 </Pane>
                             </children>

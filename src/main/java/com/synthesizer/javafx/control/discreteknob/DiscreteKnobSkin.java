@@ -45,8 +45,7 @@ public class DiscreteKnobSkin extends SkinBase<DiscreteKnob> {
         innerCircle.setFill(radialGradient);
         innerCircle.setStroke(Color.WHITE);
         innerCircle.setStrokeWidth(1.5);
-        Label label = new Label(getSkinnable().getValue().getText(), getSkinnable().getValue().getGraphic());
-        label.setFont(Font.font(radius / 2));
+
         Line thumb = new Line(0, -radius + 3, 0, -radius * 2 / 3 - 1);
         thumb.setStroke(Color.WHITE);
         thumb.setStrokeWidth(2);
@@ -63,6 +62,14 @@ public class DiscreteKnobSkin extends SkinBase<DiscreteKnob> {
         int tickIndex = getSkinnable().getValues().indexOf(getSkinnable().getValue());
         tickIndex = tickIndex < 0 ? 0 : tickIndex;
         group.setRotate(SCALE_MIN + anglePerTick * tickIndex);
+
+        Label label;
+        if (getSkinnable().getValue() != null) {
+            label = new Label(getSkinnable().getValue().getText(), getSkinnable().getValue().getGraphic());
+        } else {
+            label = new Label();
+        }
+        label.setFont(Font.font(radius / 2));
 
         clickable.setOnMouseDragged(event -> {
             double angle = getAngle(event);

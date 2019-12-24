@@ -6,12 +6,13 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.Control;
 import javafx.scene.control.Skin;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DiscreteKnob extends Control {
     private SimpleObjectProperty<KnobContent> value = new SimpleObjectProperty<>();
     private SimpleDoubleProperty radius = new SimpleDoubleProperty();
-    private List<KnobContent> values;
+    private List<KnobContent> values = new ArrayList<>();
 
     public List<KnobContent> getValues() {
         return values;

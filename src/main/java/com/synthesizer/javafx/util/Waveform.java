@@ -7,41 +7,19 @@ import javafx.scene.shape.Polyline;
 import javafx.scene.shape.Shape;
 
 public enum Waveform implements KnobContent {
-    SINE(new CubicCurve(0, 0,
-            10, -20,
-            10, 20,
-            20, 0) {
-        {
-            setFill(Color.TRANSPARENT);
-            setStroke(Color.BLACK);
-        }
-    }),
-    SQUARE(new Polyline(0, 0,
-            0, -5,
-            10, -5,
-            10, 5,
-            20, 5,
-            20, 0)),
-    PULSE(new Polyline(0, 0,
-            0, -5,
-            6, -5,
-            6, 5,
-            20, 5,
-            20, 0)),
-    TRIANGLE(new Polyline(0, 0,
-            5, -10,
-            10, 0)),
-    RAMP(new Polyline(0, 0,
-            10, -10,
-            10, 0)),
-    SAWTOOTH(new Polyline(0, 0,
-            0, -10,
-            10, 0));
+    SINE(CubicCurve.class, 0, 0, 10, -20, 10, 20, 20, 0),
+    SQUARE(Polyline.class, 0, 0, 0, -5, 10, -5, 10, 5, 20, 5, 20, 0),
+    PULSE(Polyline.class, 0, 0, 0, -5, 6, -5, 6, 5, 20, 5, 20, 0),
+    TRIANGLE(Polyline.class, 0, 0, 5, -10, 10, 0),
+    RAMP(Polyline.class, 0, 0, 10, -10, 10, 0),
+    SAWTOOTH(Polyline.class, 0, 0, 0, -10, 10, 0);
 
-    private final Shape shape;
+    private final Class shapeClass;
+    private final double[] params;
 
-    Waveform(Shape shape) {
-        this.shape = shape;
+    Waveform(Class shapeClass, double... params) {
+        this.shapeClass = shapeClass;
+        this.params = params;
     }
 
     @Override
@@ -51,6 +29,15 @@ public enum Waveform implements KnobContent {
 
     @Override
     public Node getGraphic() {
-        return shape;
+        if (shapeClass.equals(Polyline.class)) {
+            return new Polyline(params);
+        } else {
+            return new CubicCurve(params[0], params[1], params[2], params[3], params[4], params[5], params[6], params[7]) {
+                {
+                    setFill(Color.TRANSPARENT);
+                    setStroke(Color.BLACK);
+                }
+            };
+        }
     }
 }

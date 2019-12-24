@@ -199,8 +199,8 @@
                                                 <Font name="Calibri Bold" size="13.0" />
                                             </font>
                                         </Label>
-                                        <Knob layoutX="35.0" layoutY="228.0" radius="30" />
-                                        <javafx.scene.layout.StackPane layoutX="116.0" layoutY="203.0" prefHeight="39.0" prefWidth="44.0">
+                                        <DiscreteKnob fx:id="oscillator1Waveform" layoutX="35.0" layoutY="228.0" radius="30" />
+                                        <javafx.scene.layout.StackPane layoutX="114.0" layoutY="203.0" prefHeight="39.0" prefWidth="44.0">
                                             <children>
                                                 <Group fx:id="thumbGroup1" />
                                             </children>
@@ -251,11 +251,18 @@
                                             </font>
                                         </Label>
                                         <Button layoutX="19.0" layoutY="123.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: ORANGE; -fx-background-radius: 10;" />
-                                        <Knob layoutX="135.0" layoutY="228.0" radius="30" />
+                                        <DiscreteKnob fx:id="oscillator2Waveform" layoutX="135.0" layoutY="228.0" radius="30" />
                                         <Knob layoutX="135.0" layoutY="138.0" radius="30" />
                                         <Knob layoutX="135.0" layoutY="48.0" radius="30" />
                                         <Knob layoutX="35.0" layoutY="48.0" radius="30" />
-
+                                        <Polyline layoutX="110.0" layoutY="236.0" points="0,0,3,-7,7,0" stroke="BLACK" />
+                                        <Polyline layoutX="129.0" layoutY="212.0" points="0,0,0,-8,8,0" stroke="BLACK" />
+                                        <Polyline layoutX="161.0" layoutY="211.0" points="0,0,0,-3,7,-3,7,3,14,3,14,0" stroke="BLACK" />
+                                        <Polyline layoutX="181.0" layoutY="233.0" points="0,0,0,-3,4,-3,4,3,14,3,14,0" stroke="BLACK" />
+                              <Polyline layoutX="10.0" layoutY="236.0" points="0,0,3,-7,7,0" stroke="BLACK" />
+                              <Polyline layoutX="61.0" layoutY="211.0" points="0,0,0,-3,7,-3,7,3,14,3,14,0" stroke="BLACK" />
+                              <Polyline layoutX="29.0" layoutY="212.0" points="0,0,0,-8,8,0" stroke="BLACK" />
+                              <Polyline layoutX="81.0" layoutY="233.0" points="0,0,0,-3,4,-3,4,3,14,3,14,0" stroke="BLACK" />
                                     </children>
                                 </Pane>
                             </children>

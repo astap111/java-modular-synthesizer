@@ -1,5 +1,6 @@
-package com.synthesizer.javafx.control.roundknob;
+package com.synthesizer.javafx.control.discreteknob;
 
+import com.synthesizer.javafx.util.KnobContent;
 import javafx.beans.property.DoubleProperty;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
@@ -15,15 +16,17 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 
-public class RoundKnobSkin extends SkinBase<RoundKnob> {
+public class DiscreteKnobSkin extends SkinBase<DiscreteKnob> {
     private boolean invalidSkin = true;
     private StackPane stackPane;
     private Group group;
-    private static final double SCALE_MIN = -140;
-    private static final double SCALE_MAX = 140;
+    private static final double SCALE_MIN = -80;
+    private static final double SCALE_MAX = 80;
+    private int ticksCount;
+    private double anglePerTick;
 
 
-    public RoundKnobSkin(RoundKnob control) {
+    public DiscreteKnobSkin(DiscreteKnob control) {
         super(control);
         control.widthProperty().addListener(observable -> invalidSkin = true);
         control.heightProperty().addListener(observable -> invalidSkin = true);
@@ -42,35 +45,39 @@ public class RoundKnobSkin extends SkinBase<RoundKnob> {
         innerCircle.setFill(radialGradient);
         innerCircle.setStroke(Color.WHITE);
         innerCircle.setStrokeWidth(1.5);
-        Label label = new Label(String.format("%.0f", getSkinnable().getValue()));
+        Label label = new Label(getSkinnable().getValue().getText(), getSkinnable().getValue().getGraphic());
         label.setFont(Font.font(radius / 2));
-        Line line = new Line(0, -radius + 3, 0, -radius * 2 / 3 - 1);
-        line.setStroke(Color.WHITE);
-        line.setStrokeWidth(2);
+        Line thumb = new Line(0, -radius + 3, 0, -radius * 2 / 3 - 1);
+        thumb.setStroke(Color.WHITE);
+        thumb.setStrokeWidth(2);
 
         Circle rotatable = new Circle(radius);
         rotatable.setOpacity(0);
         Circle clickable = new Circle(radius);
         clickable.setOpacity(0);
 
-        group = new Group(line, rotatable);
-        double initialRotateRate = (getSkinnable().getValue() - getSkinnable().getMin())
-                / (getSkinnable().getMax() - getSkinnable().getMin());
-        group.setRotate(SCALE_MIN + initialRotateRate * (SCALE_MAX - SCALE_MIN));
+        ticksCount = getSkinnable().getValues().size();
+        anglePerTick = (SCALE_MAX - SCALE_MIN) / (ticksCount - 1);
 
-        group.rotateProperty().addListener(observable -> {
-            Double angle = ((DoubleProperty) observable).getValue();
-            Double rate = (angle - SCALE_MIN) / (SCALE_MAX - SCALE_MIN);
-            double range = (getSkinnable().getMax() - getSkinnable().getMin());
-            double value = rate * range + getSkinnable().getMin();
-            getSkinnable().setValue(value);
-            label.setText(String.format("%.0f", value));
-        });
+        group = new Group(thumb, rotatable);
+        int tickIndex = getSkinnable().getValues().indexOf(getSkinnable().getValue());
+        tickIndex = tickIndex < 0 ? 0 : tickIndex;
+        group.setRotate(SCALE_MIN + anglePerTick * tickIndex);
 
         clickable.setOnMouseDragged(event -> {
             double angle = getAngle(event);
-            group.setRotate(angle);
+            for (int i = 0; i < ticksCount; i++) {
+                if (Math.abs(SCALE_MIN + i * anglePerTick - angle) <= anglePerTick / 2) {
+                    group.setRotate(SCALE_MIN + i * anglePerTick);
+                    KnobContent knobContent = getSkinnable().getValues().get(i);
+                    getSkinnable().setValue(knobContent);
+                    label.setText(knobContent.getText());
+                    label.setGraphic(knobContent.getGraphic());
+                    break;
+                }
+            }
         });
+
         stackPane = new StackPane();
         stackPane.getChildren().clear();
         stackPane.getChildren().addAll(outerCircle, innerCircle, label, group, clickable);

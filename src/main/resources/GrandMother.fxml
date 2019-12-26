@@ -16,6 +16,7 @@
 <?import javafx.scene.shape.Polyline?>
 <?import javafx.scene.text.Font?>
 
+<?import com.synthesizer.javafx.form.KeyboardPanel?>
 <AnchorPane prefHeight="500.0" prefWidth="1234.0" style="-fx-background-color: BLACK;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.synthesizer.javafx.controller.GrandMotherController">
     <children>
         <VBox layoutX="14.0" layoutY="14.0" prefHeight="400.0" prefWidth="1234.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -623,7 +624,7 @@
                         </VBox>
                         <VBox prefHeight="198.0" prefWidth="1056.0">
                             <children>
-                                <Pane prefHeight="200.0" prefWidth="200.0" />
+                                <KeyboardPanel prefHeight="198.0" prefWidth="1056.0" fx:id="keyboardPlaceholder"/>
                             </children>
                         </VBox>
                     </children>

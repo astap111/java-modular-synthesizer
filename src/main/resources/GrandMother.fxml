@@ -242,43 +242,7 @@
                 </Pane>
             </VBox>
             <VBox prefHeight="200.0" prefWidth="200.0">
-                <Pane minHeight="-Infinity" minWidth="-Infinity" prefHeight="296.0" prefWidth="200.0"
-                      style="-fx-border-color: white; -fx-border-radius: 10;">
-                    <VBox.margin>
-                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
-                    </VBox.margin>
-                    <Label alignment="CENTER" layoutX="51.0" layoutY="2.0" prefHeight="25.0" prefWidth="96.0"
-                           text="ENVELOPE" textAlignment="CENTER" textFill="WHITE">
-                        <font>
-                            <Font name="Calibri Bold" size="13.0"/>
-                        </font>
-                    </Label>
-                    <Label layoutX="31.0" layoutY="184.0" text="DECAY" textFill="WHITE">
-                        <font>
-                            <Font name="Calibri" size="13.0"/>
-                        </font>
-                    </Label>
-                    <Label layoutX="26.0" layoutY="273.0" text="RELEASE" textFill="WHITE">
-                        <font>
-                            <Font name="Calibri" size="13.0"/>
-                        </font>
-                    </Label>
-                    <Knob fx:id="envelopeDecay" layoutX="35.0" layoutY="138.0" radius="30" value="10.0"/>
-                    <Knob fx:id="envelopeRelease" layoutX="35.0" layoutY="228.0" radius="30" value="10.0"/>
-                    <Knob fx:id="envelopeAttack" layoutX="35.0" layoutY="48.0" radius="30" value="3.0"/>
-                    <Label layoutX="28.0" layoutY="94.0" text="ATTACK" textFill="WHITE">
-                        <font>
-                            <Font name="Calibri" size="13.0"/>
-                        </font>
-                    </Label>
-                    <Slider fx:id="envelopeSustain" layoutX="131.0" layoutY="41.0" minorTickCount="5"
-                            orientation="VERTICAL" prefHeight="229.0" prefWidth="15.0" value="60.0"/>
-                    <Label layoutX="114.0" layoutY="273.0" text="SUSTAIN" textFill="WHITE">
-                        <font>
-                            <Font name="Calibri" size="13.0"/>
-                        </font>
-                    </Label>
-                </Pane>
+                <fx:include fx:id="envelopePane" source="EnvelopePane.fxml"/>
             </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0">
                 <Pane minHeight="-Infinity" minWidth="-Infinity" prefHeight="182.0" prefWidth="100.0"
@@ -350,7 +314,7 @@
                         <NumberAxis/>
                     </xAxis>
                     <yAxis>
-                        <NumberAxis/>
+                        <NumberAxis autoRanging="false" lowerBound="-1" upperBound="1"/>
                     </yAxis>
                 </LineChart>
             </VBox>

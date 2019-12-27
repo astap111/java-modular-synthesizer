@@ -13,7 +13,6 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 
 import java.net.URL;
@@ -37,6 +36,9 @@ public class GrandMotherController implements Initializable, EventListener {
     private MixerPaneController mixerPaneController;
     @FXML
     private OscillatorsPaneController oscillatorsPaneController;
+    @FXML
+    private EnvelopePaneController envelopePaneController;
+
     private volatile int counter;
 
 
@@ -49,6 +51,7 @@ public class GrandMotherController implements Initializable, EventListener {
     public void initialize(URL location, ResourceBundle resources) {
         mixerPaneController.postInitialize(this, oscillatorsPaneController);
         oscillatorsPaneController.postInitialize(this, mixerPaneController);
+        envelopePaneController.postInitialize(this);
 
         modulationWaveform.setValues(Arrays.asList(new WaveformKnob[]{SINE, SAWTOOTH, RAMP, SQUARE}));
         modulationWaveform.setValue(SAWTOOTH);
@@ -61,10 +64,6 @@ public class GrandMotherController implements Initializable, EventListener {
         initializeKeyboardPane();
 
         lineChart.getData().add(series);
-        NumberAxis yAxis =(NumberAxis) lineChart.getYAxis();
-        yAxis.setAutoRanging(false);
-        yAxis.setLowerBound(-1);
-        yAxis.setUpperBound(1);
     }
 
     private void initializeKeyboardPane() {
@@ -72,13 +71,13 @@ public class GrandMotherController implements Initializable, EventListener {
             key.pressedProperty().addListener((observable, wasPressed, pressed) -> {
                 if (pressed) {
                     if (currentFrequency == 0) {
-//                    volumeAdsrEnvelope.attack();
+                        envelopePaneController.getAdsrEnvelope().attack();
                     }
                     rootChannel.setFrequency(key.getNoteFrequency());
                     currentFrequency = key.getNoteFrequency();
                 } else {
                     if (currentFrequency == 0 || currentFrequency == key.getNoteFrequency()) {
-//                    volumeAdsrEnvelope.release();
+                        envelopePaneController.getAdsrEnvelope().release();
                         currentFrequency = 0;
                     }
                 }

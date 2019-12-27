@@ -1,4 +1,4 @@
-package com.synthesizer.form;
+package com.synthesizer.swing.form;
 
 import javax.swing.*;
 import java.awt.*;

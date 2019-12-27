@@ -1,4 +1,6 @@
-package com.synthesizer;
+package com.synthesizer.swing;
+
+import com.synthesizer.javafx.util.AudioByteConverter;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;

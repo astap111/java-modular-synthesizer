@@ -2,8 +2,8 @@ package com.synthesizer.channel.processor;
 
 import com.synthesizer.channel.Channel;
 
-import static com.synthesizer.SimpleSynth.SAMPLES;
-import static com.synthesizer.SimpleSynth.SAMPLE_RATE;
+import static com.synthesizer.swing.SimpleSynth.SAMPLES;
+import static com.synthesizer.swing.SimpleSynth.SAMPLE_RATE;
 
 public class Delay implements Channel {
     private Channel channel;

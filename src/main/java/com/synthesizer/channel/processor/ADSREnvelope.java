@@ -2,7 +2,7 @@ package com.synthesizer.channel.processor;
 
 import com.synthesizer.channel.generator.Generator;
 
-import static com.synthesizer.SimpleSynth.SAMPLE_RATE;
+import static com.synthesizer.swing.SimpleSynth.SAMPLE_RATE;
 
 public class ADSREnvelope extends Generator {
     private double attack;

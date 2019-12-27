@@ -1,6 +1,6 @@
 package com.synthesizer.javafx;
 
-import com.synthesizer.AudioByteConverter;
+import com.synthesizer.javafx.util.AudioByteConverter;
 import com.synthesizer.javafx.controller.GrandMotherController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

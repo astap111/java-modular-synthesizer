@@ -1,10 +1,12 @@
-package com.synthesizer;
+package com.synthesizer.swing;
 
+import com.synthesizer.javafx.util.AudioByteConverter;
+import com.synthesizer.javafx.util.EventListener;
 import com.synthesizer.channel.Channel;
 import com.synthesizer.channel.generator.*;
 import com.synthesizer.channel.processor.*;
-import com.synthesizer.form.Key;
-import com.synthesizer.form.KeyboardPanel;
+import com.synthesizer.swing.form.Key;
+import com.synthesizer.swing.form.KeyboardPanel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;

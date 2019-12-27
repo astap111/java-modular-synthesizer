@@ -1,8 +1,9 @@
-package com.synthesizer;
+package com.synthesizer.javafx.util;
 
 import com.synthesizer.channel.Channel;
 
-import static com.synthesizer.SimpleSynth.SAMPLES;
+import static com.synthesizer.javafx.util.AudioConstants.SAMPLES;
+
 
 public class AudioByteConverter {
     private double[] output;

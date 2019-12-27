@@ -2,7 +2,7 @@ package com.synthesizer.channel.processor;
 
 import com.synthesizer.channel.Channel;
 
-import static com.synthesizer.SimpleSynth.SAMPLES;
+import static com.synthesizer.swing.SimpleSynth.SAMPLES;
 
 public class Limiter implements Channel {
     private Channel channel;

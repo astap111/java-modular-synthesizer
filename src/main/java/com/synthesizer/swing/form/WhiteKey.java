@@ -1,4 +1,4 @@
-package com.synthesizer.form;
+package com.synthesizer.swing.form;
 
 import static java.awt.event.KeyEvent.*;
 

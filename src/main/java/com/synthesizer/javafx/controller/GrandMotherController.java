@@ -1,7 +1,7 @@
 package com.synthesizer.javafx.controller;
 
-import com.synthesizer.AudioByteConverter;
-import com.synthesizer.EventListener;
+import com.synthesizer.javafx.util.AudioByteConverter;
+import com.synthesizer.javafx.util.EventListener;
 import com.synthesizer.channel.Channel;
 import com.synthesizer.channel.processor.Limiter;
 import com.synthesizer.channel.processor.Mixer;

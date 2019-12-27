@@ -2,7 +2,7 @@ package com.synthesizer.channel.generator;
 
 import com.synthesizer.channel.Channel;
 
-import static com.synthesizer.SimpleSynth.*;
+import static com.synthesizer.swing.SimpleSynth.*;
 
 public abstract class Generator implements Channel {
     protected volatile double[] output;

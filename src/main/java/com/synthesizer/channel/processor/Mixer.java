@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.synthesizer.SimpleSynth.SAMPLES;
+import static com.synthesizer.swing.SimpleSynth.SAMPLES;
 
 public class Mixer implements Channel {
     private List<Channel> channels = new ArrayList<>();

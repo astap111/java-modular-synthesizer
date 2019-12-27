@@ -78,4 +78,9 @@ public abstract class Generator implements Channel {
     public void release() {
 
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s{volume=%.0f, frequency=%.0f}",getClass().getSimpleName(), volume, frequency);
+    }
 }

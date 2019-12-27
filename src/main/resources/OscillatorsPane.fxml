@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.synthesizer.javafx.control.discreteknob.DiscreteKnob?>
+<?import com.synthesizer.javafx.control.knob.Knob?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<Pane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.synthesizer.javafx.controller.OscillatorsPaneController"
+      minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="296.0" prefWidth="200.0"
+      style="-fx-border-color: black; -fx-border-radius: 10; -fx-background-color: LIGHTSTEELBLUE; -fx-background-radius: 10;">
+    <VBox.margin>
+        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+    </VBox.margin>
+    <Label alignment="CENTER" prefHeight="25.0" prefWidth="200.0" text="OSCILLATORS" textAlignment="CENTER">
+        <font>
+            <Font name="Calibri Bold" size="13.0"/>
+        </font>
+    </Label>
+    <DiscreteKnob fx:id="oscillator1Waveform" layoutX="35.0" layoutY="228.0" radius="30"/>
+    <Label layoutX="17.0" layoutY="273.0" text="WAVEFORM">
+        <font>
+            <Font name="Calibri" size="13.0"/>
+        </font>
+    </Label>
+    <Label layoutX="117.0" layoutY="273.0" text="WAVEFORM">
+        <font>
+            <Font name="Calibri" size="13.0"/>
+        </font>
+    </Label>
+    <Label layoutX="27.0" layoutY="94.0" text="OCTAVE">
+        <font>
+            <Font name="Calibri" size="13.0"/>
+        </font>
+    </Label>
+    <Label layoutX="128.0" layoutY="94.0" text="OCTAVE">
+        <font>
+            <Font name="Calibri" size="13.0"/>
+        </font>
+    </Label>
+    <Label layoutX="118.0" layoutY="184.0" text="FREQUENCY">
+        <font>
+            <Font name="Calibri" size="13.0"/>
+        </font>
+    </Label>
+    <Label layoutX="35.0" layoutY="184.0" text="SYNC">
+        <font>
+            <Font name="Calibri" size="13.0"/>
+        </font>
+    </Label>
+    <Button layoutX="19.0" layoutY="123.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0"
+            style="-fx-background-color: ORANGE; -fx-background-radius: 10;"/>
+    <DiscreteKnob fx:id="oscillator2Waveform" layoutX="135.0" layoutY="228.0" radius="30"/>
+    <Knob layoutX="135.0" layoutY="138.0" radius="30"/>
+    <DiscreteKnob fx:id="oscillator2Octave" layoutX="135.0" layoutY="48.0" radius="30"/>
+    <DiscreteKnob fx:id="oscillator1Octave" layoutX="35.0" layoutY="48.0" radius="30"/>
+    <Polyline layoutX="110.0" layoutY="236.0" points="0,0,3,-7,7,0" stroke="BLACK"/>
+    <Polyline layoutX="129.0" layoutY="212.0" points="0,0,0,-8,8,0" stroke="BLACK"/>
+    <Polyline layoutX="161.0" layoutY="211.0" points="0,0,0,-3,7,-3,7,3,14,3,14,0" stroke="BLACK"/>
+    <Polyline layoutX="181.0" layoutY="233.0" points="0,0,0,-3,4,-3,4,3,14,3,14,0" stroke="BLACK"/>
+    <Polyline layoutX="10.0" layoutY="236.0" points="0,0,3,-7,7,0" stroke="BLACK"/>
+    <Polyline layoutX="61.0" layoutY="211.0" points="0,0,0,-3,7,-3,7,3,14,3,14,0" stroke="BLACK"/>
+    <Polyline layoutX="29.0" layoutY="212.0" points="0,0,0,-8,8,0" stroke="BLACK"/>
+    <Polyline layoutX="81.0" layoutY="233.0" points="0,0,0,-3,4,-3,4,3,14,3,14,0" stroke="BLACK"/>
+    <Label layoutX="130.0" layoutY="24.0" text="8'">
+        <font>
+            <Font name="Calibri" size="10.0"/>
+        </font>
+    </Label>
+    <Label layoutX="181.0" layoutY="48.0" text="2'">
+        <font>
+            <Font name="Calibri" size="10.0"/>
+        </font>
+    </Label>
+    <Label layoutX="164.0" layoutY="24.0" text="4'">
+        <font>
+            <Font name="Calibri" size="10.0"/>
+        </font>
+    </Label>
+    <Label layoutX="107.0" layoutY="48.0" text="16'">
+        <font>
+            <Font name="Calibri" size="10.0"/>
+        </font>
+    </Label>
+    <Label layoutX="29.0" layoutY="24.0" text="16'">
+        <font>
+            <Font name="Calibri" size="10.0"/>
+        </font>
+    </Label>
+    <Label layoutX="81.0" layoutY="48.0" text="4'">
+        <font>
+            <Font name="Calibri" size="10.0"/>
+        </font>
+    </Label>
+    <Label layoutX="64.0" layoutY="24.0" text="8'">
+        <font>
+            <Font name="Calibri" size="10.0"/>
+        </font>
+    </Label>
+    <Label layoutX="7.0" layoutY="48.0" text="32'">
+        <font>
+            <Font name="Calibri" size="10.0"/>
+        </font>
+    </Label>
+</Pane>

@@ -13,7 +13,7 @@ public class AudioByteConverter {
         this.channel = channel;
     }
 
-    byte[] getByteArray() {
+    public byte[] getByteArray() {
         byte[] outputByteBuffer = new byte[SAMPLES * 2];
         int bufferSize = 0;
         double[] buffer = channel.readData();
@@ -25,7 +25,9 @@ public class AudioByteConverter {
         }
 
         this.output = buffer;
-        listener.fireEvent();
+        if (listener != null) {
+            listener.fireEvent();
+        }
         return outputByteBuffer;
     }
 

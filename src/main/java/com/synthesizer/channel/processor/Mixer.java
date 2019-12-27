@@ -1,26 +1,34 @@
 package com.synthesizer.channel.processor;
 
 import com.synthesizer.channel.Channel;
+import com.synthesizer.channel.generator.Constant;
 import com.synthesizer.channel.generator.Generator;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import static com.synthesizer.SimpleSynth.SAMPLES;
 
 public class Mixer implements Channel {
-    private List<Channel> channels;
-    private Generator volumeEnvelope;
+    private List<Channel> channels = new ArrayList<>();
+    private Generator volumeEnvelope = new Constant(1);
+
+    public Mixer() {
+    }
 
     public Mixer(Channel... channels) {
-        this.channels = Arrays.asList(channels);
+        this.channels.addAll(Arrays.asList(channels));
     }
 
     @Override
-    public double[] readData() {
+    public synchronized double[] readData() {
         double[] result = new double[SAMPLES];
         double[] volumeEnvelopeData = volumeEnvelope.readData();
         for (Channel channel : channels) {
+            if (channel == null) {
+                continue;
+            }
             double[] channelData = channel.readData();
             for (int i = 0; i < result.length; i++) {
                 result[i] += channelData[i] * channel.getVolume() * volumeEnvelopeData[i];
@@ -30,8 +38,16 @@ public class Mixer implements Channel {
     }
 
     @Override
-    public void addChannel(Channel channel) {
+    public synchronized void addChannel(Channel channel) {
         this.channels.add(channel);
+        System.out.println("Added channel " + channel);
+        System.out.println("Channels: " + channels);
+    }
+
+    public synchronized void removeChannel(Channel channel) {
+        this.channels.remove(channel);
+        System.out.println("Removed channel " + channel);
+        System.out.println("Channels: " + channels);
     }
 
     public void addVolumeEnvelope(Generator volumeEnvelope) {

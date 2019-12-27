@@ -3,11 +3,11 @@ package com.synthesizer.javafx.form;
 
 import javafx.scene.layout.Pane;
 
-public class KeyboardPanel extends Pane {
+public class KeyboardPane extends Pane {
     private WhiteKey[] whites = new WhiteKey[WhiteKey.WHITE_KEYS.length];
     private BlackKey[] blacks = new BlackKey[BlackKey.BLACK_KEYS.length];
 
-    public KeyboardPanel() {
+    public KeyboardPane() {
         for (int i = 0; i < whites.length; i++) {
             whites[i] = new WhiteKey(i);
             getChildren().add(whites[i]);
@@ -42,14 +42,5 @@ public class KeyboardPanel extends Pane {
             }
         }
         return null;
-    }
-
-    public void setOctave(int i) {
-        for (WhiteKey white : whites) {
-            white.setOctave(i);
-        }
-        for (BlackKey black : blacks) {
-            black.setOctave(i);
-        }
     }
 }

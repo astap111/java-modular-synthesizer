@@ -6,9 +6,11 @@ import static com.synthesizer.swing.SimpleSynth.SAMPLES;
 
 public class Limiter implements Channel {
     private Channel channel;
+    private double volume;
 
     public Limiter(Channel channel) {
         this.channel = channel;
+        this.volume = 1;
     }
 
     @Override
@@ -22,11 +24,11 @@ public class Limiter implements Channel {
         double[] channelData = channel.readData();
         for (int i = 0; i < channelData.length; i++) {
             if (channelData[i] > 1) {
-                result[i] = 1;
+                result[i] = volume;
             } else if (channelData[i] < -1) {
-                result[i] = -1;
+                result[i] = -volume;
             } else {
-                result[i] = channelData[i];
+                result[i] = channelData[i] * volume;
             }
         }
         return result;
@@ -34,12 +36,12 @@ public class Limiter implements Channel {
 
     @Override
     public double getVolume() {
-        return this.channel.getVolume();
+        return this.volume;
     }
 
     @Override
     public void setVolume(double volume) {
-        this.channel.setVolume(volume);
+        this.volume = volume;
     }
 
     @Override

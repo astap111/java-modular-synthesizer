@@ -1,6 +1,7 @@
 package com.synthesizer.javafx.controller;
 
 import com.synthesizer.channel.generator.*;
+import com.synthesizer.channel.processor.Octaver;
 import com.synthesizer.javafx.control.discreteknob.DiscreteKnob;
 import com.synthesizer.javafx.util.OctaveKnob;
 import com.synthesizer.javafx.util.WaveformKnob;
@@ -31,6 +32,8 @@ public class OscillatorsPaneController implements Initializable {
 
     private volatile Generator oscillator1;
     private volatile Generator oscillator2;
+    private Octaver octaver1;
+    private Octaver octaver2;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -50,13 +53,14 @@ public class OscillatorsPaneController implements Initializable {
 
         oscillator1 = new SawtoothWave(this.mixerPaneController.getOscillator1Volume().getValue() / 100);
         oscillator2 = new SquareWave(this.mixerPaneController.getOscillator2Volume().getValue() / 100);
-        this.grandMotherController.getMixer().addChannel(oscillator1);
-        this.grandMotherController.getMixer().addChannel(oscillator2);
+        octaver1 = new Octaver(oscillator1, QUATER);
+        octaver2 = new Octaver(oscillator2, HALF);
+        this.grandMotherController.getMixer().addChannel(octaver1);
+        this.grandMotherController.getMixer().addChannel(octaver2);
 
         oscillator1Waveform.valueProperty().addListener((observable, oldValue, newValue) -> {
             double osc1Volume = this.mixerPaneController.getOscillator1Volume().getValue() / 100;
-            double frequency = oscillator1.getFrequency();
-            this.grandMotherController.getMixer().removeChannel(oscillator1);
+//            double frequency = oscillator1.getFrequency();
             switch ((WaveformKnob) newValue) {
                 case TRIANGLE:
                     oscillator1 = new TriangleWave(osc1Volume);
@@ -71,14 +75,13 @@ public class OscillatorsPaneController implements Initializable {
                     oscillator1 = new PulseWave(osc1Volume);
                     break;
             }
-            oscillator1.setFrequency(frequency);
-            this.grandMotherController.getMixer().addChannel(oscillator1);
+            octaver1.addChannel(oscillator1);
+//            octaver1.setFrequency(frequency);
         });
 
         oscillator2Waveform.valueProperty().addListener((observable, oldValue, newValue) -> {
             double osc2Volume = this.mixerPaneController.getOscillator2Volume().getValue() / 100;
-            double frequency = oscillator2.getFrequency();
-            this.grandMotherController.getMixer().removeChannel(oscillator2);
+//            double frequency = oscillator2.getFrequency();
             switch ((WaveformKnob) newValue) {
                 case TRIANGLE:
                     oscillator2 = new TriangleWave(osc2Volume);
@@ -93,8 +96,16 @@ public class OscillatorsPaneController implements Initializable {
                     oscillator2 = new PulseWave(osc2Volume);
                     break;
             }
-            oscillator2.setFrequency(frequency);
-            this.grandMotherController.getMixer().addChannel(oscillator2);
+            octaver2.addChannel(oscillator2);
+//            octaver2.setFrequency(frequency);
+        });
+
+        oscillator1Octave.valueProperty().addListener((observable, oldValue, newValue) -> {
+            octaver1.setOctaveFactor(((OctaveKnob) newValue).getOctaveFactor());
+        });
+
+        oscillator2Octave.valueProperty().addListener((observable, oldValue, newValue) -> {
+            octaver2.setOctaveFactor(((OctaveKnob) newValue).getOctaveFactor());
         });
     }
 

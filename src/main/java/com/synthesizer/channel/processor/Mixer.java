@@ -22,7 +22,7 @@ public class Mixer implements Channel {
     }
 
     @Override
-    public synchronized double[] readData() {
+    public double[] readData() {
         double[] result = new double[SAMPLES];
         double[] volumeEnvelopeData = volumeEnvelope.readData();
         for (Channel channel : channels) {
@@ -38,16 +38,8 @@ public class Mixer implements Channel {
     }
 
     @Override
-    public synchronized void addChannel(Channel channel) {
+    public void addChannel(Channel channel) {
         this.channels.add(channel);
-        System.out.println("Added channel " + channel);
-        System.out.println("Channels: " + channels);
-    }
-
-    public synchronized void removeChannel(Channel channel) {
-        this.channels.remove(channel);
-        System.out.println("Removed channel " + channel);
-        System.out.println("Channels: " + channels);
     }
 
     public void addVolumeEnvelope(Generator volumeEnvelope) {

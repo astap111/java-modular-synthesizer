@@ -261,7 +261,7 @@
                             <Font name="Calibri" size="13.0"/>
                         </font>
                     </Label>
-                    <Knob fx:id="outputVolume" layoutX="35.0" layoutY="48.0" radius="30" value="100.0"/>
+                    <Knob fx:id="outputVolume" layoutX="35.0" layoutY="48.0" radius="30" value="45"/>
                     <Slider layoutX="20.0" layoutY="136.0" prefHeight="15.0" prefWidth="60.0"/>
                     <Label layoutX="63.0" layoutY="151.0" text="DRONE" textFill="WHITE">
                         <font>

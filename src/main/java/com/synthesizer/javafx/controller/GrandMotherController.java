@@ -4,6 +4,7 @@ import com.synthesizer.channel.Channel;
 import com.synthesizer.channel.processor.Limiter;
 import com.synthesizer.channel.processor.Mixer;
 import com.synthesizer.javafx.control.discreteknob.DiscreteKnob;
+import com.synthesizer.javafx.control.knob.Knob;
 import com.synthesizer.javafx.form.Key;
 import com.synthesizer.javafx.form.KeyboardPane;
 import com.synthesizer.javafx.util.AudioByteConverter;
@@ -42,6 +43,8 @@ public class GrandMotherController implements Initializable, EventListener {
     private OscillatorsPaneController oscillatorsPaneController;
     @FXML
     private EnvelopePaneController envelopePaneController;
+    @FXML
+    private Knob outputVolume;
 
     private volatile int counter;
 
@@ -60,6 +63,11 @@ public class GrandMotherController implements Initializable, EventListener {
         modulationWaveform.setValues(Arrays.asList(new WaveformKnob[]{SINE, SAWTOOTH, RAMP, SQUARE}));
         modulationWaveform.setValue(SAWTOOTH);
 
+        mixerLimiter.setVolume(outputVolume.getValue() / 100);
+        outputVolume.valueProperty().addListener((observable, oldValue, newValue) -> {
+            mixerLimiter.setVolume(newValue.doubleValue() / 100);
+        });
+
         audioByteConverter = new AudioByteConverter();
         audioByteConverter.addChangeListener(this);
         audioByteConverter.addChannel(rootChannel);
@@ -72,26 +80,41 @@ public class GrandMotherController implements Initializable, EventListener {
 
     private void initializeKeyboardPane() {
         for (Key key : keyboardPane.getKeys()) {
+            key.pressedProperty().addListener((observable, wasPressed, pressed) -> {
+                if (pressed) {
+                    attack(key);
+                } else {
+                    release(key);
+                }
+            });
             key.setOnKeyPressed(event -> {
                 Key pressedKey = keyboardPane.getKey(event.getCode());
                 if (pressedKey != null) {
-                    if (currentFrequency == 0) {
-                        envelopePaneController.getAdsrEnvelope().attack();
-                    }
-                    rootChannel.setFrequency(pressedKey.getNoteFrequency());
-                    currentFrequency = pressedKey.getNoteFrequency();
+                    attack(pressedKey);
                 }
             });
             key.setOnKeyReleased(event -> {
                 Key releasedKey = keyboardPane.getKey(event.getCode());
                 if (releasedKey != null) {
-                    if (currentFrequency == 0 || currentFrequency == releasedKey.getNoteFrequency()) {
-                        envelopePaneController.getAdsrEnvelope().release();
-                        currentFrequency = 0;
-                    }
+                    release(releasedKey);
                 }
             });
         }
+    }
+
+    private void release(Key key) {
+        if (currentFrequency == 0 || currentFrequency == key.getNoteFrequency()) {
+            envelopePaneController.getAdsrEnvelope().release();
+            currentFrequency = 0;
+        }
+    }
+
+    private void attack(Key key) {
+        if (currentFrequency == 0) {
+            envelopePaneController.getAdsrEnvelope().attack();
+        }
+        rootChannel.setFrequency(key.getNoteFrequency());
+        currentFrequency = key.getNoteFrequency();
     }
 
     public AudioByteConverter getAudioByteConverter() {

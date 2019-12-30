@@ -1,19 +1,23 @@
 package com.synthesizer.javafx.controller;
 
-import com.synthesizer.javafx.util.AudioByteConverter;
-import com.synthesizer.javafx.util.EventListener;
 import com.synthesizer.channel.Channel;
 import com.synthesizer.channel.processor.Limiter;
 import com.synthesizer.channel.processor.Mixer;
 import com.synthesizer.javafx.control.discreteknob.DiscreteKnob;
 import com.synthesizer.javafx.form.Key;
 import com.synthesizer.javafx.form.KeyboardPane;
+import com.synthesizer.javafx.util.AudioByteConverter;
+import com.synthesizer.javafx.util.EventListener;
 import com.synthesizer.javafx.util.WaveformKnob;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -68,15 +72,20 @@ public class GrandMotherController implements Initializable, EventListener {
 
     private void initializeKeyboardPane() {
         for (Key key : keyboardPane.getKeys()) {
-            key.pressedProperty().addListener((observable, wasPressed, pressed) -> {
-                if (pressed) {
+            key.setOnKeyPressed(event -> {
+                Key pressedKey = keyboardPane.getKey(event.getCode());
+                if (pressedKey != null) {
                     if (currentFrequency == 0) {
                         envelopePaneController.getAdsrEnvelope().attack();
                     }
-                    rootChannel.setFrequency(key.getNoteFrequency());
-                    currentFrequency = key.getNoteFrequency();
-                } else {
-                    if (currentFrequency == 0 || currentFrequency == key.getNoteFrequency()) {
+                    rootChannel.setFrequency(pressedKey.getNoteFrequency());
+                    currentFrequency = pressedKey.getNoteFrequency();
+                }
+            });
+            key.setOnKeyReleased(event -> {
+                Key releasedKey = keyboardPane.getKey(event.getCode());
+                if (releasedKey != null) {
+                    if (currentFrequency == 0 || currentFrequency == releasedKey.getNoteFrequency()) {
                         envelopePaneController.getAdsrEnvelope().release();
                         currentFrequency = 0;
                     }
@@ -108,5 +117,24 @@ public class GrandMotherController implements Initializable, EventListener {
                 series.getData().addAll(data);
             });
         }
+    }
+
+    public void setScene(Scene scene) {
+        scene.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+            Key key = keyboardPane.getKey(event.getCode());
+            if (key != null) {
+                key.fireEvent(new MouseEvent(MouseEvent.MOUSE_PRESSED,
+                        key.getLayoutX(), key.getLayoutY(), key.getLayoutX(), key.getLayoutY(), MouseButton.PRIMARY, 1,
+                        false, false, false, false, true, false, false, true, true, true, null));
+            }
+        });
+        scene.addEventHandler(KeyEvent.KEY_RELEASED, event -> {
+            Key key = keyboardPane.getKey(event.getCode());
+            if (key != null) {
+                key.fireEvent(new MouseEvent(MouseEvent.MOUSE_RELEASED,
+                        key.getLayoutX(), key.getLayoutY(), key.getLayoutX(), key.getLayoutY(), MouseButton.PRIMARY, 1,
+                        false, false, false, false, true, false, false, true, true, true, null));
+            }
+        });
     }
 }

@@ -2,10 +2,11 @@ package com.synthesizer.javafx.form;
 
 
 import javafx.scene.control.Button;
+import javafx.scene.input.KeyCode;
 
 public abstract class Key extends Button {
     protected double noteFrequency;
-    protected int keyBinded;
+    protected KeyCode keyBinded;
     protected int aNoteFrequency = 440;
     protected double noteMultiplier = Math.pow(2, 1.0 / 12);
     int WD = 29;
@@ -15,7 +16,7 @@ public abstract class Key extends Button {
         return noteFrequency;
     }
 
-    public int getKeyBinded() {
+    public KeyCode getKeyBinded() {
         return keyBinded;
     }
 }

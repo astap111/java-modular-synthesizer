@@ -1,6 +1,7 @@
 package com.synthesizer.javafx.form;
 
 
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 
 public class KeyboardPane extends Pane {
@@ -30,7 +31,7 @@ public class KeyboardPane extends Pane {
         return result;
     }
 
-    public Key getKey(int keyCode) {
+    public Key getKey(KeyCode keyCode) {
         for (WhiteKey white : whites) {
             if (white.getKeyBinded() == keyCode) {
                 return white;

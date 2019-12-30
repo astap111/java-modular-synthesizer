@@ -28,9 +28,10 @@ public class GrandMother extends Application {
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
+        Scene scene = new Scene(fxmlLoader.getRoot());
         GrandMotherController grandMotherController = fxmlLoader.getController();
-
-        stage.setScene(new Scene(fxmlLoader.getRoot()));
+        grandMotherController.setScene(scene);
+        stage.setScene(scene);
         stage.setTitle("Grandmother synthesizer");
 
         stage.show();

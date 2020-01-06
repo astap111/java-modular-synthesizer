@@ -1,15 +1,14 @@
 package com.synthesizer.javafx.controller;
 
 import com.synthesizer.channel.Channel;
+import com.synthesizer.channel.processor.Equalizer;
 import com.synthesizer.channel.processor.Limiter;
 import com.synthesizer.channel.processor.Mixer;
-import com.synthesizer.javafx.control.discreteknob.DiscreteKnob;
 import com.synthesizer.javafx.control.knob.Knob;
 import com.synthesizer.javafx.form.Key;
 import com.synthesizer.javafx.form.KeyboardPane;
 import com.synthesizer.javafx.util.AudioByteConverter;
 import com.synthesizer.javafx.util.EventListener;
-import com.synthesizer.javafx.util.WaveformKnob;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -22,15 +21,10 @@ import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import static com.synthesizer.javafx.util.WaveformKnob.*;
-
 public class GrandMotherController implements Initializable, EventListener {
-    @FXML
-    private DiscreteKnob modulationWaveform;
     @FXML
     private LineChart<Number, Number> lineChart;
     private XYChart.Series<Number, Number> series = new XYChart.Series<>();
@@ -44,24 +38,32 @@ public class GrandMotherController implements Initializable, EventListener {
     @FXML
     private EnvelopePaneController envelopePaneController;
     @FXML
+    private ModulationPaneController modulationPaneController;
+    @FXML
+    private FilterPaneController filterPaneController;
+    @FXML
     private Knob outputVolume;
 
     private volatile int counter;
 
-
     private volatile double currentFrequency;
-    private Mixer mixer = new Mixer();
-    private Limiter mixerLimiter = new Limiter(mixer);
-    private Channel rootChannel = mixerLimiter;
+    private Mixer mixer;
+    Equalizer lpfChannel;
+    private Limiter mixerLimiter;
+    private Channel rootChannel;
     private AudioByteConverter audioByteConverter;
 
     public void initialize(URL location, ResourceBundle resources) {
+        mixer = new Mixer();
+        lpfChannel = filterPaneController.getLpf();
+        lpfChannel.addChannel(mixer);
+        lpfChannel.setEnabled(true);
+        mixerLimiter = new Limiter(lpfChannel);
+        rootChannel = mixerLimiter;
+
         mixerPaneController.postInitialize(this, oscillatorsPaneController);
         oscillatorsPaneController.postInitialize(this, mixerPaneController);
-        envelopePaneController.postInitialize(this);
-
-        modulationWaveform.setValues(Arrays.asList(new WaveformKnob[]{SINE, SAWTOOTH, RAMP, SQUARE}));
-        modulationWaveform.setValue(SAWTOOTH);
+        envelopePaneController.postInitialize(this, filterPaneController);
 
         mixerLimiter.setVolume(outputVolume.getValue() / 100);
         outputVolume.valueProperty().addListener((observable, oldValue, newValue) -> {

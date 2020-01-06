@@ -30,16 +30,16 @@
             <Font name="Calibri" size="13.0"/>
         </font>
     </Label>
-    <Knob fx:id="envelopeDecay" layoutX="35.0" layoutY="138.0" radius="30" value="10.0"/>
-    <Knob fx:id="envelopeRelease" layoutX="35.0" layoutY="228.0" radius="30" value="10.0"/>
-    <Knob fx:id="envelopeAttack" layoutX="35.0" layoutY="48.0" radius="30" value="3.0"/>
+    <Knob fx:id="envelopeAttack" min="0" max="1000" value="1" layoutX="35.0" layoutY="48.0" radius="30"/>
+    <Knob fx:id="envelopeDecay" min="0" max="1000" value="600" layoutX="35.0" layoutY="138.0" radius="30"/>
+    <Knob fx:id="envelopeRelease" min="0" max="1000" value="600" layoutX="35.0" layoutY="228.0" radius="30"/>
+    <Slider fx:id="envelopeSustain" min="0" max="1" value="0.6" layoutX="131.0" layoutY="41.0" minorTickCount="5"
+            orientation="VERTICAL" prefHeight="229.0" prefWidth="15.0"/>
     <Label layoutX="28.0" layoutY="94.0" text="ATTACK" textFill="WHITE">
         <font>
             <Font name="Calibri" size="13.0"/>
         </font>
     </Label>
-    <Slider fx:id="envelopeSustain" layoutX="131.0" layoutY="41.0" minorTickCount="5"
-            orientation="VERTICAL" prefHeight="229.0" prefWidth="15.0" min="0" max="1" value="0.6"/>
     <Label layoutX="114.0" layoutY="273.0" text="SUSTAIN" textFill="WHITE">
         <font>
             <Font name="Calibri" size="13.0"/>

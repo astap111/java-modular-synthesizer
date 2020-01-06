@@ -106,53 +106,7 @@
                 </Pane>
             </VBox>
             <VBox prefHeight="200.0" prefWidth="200.0">
-                <Pane minHeight="-Infinity" minWidth="-Infinity" prefHeight="296.0" prefWidth="200.0"
-                      style="-fx-border-color: white; -fx-border-radius: 10;">
-                    <VBox.margin>
-                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
-                    </VBox.margin>
-                    <Label alignment="CENTER" layoutX="51.0" layoutY="2.0" prefHeight="25.0" prefWidth="96.0"
-                           text="MODULATION" textAlignment="CENTER" textFill="WHITE">
-                        <font>
-                            <Font name="Calibri Bold" size="13.0"/>
-                        </font>
-                    </Label>
-                    <Label layoutX="19.0" layoutY="184.0" text="PITCH AMT" textFill="WHITE">
-                        <font>
-                            <Font name="Calibri" size="13.0"/>
-                        </font>
-                    </Label>
-                    <Label layoutX="2.0" layoutY="273.0" text="PULSE WIDTH AMT" textFill="WHITE">
-                        <font>
-                            <Font name="Calibri" size="13.0"/>
-                        </font>
-                    </Label>
-                    <Knob fx:id="modulationPitchAmt" layoutX="35.0" layoutY="138.0" radius="30"/>
-                    <Knob fx:id="modulationPulseWidthAmt" layoutX="35.0" layoutY="228.0" radius="30"/>
-                    <Knob fx:id="modulationCutoffAmt" layoutX="135.0" layoutY="138.0" radius="30"/>
-                    <DiscreteKnob fx:id="modulationWaveform" layoutX="135.0" layoutY="228.0" radius="30"/>
-                    <Knob fx:id="modulationRate" layoutX="85.0" layoutY="48.0" radius="30"/>
-                    <Label layoutX="115.0" layoutY="184.0" text="CUTOFF AMT" textFill="WHITE">
-                        <font>
-                            <Font name="Calibri" size="13.0"/>
-                        </font>
-                    </Label>
-                    <Label layoutX="116.0" layoutY="273.0" text="WAVEFORM" textFill="WHITE">
-                        <font>
-                            <Font name="Calibri" size="13.0"/>
-                        </font>
-                    </Label>
-                    <Label layoutX="86.0" layoutY="94.0" text="RATE" textFill="WHITE">
-                        <font>
-                            <Font name="Calibri" size="13.0"/>
-                        </font>
-                    </Label>
-                    <CubicCurve controlX1="6" controlX2="6" controlY1="-12" controlY2="12" endX="12" fill="#1f93ff00"
-                                layoutX="105.0" layoutY="233.0" stroke="WHITE"/>
-                    <Polyline layoutX="129.0" layoutY="211.0" points="0,0,0,-8,8,0" stroke="WHITE"/>
-                    <Polyline layoutX="161.0" layoutY="211.0" points="0,0,8,-8,8,0" stroke="WHITE"/>
-                    <Polyline layoutX="181.0" layoutY="233.0" points="0,0,0,-3,7,-3,7,3,14,3,14,0" stroke="WHITE"/>
-                </Pane>
+                <fx:include fx:id="modulationPane" source="ModulationPane.fxml"/>
             </VBox>
             <VBox prefHeight="320.0" prefWidth="100.0">
                 <fx:include fx:id="oscillatorsPane" source="OscillatorsPane.fxml"/>
@@ -188,58 +142,7 @@
                 </Pane>
             </VBox>
             <VBox prefHeight="320.0" prefWidth="100.0">
-                <Pane minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="296.0"
-                      prefWidth="200.0"
-                      style="-fx-border-color: black; -fx-border-radius: 10; -fx-background-color: LIGHTGREEN; -fx-background-radius: 10;">
-                    <VBox.margin>
-                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
-                    </VBox.margin>
-                    <Label alignment="CENTER" prefHeight="25.0" prefWidth="200.0" text="FILTER" textAlignment="CENTER">
-                        <font>
-                            <Font name="Calibri Bold" size="13.0"/>
-                        </font>
-                    </Label>
-                    <Knob fx:id="filterEnvelopeAmt" layoutX="35.0" layoutY="228.0" radius="30"/>
-
-                    <Label layoutX="7.0" layoutY="273.0" text="ENVELOPE AMT">
-                        <font>
-                            <Font name="Calibri" size="13.0"/>
-                        </font>
-                    </Label>
-                    <Label layoutX="116.0" layoutY="273.0" text="RESONANCE">
-                        <font>
-                            <Font name="Calibri" size="13.0"/>
-                        </font>
-                    </Label>
-                    <Label layoutX="77.0" layoutY="94.0" text="CUTOFF">
-                        <font>
-                            <Font name="Calibri" size="13.0"/>
-                        </font>
-                    </Label>
-                    <Label layoutX="69.0" layoutY="182.0" text="KBD TRACK">
-                        <font>
-                            <Font name="Calibri" size="13.0"/>
-                        </font>
-                    </Label>
-                    <Knob fx:id="filterResonance" layoutX="135.0" layoutY="228.0" radius="30"/>
-                    <Knob fx:id="filterCutoff" layoutX="85.0" layoutY="48.0" radius="30"/>
-                    <Slider layoutX="68.0" layoutY="154.0" prefHeight="15.0" prefWidth="60.0"/>
-                    <Label layoutX="69.0" layoutY="168.0" text="1:2">
-                        <font>
-                            <Font name="Calibri" size="10.0"/>
-                        </font>
-                    </Label>
-                    <Label layoutX="89.0" layoutY="168.0" text="OFF">
-                        <font>
-                            <Font name="Calibri" size="10.0"/>
-                        </font>
-                    </Label>
-                    <Label layoutX="113.0" layoutY="168.0" text="1:1">
-                        <font>
-                            <Font name="Calibri" size="10.0"/>
-                        </font>
-                    </Label>
-                </Pane>
+                <fx:include fx:id="filterPane" source="FilterPane.fxml"/>
             </VBox>
             <VBox prefHeight="200.0" prefWidth="200.0">
                 <fx:include fx:id="envelopePane" source="EnvelopePane.fxml"/>

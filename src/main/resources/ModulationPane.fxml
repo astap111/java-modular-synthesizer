@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.synthesizer.javafx.control.knob.Knob?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import com.synthesizer.javafx.control.discreteknob.DiscreteKnob?>
+<?import javafx.scene.shape.CubicCurve?>
+<?import javafx.scene.shape.Polyline?>
+<Pane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.synthesizer.javafx.controller.ModulationPaneController"
+      minHeight="-Infinity" minWidth="-Infinity" prefHeight="296.0" prefWidth="200.0"
+      style="-fx-border-color: white; -fx-border-radius: 10;">
+    <VBox.margin>
+        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+    </VBox.margin>
+    <Label alignment="CENTER" layoutX="51.0" layoutY="2.0" prefHeight="25.0" prefWidth="96.0"
+           text="MODULATION" textAlignment="CENTER" textFill="WHITE">
+        <font>
+            <Font name="Calibri Bold" size="13.0"/>
+        </font>
+    </Label>
+    <Label layoutX="19.0" layoutY="184.0" text="PITCH AMT" textFill="WHITE">
+        <font>
+            <Font name="Calibri" size="13.0"/>
+        </font>
+    </Label>
+    <Label layoutX="2.0" layoutY="273.0" text="PULSE WIDTH AMT" textFill="WHITE">
+        <font>
+            <Font name="Calibri" size="13.0"/>
+        </font>
+    </Label>
+    <Knob fx:id="modulationPitchAmt" layoutX="35.0" layoutY="138.0" radius="30"/>
+    <Knob fx:id="modulationPulseWidthAmt" layoutX="35.0" layoutY="228.0" radius="30"/>
+    <Knob fx:id="modulationCutoffAmt" layoutX="135.0" layoutY="138.0" radius="30"/>
+    <DiscreteKnob fx:id="modulationWaveform" layoutX="135.0" layoutY="228.0" radius="30"/>
+    <Knob fx:id="modulationRate" layoutX="85.0" layoutY="48.0" radius="30"/>
+    <Label layoutX="115.0" layoutY="184.0" text="CUTOFF AMT" textFill="WHITE">
+        <font>
+            <Font name="Calibri" size="13.0"/>
+        </font>
+    </Label>
+    <Label layoutX="116.0" layoutY="273.0" text="WAVEFORM" textFill="WHITE">
+        <font>
+            <Font name="Calibri" size="13.0"/>
+        </font>
+    </Label>
+    <Label layoutX="86.0" layoutY="94.0" text="RATE" textFill="WHITE">
+        <font>
+            <Font name="Calibri" size="13.0"/>
+        </font>
+    </Label>
+    <CubicCurve controlX1="6" controlX2="6" controlY1="-12" controlY2="12" endX="12" fill="#1f93ff00"
+                layoutX="105.0" layoutY="233.0" stroke="WHITE"/>
+    <Polyline layoutX="129.0" layoutY="211.0" points="0,0,0,-8,8,0" stroke="WHITE"/>
+    <Polyline layoutX="161.0" layoutY="211.0" points="0,0,8,-8,8,0" stroke="WHITE"/>
+    <Polyline layoutX="181.0" layoutY="233.0" points="0,0,0,-3,7,-3,7,3,14,3,14,0" stroke="WHITE"/>
+</Pane>

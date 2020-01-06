@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.synthesizer.javafx.control.knob.Knob?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.*?>
+<Pane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
+      minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="296.0"
+      prefWidth="200.0" fx:controller="com.synthesizer.javafx.controller.FilterPaneController"
+      style="-fx-border-color: black; -fx-border-radius: 10; -fx-background-color: LIGHTGREEN; -fx-background-radius: 10;">
+    <VBox.margin>
+        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+    </VBox.margin>
+    <Label alignment="CENTER" prefHeight="25.0" prefWidth="200.0" text="FILTER" textAlignment="CENTER">
+        <font>
+            <Font name="Calibri Bold" size="13.0"/>
+        </font>
+    </Label>
+    <Label layoutX="7.0" layoutY="273.0" text="ENVELOPE AMT">
+        <font>
+            <Font name="Calibri" size="13.0"/>
+        </font>
+    </Label>
+    <Label layoutX="116.0" layoutY="273.0" text="RESONANCE">
+        <font>
+            <Font name="Calibri" size="13.0"/>
+        </font>
+    </Label>
+    <Label layoutX="77.0" layoutY="94.0" text="CUTOFF">
+        <font>
+            <Font name="Calibri" size="13.0"/>
+        </font>
+    </Label>
+    <Label layoutX="69.0" layoutY="182.0" text="KBD TRACK">
+        <font>
+            <Font name="Calibri" size="13.0"/>
+        </font>
+    </Label>
+    <Knob fx:id="filterCutoff" min="20" max="20000" value="300" layoutX="85.0" layoutY="48.0" radius="30"/>
+    <Knob fx:id="filterEnvelopeAmt" min="0" max="3000" value="700" layoutX="35.0" layoutY="228.0" radius="30"/>
+    <Knob fx:id="filterResonance" min="0.7" max="10" value="2" layoutX="135.0" layoutY="228.0" radius="30"/>
+    <Slider layoutX="68.0" layoutY="154.0" prefHeight="15.0" prefWidth="60.0"/>
+    <Label layoutX="69.0" layoutY="168.0" text="1:2">
+        <font>
+            <Font name="Calibri" size="10.0"/>
+        </font>
+    </Label>
+    <Label layoutX="89.0" layoutY="168.0" text="OFF">
+        <font>
+            <Font name="Calibri" size="10.0"/>
+        </font>
+    </Label>
+    <Label layoutX="113.0" layoutY="168.0" text="1:1">
+        <font>
+            <Font name="Calibri" size="10.0"/>
+        </font>
+    </Label>
+</Pane>

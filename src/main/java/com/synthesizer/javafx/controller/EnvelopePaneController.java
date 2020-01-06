@@ -25,23 +25,24 @@ public class EnvelopePaneController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         adsrEnvelope = new ADSREnvelope(envelopeAttack.getValue(), envelopeDecay.getValue(), envelopeSustain.getValue(), envelopeRelease.getValue());
+        envelopeAttack.valueProperty().addListener((observable, oldValue, newValue) -> {
+            adsrEnvelope.setAttack(newValue.doubleValue());
+        });
         envelopeDecay.valueProperty().addListener((observable, oldValue, newValue) -> {
             adsrEnvelope.setDecay(newValue.doubleValue());
         });
         envelopeRelease.valueProperty().addListener((observable, oldValue, newValue) -> {
             adsrEnvelope.setRelease(newValue.doubleValue());
         });
-        envelopeAttack.valueProperty().addListener((observable, oldValue, newValue) -> {
-            adsrEnvelope.setAttack(newValue.doubleValue());
-        });
         envelopeSustain.valueProperty().addListener((observable, oldValue, newValue) -> {
             adsrEnvelope.setSustain(newValue.doubleValue());
         });
     }
 
-    public void postInitialize(GrandMotherController grandMotherController) {
+    public void postInitialize(GrandMotherController grandMotherController, FilterPaneController filterPaneController) {
         this.grandMotherController = grandMotherController;
         this.grandMotherController.getMixer().addVolumeEnvelope(adsrEnvelope);
+        filterPaneController.getLpf().addCutoffEnvelope(adsrEnvelope);
     }
 
     public ADSREnvelope getAdsrEnvelope() {

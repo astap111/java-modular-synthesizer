@@ -21,7 +21,7 @@ public class FilterPaneController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        lpf = new Equalizer(null, BiQuadraticFilter.FilterType.LOWPASS, filterCutoff.getValue(), filterResonance.getValue(), 20);
+        lpf = new Equalizer(null, BiQuadraticFilter.FilterType.LOWPASS, filterCutoff.getValue(), filterResonance.getValue(), 20, filterEnvelopeAmt.getValue());
         filterCutoff.valueProperty().addListener((observable, oldValue, newValue) -> {
             lpf.setCutOffFrequency(newValue.doubleValue());
         });

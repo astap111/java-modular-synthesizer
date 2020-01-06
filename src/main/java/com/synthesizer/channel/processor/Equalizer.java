@@ -20,6 +20,11 @@ public class Equalizer implements Channel {
         this.biQuadraticFilter = new BiQuadraticFilter(filterType, cutOffFrequency, SAMPLE_RATE, resonance, gain);
     }
 
+    public Equalizer(Channel channel, BiQuadraticFilter.FilterType filterType, double cutOffFrequency, double resonance, double gain, double cutoffEnvelopeDepth) {
+        this(channel, filterType, cutOffFrequency, resonance, gain);
+        this.cutoffEnvelopeDepth = cutoffEnvelopeDepth;
+    }
+
     @Override
     public void addChannel(Channel channel) {
         this.channel = channel;

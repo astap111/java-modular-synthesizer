@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.synthesizer.javafx.control.discreteknob.DiscreteKnob?>
 <?import com.synthesizer.javafx.control.knob.Knob?>
 <?import com.synthesizer.javafx.form.KeyboardPane?>
 <?import javafx.geometry.Insets?>
@@ -12,8 +11,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.CubicCurve?>
-<?import javafx.scene.shape.Polyline?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="700.0" prefWidth="1234.0" style="-fx-background-color: BLACK;"
@@ -210,16 +207,9 @@
                 </Pane>
             </VBox>
         </HBox>
-        <HBox prefHeight="100.0" prefWidth="200.0">
-            <VBox prefHeight="100.0" prefWidth="200.0">
-                <LineChart fx:id="lineChart" createSymbols="false" legendVisible="false" animated="false">
-                    <xAxis>
-                        <NumberAxis/>
-                    </xAxis>
-                    <yAxis>
-                        <NumberAxis autoRanging="false" lowerBound="-1" upperBound="1"/>
-                    </yAxis>
-                </LineChart>
+        <HBox prefHeight="150.0" prefWidth="200.0">
+            <VBox prefHeight="150.0" prefWidth="200.0">
+                <fx:include fx:id="chartsPane" source="ChartsPane.fxml"/>
             </VBox>
         </HBox>
         <HBox prefHeight="200.0" prefWidth="1234.0">

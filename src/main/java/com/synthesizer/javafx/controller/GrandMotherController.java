@@ -14,22 +14,14 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.XYChart;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class GrandMotherController implements Initializable, EventListener {
-    @FXML
-    private LineChart<Number, Number> lineChart;
-    private XYChart.Series<Number, Number> series = new XYChart.Series<>();
-
     @FXML
     private KeyboardPane keyboardPane;
     @FXML
@@ -42,6 +34,8 @@ public class GrandMotherController implements Initializable, EventListener {
     private ModulationPaneController modulationPaneController;
     @FXML
     private FilterPaneController filterPaneController;
+    @FXML
+    private ChartsPaneController chartsPaneController;
     @FXML
     private Knob outputVolume;
 
@@ -79,8 +73,6 @@ public class GrandMotherController implements Initializable, EventListener {
         rootChannel.setFrequency(440);
 
         initializeKeyboardPane();
-
-        lineChart.getData().add(series);
     }
 
     private void initializeKeyboardPane() {
@@ -133,16 +125,11 @@ public class GrandMotherController implements Initializable, EventListener {
     @Override
     public void fireEvent() {
         counter++;
-        if (counter > 50) {
+        if (counter > 20) {
             counter = 0;
             Platform.runLater(() -> {
                 double[] values = audioByteConverter.getLastData();
-                series.getData().clear();
-                List<LineChart.Data<Number, Number>> data = new ArrayList<>();
-                for (int i = 0; i < values.length; i++) {
-                    data.add(new LineChart.Data<>(i, values[i]));
-                }
-                series.getData().addAll(data);
+                chartsPaneController.setData(values);
             });
         }
     }

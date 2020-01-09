@@ -16,7 +16,7 @@ import java.io.IOException;
 import static com.synthesizer.javafx.util.AudioConstants.*;
 
 public class GrandMother extends Application {
-    SourceDataLine line;
+    private SourceDataLine line;
 
     @Override
     public void start(Stage stage) throws LineUnavailableException {

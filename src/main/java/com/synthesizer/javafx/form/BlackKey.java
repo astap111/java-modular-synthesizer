@@ -6,7 +6,7 @@ import static javafx.scene.input.KeyCode.*;
 
 public class BlackKey extends Key {
     public static final int BLACK_KEYS[] = {-8, -6, -3, -1, 1, 4, 6, 9, 11, 13, 16, 18, 21, 23, 25, 28, 30};
-    private static final KeyCode keysBinded[] = {W, E, T, Y, U, O, P, CLOSE_BRACKET, null, null, null, null, null, null, null, null, null};
+    private static final KeyCode keysBinded[] = {S, D, G, H, J, L, SEMICOLON, DIGIT2, DIGIT3, DIGIT4, DIGIT6, DIGIT7, DIGIT9, DIGIT0, MINUS, BACK_SPACE, null};
 
     public BlackKey(int pos) {
         noteFrequency = aNoteFrequency * Math.pow(noteMultiplier, BLACK_KEYS[pos]);

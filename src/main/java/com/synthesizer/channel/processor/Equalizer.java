@@ -1,5 +1,6 @@
 package com.synthesizer.channel.processor;
 
+import com.synthesizer.javafx.util.BiQuadraticFilter;
 import com.synthesizer.channel.Channel;
 import com.synthesizer.channel.generator.Generator;
 
@@ -99,5 +100,15 @@ public class Equalizer implements Channel {
     public void setResonance(double resonance) {
         this.biQuadraticFilter.setQ(resonance);
         this.biQuadraticFilter.reconfigure(this.cutOffFrequency);
+    }
+
+    @Override
+    public void setStep(double step) {
+        this.channel.setStep(step);
+    }
+
+    @Override
+    public double getStep() {
+        return this.channel.getStep();
     }
 }

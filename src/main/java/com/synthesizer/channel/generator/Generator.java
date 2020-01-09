@@ -61,10 +61,12 @@ public abstract class Generator implements Channel {
         return output;
     }
 
+    @Override
     public double getStep() {
         return step;
     }
 
+    @Override
     public void setStep(double step) {
         this.step = step;
     }
@@ -81,6 +83,6 @@ public abstract class Generator implements Channel {
 
     @Override
     public String toString() {
-        return String.format("%s{volume=%.0f, frequency=%.0f}",getClass().getSimpleName(), volume, frequency);
+        return String.format("%s{volume=%.0f, frequency=%.0f}", getClass().getSimpleName(), volume, frequency);
     }
 }

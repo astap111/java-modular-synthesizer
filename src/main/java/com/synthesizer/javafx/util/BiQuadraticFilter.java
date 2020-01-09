@@ -1,4 +1,4 @@
-package com.synthesizer.channel.processor;
+package com.synthesizer.javafx.util;
 
 /***************************************************************************
  *   Copyright (C) 2011 by Paul Lutus                                      *

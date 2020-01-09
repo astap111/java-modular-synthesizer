@@ -1,6 +1,4 @@
-package com.synthesizer.channel.processor;
-
-import com.synthesizer.channel.generator.Generator;
+package com.synthesizer.channel.generator;
 
 import static com.synthesizer.swing.SimpleSynth.SAMPLE_RATE;
 

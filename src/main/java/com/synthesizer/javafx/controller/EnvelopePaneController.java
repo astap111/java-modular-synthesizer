@@ -1,6 +1,6 @@
 package com.synthesizer.javafx.controller;
 
-import com.synthesizer.channel.processor.ADSREnvelope;
+import com.synthesizer.channel.generator.ADSREnvelope;
 import com.synthesizer.javafx.control.knob.Knob;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

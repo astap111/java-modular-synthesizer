@@ -22,13 +22,14 @@ public class Mixer implements Channel {
     }
 
     @Override
-    public double[] readData() {
+    public synchronized double[] readData() {
         double[] result = new double[SAMPLES];
         double[] volumeEnvelopeData = volumeEnvelope.readData();
+//        List<Double> collect = channels.stream().filter(channel -> channel instanceof Octaver).map(channel -> ((Octaver) channel).getStep()).collect(Collectors.toList());
+//        if (collect.contains(0.0)) {
+//            System.out.println(collect);
+//        }
         for (Channel channel : channels) {
-            if (channel == null) {
-                continue;
-            }
             double[] channelData = channel.readData();
             for (int i = 0; i < result.length; i++) {
                 result[i] += channelData[i] * channel.getVolume() * volumeEnvelopeData[i];
@@ -78,6 +79,24 @@ public class Mixer implements Channel {
     public void release() {
         for (Channel channel : this.channels) {
             channel.release();
+        }
+    }
+
+    @Override
+    public synchronized void setStep(double step) {
+        for (Channel c : channels) {
+            c.setStep(step);
+        }
+    }
+
+    @Override
+    public double getStep() {
+        return 0;
+    }
+
+    public synchronized void syncGenerators() {
+        for (Channel c : channels) {
+            c.setStep(0);
         }
     }
 }

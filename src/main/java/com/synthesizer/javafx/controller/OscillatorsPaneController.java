@@ -76,7 +76,7 @@ public class OscillatorsPaneController implements Initializable {
                     break;
             }
             octaver1.addChannel(oscillator1);
-//            octaver1.setFrequency(frequency);
+            this.grandMotherController.getMixer().syncGenerators();
         });
 
         oscillator2Waveform.valueProperty().addListener((observable, oldValue, newValue) -> {
@@ -97,7 +97,7 @@ public class OscillatorsPaneController implements Initializable {
                     break;
             }
             octaver2.addChannel(oscillator2);
-//            octaver2.setFrequency(frequency);
+            this.grandMotherController.getMixer().syncGenerators();
         });
 
         oscillator1Octave.valueProperty().addListener((observable, oldValue, newValue) -> {

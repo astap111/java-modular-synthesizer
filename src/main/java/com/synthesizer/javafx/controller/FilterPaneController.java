@@ -1,6 +1,6 @@
 package com.synthesizer.javafx.controller;
 
-import com.synthesizer.channel.processor.BiQuadraticFilter;
+import com.synthesizer.javafx.util.BiQuadraticFilter;
 import com.synthesizer.channel.processor.Equalizer;
 import com.synthesizer.javafx.control.knob.Knob;
 import javafx.fxml.FXML;

@@ -16,4 +16,8 @@ public interface Channel {
     void attack();
 
     void release();
+
+    void setStep(double step);
+
+    double getStep();
 }

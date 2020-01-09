@@ -60,4 +60,14 @@ public class Octaver implements Channel {
     public void setOctaveFactor(double octaveFactor) {
         this.octaveFactor = octaveFactor;
     }
+
+    @Override
+    public void setStep(double step) {
+        this.channel.setStep(step);
+    }
+
+    @Override
+    public double getStep() {
+        return this.channel.getStep();
+    }
 }

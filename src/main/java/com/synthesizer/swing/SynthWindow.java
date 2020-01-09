@@ -1,5 +1,6 @@
 package com.synthesizer.swing;
 
+import com.synthesizer.javafx.util.BiQuadraticFilter;
 import com.synthesizer.javafx.util.AudioByteConverter;
 import com.synthesizer.javafx.util.EventListener;
 import com.synthesizer.channel.Channel;

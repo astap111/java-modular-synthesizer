@@ -10,7 +10,7 @@ public abstract class Key extends Button {
     protected int aNoteFrequency = 440;
     protected double noteMultiplier = Math.pow(2, 1.0 / 12);
     int WD = 29;
-    int HT = 196;
+    int HT = 192;
 
     public double getNoteFrequency() {
         return noteFrequency;

@@ -17,6 +17,7 @@ public class BlackKey extends Key {
                 + ((pos + 3) / 5));
         setStyle("-fx-background-color: BLACK; -fx-background-radius: 3;");
         setLayoutX(left);
+        setLayoutY(2);
         setPrefWidth(WD);
         setPrefHeight(HT * 2 / 3);
     }

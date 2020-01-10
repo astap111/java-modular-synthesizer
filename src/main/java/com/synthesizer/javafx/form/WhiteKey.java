@@ -15,6 +15,7 @@ public class WhiteKey extends Key {
         int left = 5 + WWD * pos;
         setStyle("-fx-background-color: WHITE; -fx-background-radius: 3;");
         setLayoutX(left);
+        setLayoutY(2);
         setPrefWidth(WWD - 1);
         setPrefHeight(HT);
     }

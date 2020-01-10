@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Polyline?>
-<Pane prefHeight="100" prefWidth="200.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
+<Pane style="-fx-background-color: BLACK; -fx-border-color: WHITE;  -fx-border-radius: 10; -fx-background-radius: 10"
+      xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.synthesizer.javafx.controller.ChartsPaneController">
+    <VBox.margin>
+        <Insets bottom="10" left="10" right="10" top="10"/>
+    </VBox.margin>
     <children>
-        <StackPane prefHeight="150.0" prefWidth="200.0">
+        <StackPane prefHeight="130.0" prefWidth="241.0" alignment="CENTER_LEFT">
             <children>
                 <Polyline fx:id="chartLine" stroke="WHITE">
                 </Polyline>

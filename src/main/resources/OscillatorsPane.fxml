@@ -54,7 +54,7 @@
     <Button layoutX="19.0" layoutY="123.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0"
             style="-fx-background-color: ORANGE; -fx-background-radius: 10;"/>
     <DiscreteKnob fx:id="oscillator2Waveform" layoutX="135.0" layoutY="228.0" radius="30"/>
-    <Knob layoutX="135.0" layoutY="138.0" radius="30"/>
+    <Knob fx:id="detuneFrequency" min="-12" max="+12" value="0" layoutX="135.0" layoutY="138.0" radius="30"/>
     <DiscreteKnob fx:id="oscillator2Octave" layoutX="135.0" layoutY="48.0" radius="30"/>
     <DiscreteKnob fx:id="oscillator1Octave" layoutX="35.0" layoutY="48.0" radius="30"/>
     <Polyline layoutX="110.0" layoutY="236.0" points="0,0,3,-7,7,0" stroke="BLACK"/>

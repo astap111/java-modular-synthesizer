@@ -1,8 +1,10 @@
 package com.synthesizer.javafx.controller;
 
 import com.synthesizer.channel.generator.*;
+import com.synthesizer.channel.processor.Detuner;
 import com.synthesizer.channel.processor.Octaver;
 import com.synthesizer.javafx.control.discreteknob.DiscreteKnob;
+import com.synthesizer.javafx.control.knob.Knob;
 import com.synthesizer.javafx.util.OctaveKnob;
 import com.synthesizer.javafx.util.WaveformKnob;
 import javafx.fxml.FXML;
@@ -26,6 +28,8 @@ public class OscillatorsPaneController implements Initializable {
     private DiscreteKnob oscillator1Octave;
     @FXML
     private DiscreteKnob oscillator2Octave;
+    @FXML
+    private Knob detuneFrequency;
 
     private MixerPaneController mixerPaneController;
     private GrandMotherController grandMotherController;
@@ -34,6 +38,7 @@ public class OscillatorsPaneController implements Initializable {
     private volatile Generator oscillator2;
     private Octaver octaver1;
     private Octaver octaver2;
+    private Detuner detuner;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -55,8 +60,9 @@ public class OscillatorsPaneController implements Initializable {
         oscillator2 = new SquareWave(this.mixerPaneController.getOscillator2Volume().getValue() / 100);
         octaver1 = new Octaver(oscillator1, QUATER);
         octaver2 = new Octaver(oscillator2, HALF);
+        detuner = new Detuner(octaver2);
         this.grandMotherController.getMixer().addChannel(octaver1);
-        this.grandMotherController.getMixer().addChannel(octaver2);
+        this.grandMotherController.getMixer().addChannel(detuner);
 
         oscillator1Waveform.valueProperty().addListener((observable, oldValue, newValue) -> {
             double osc1Volume = this.mixerPaneController.getOscillator1Volume().getValue() / 100;
@@ -112,6 +118,10 @@ public class OscillatorsPaneController implements Initializable {
             octaver2.setOctaveFactor(((OctaveKnob) newValue).getOctaveFactor());
             octaver2.setFrequency(mixerPaneController.getNoise().getFrequency());
             this.grandMotherController.getMixer().resetStepValues();
+        });
+
+        detuneFrequency.valueProperty().addListener((observable, oldValue, newValue) -> {
+            detuner.setDetuneFactor((Double) newValue);
         });
     }
 

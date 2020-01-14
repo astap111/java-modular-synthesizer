@@ -6,7 +6,6 @@ import com.synthesizer.javafx.util.OctaveKnob;
 public class Octaver implements Channel {
     private Channel channel;
     private double octaveFactor;
-    private double volume;
 
     public Octaver(Channel channel, OctaveKnob octaveKnob) {
         this.channel = channel;
@@ -40,7 +39,7 @@ public class Octaver implements Channel {
 
     @Override
     public double getFrequency() {
-        return channel.getFrequency();
+        return channel.getFrequency() * octaveFactor;
     }
 
     @Override

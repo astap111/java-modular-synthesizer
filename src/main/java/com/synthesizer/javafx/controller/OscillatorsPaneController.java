@@ -76,6 +76,7 @@ public class OscillatorsPaneController implements Initializable {
                     break;
             }
             octaver1.addChannel(oscillator1);
+            octaver1.setFrequency(mixerPaneController.getNoise().getFrequency());
             this.grandMotherController.getMixer().syncGenerators();
         });
 
@@ -97,15 +98,20 @@ public class OscillatorsPaneController implements Initializable {
                     break;
             }
             octaver2.addChannel(oscillator2);
+            octaver2.setFrequency(mixerPaneController.getNoise().getFrequency());
             this.grandMotherController.getMixer().syncGenerators();
         });
 
         oscillator1Octave.valueProperty().addListener((observable, oldValue, newValue) -> {
             octaver1.setOctaveFactor(((OctaveKnob) newValue).getOctaveFactor());
+            octaver1.setFrequency(mixerPaneController.getNoise().getFrequency());
+            this.grandMotherController.getMixer().syncGenerators();
         });
 
         oscillator2Octave.valueProperty().addListener((observable, oldValue, newValue) -> {
             octaver2.setOctaveFactor(((OctaveKnob) newValue).getOctaveFactor());
+            octaver2.setFrequency(mixerPaneController.getNoise().getFrequency());
+            this.grandMotherController.getMixer().syncGenerators();
         });
     }
 

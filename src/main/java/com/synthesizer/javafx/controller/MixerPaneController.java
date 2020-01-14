@@ -66,4 +66,8 @@ public class MixerPaneController implements Initializable {
     public void setNoiseVolume(Knob noiseVolume) {
         this.noiseVolume = noiseVolume;
     }
+
+    public Noise getNoise() {
+        return noise;
+    }
 }

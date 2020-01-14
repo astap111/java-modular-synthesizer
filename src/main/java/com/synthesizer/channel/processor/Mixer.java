@@ -13,7 +13,7 @@ import static com.synthesizer.swing.SimpleSynth.SAMPLES;
 public class Mixer implements Channel {
     private List<Channel> channels = new ArrayList<>();
     private Generator volumeEnvelope = new Constant(1);
-    private volatile boolean needToSync = false;
+    private volatile boolean resetStepValue = false;
 
     public Mixer() {
     }
@@ -26,11 +26,11 @@ public class Mixer implements Channel {
     public double[] readData() {
         double[] result = new double[SAMPLES];
         double[] volumeEnvelopeData = volumeEnvelope.readData();
-        if (needToSync) {
+        if (resetStepValue) {
             for (Channel c : channels) {
                 c.setStep(0);
             }
-            needToSync = false;
+            resetStepValue = false;
         }
         for (Channel channel : channels) {
             double[] channelData = channel.readData();
@@ -97,7 +97,7 @@ public class Mixer implements Channel {
         return 0;
     }
 
-    public void syncGenerators() {
-        needToSync = true;
+    public void resetStepValues() {
+        resetStepValue = true;
     }
 }

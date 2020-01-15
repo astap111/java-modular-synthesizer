@@ -11,9 +11,9 @@ import java.util.List;
 import static com.synthesizer.swing.SimpleSynth.SAMPLES;
 
 public class Mixer implements Channel {
-    private List<Channel> channels = new ArrayList<>();
-    private Generator volumeEnvelope = new Constant(1);
-    private volatile boolean resetStepValue = false;
+    protected List<Channel> channels = new ArrayList<>();
+    protected Generator volumeEnvelope = new Constant(1);
+    protected volatile boolean resetStepValue = false;
 
     public Mixer() {
     }

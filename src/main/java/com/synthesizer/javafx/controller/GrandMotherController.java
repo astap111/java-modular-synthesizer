@@ -1,10 +1,7 @@
 package com.synthesizer.javafx.controller;
 
 import com.synthesizer.channel.Channel;
-import com.synthesizer.channel.processor.Compressor;
-import com.synthesizer.channel.processor.Equalizer;
-import com.synthesizer.channel.processor.Limiter;
-import com.synthesizer.channel.processor.Mixer;
+import com.synthesizer.channel.processor.*;
 import com.synthesizer.javafx.control.knob.Knob;
 import com.synthesizer.javafx.form.Key;
 import com.synthesizer.javafx.form.KeyboardPane;
@@ -42,7 +39,7 @@ public class GrandMotherController implements Initializable, EventListener {
     private volatile int counter;
 
     private volatile double currentFrequency;
-    private Mixer mixer;
+    private GrandmotherMixer mixer;
     private Compressor compressor;
     Equalizer lpfChannel;
     private Limiter outputLimiter;
@@ -50,7 +47,7 @@ public class GrandMotherController implements Initializable, EventListener {
     private AudioByteConverter audioByteConverter;
 
     public void initialize(URL location, ResourceBundle resources) {
-        mixer = new Mixer();
+        mixer = new GrandmotherMixer();
         compressor = new Compressor(mixer);
         lpfChannel = filterPaneController.getLpf();
         lpfChannel.addChannel(compressor);
@@ -118,7 +115,7 @@ public class GrandMotherController implements Initializable, EventListener {
         return this.audioByteConverter;
     }
 
-    public Mixer getMixer() {
+    public GrandmotherMixer getMixer() {
         return mixer;
     }
 

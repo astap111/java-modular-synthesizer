@@ -9,15 +9,14 @@ import com.synthesizer.javafx.util.OctaveKnob;
 import com.synthesizer.javafx.util.WaveformKnob;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ToggleButton;
 
 import java.net.URL;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 
 import static com.synthesizer.javafx.util.OctaveKnob.*;
-import static com.synthesizer.javafx.util.OctaveKnob.HALF;
 import static com.synthesizer.javafx.util.WaveformKnob.*;
-import static com.synthesizer.javafx.util.WaveformKnob.SQUARE;
 
 public class OscillatorsPaneController implements Initializable {
     @FXML
@@ -30,6 +29,8 @@ public class OscillatorsPaneController implements Initializable {
     private DiscreteKnob oscillator2Octave;
     @FXML
     private Knob detuneFrequency;
+    @FXML
+    private ToggleButton oscillatorSync;
 
     private MixerPaneController mixerPaneController;
     private GrandMotherController grandMotherController;
@@ -122,6 +123,10 @@ public class OscillatorsPaneController implements Initializable {
 
         detuneFrequency.valueProperty().addListener((observable, oldValue, newValue) -> {
             detuner.setDetuneFactor((Double) newValue);
+        });
+
+        oscillatorSync.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            this.grandMotherController.getMixer().setSyncOscillator2to1(newValue);
         });
     }
 

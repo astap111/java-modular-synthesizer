@@ -30,6 +30,7 @@ public class MixerPaneController implements Initializable {
         this.grandMotherController = grandMotherController;
 
         noise = new Noise(noiseVolume.getValue() / 100);
+        this.grandMotherController.getMixer().setNoise(noise);
         this.grandMotherController.getMixer().addChannel(noise);
 
         oscillator1Volume.valueProperty().addListener((observable, oldValue, newValue) -> {

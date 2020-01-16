@@ -64,6 +64,8 @@ public class OscillatorsPaneController implements Initializable {
         detuner = new Detuner(octaver2);
         this.grandMotherController.getMixer().addChannel(octaver1);
         this.grandMotherController.getMixer().addChannel(detuner);
+        this.grandMotherController.getMixer().setOscillator1(oscillator1);
+        this.grandMotherController.getMixer().setOscillator2(oscillator2);
 
         oscillator1Waveform.valueProperty().addListener((observable, oldValue, newValue) -> {
             double osc1Volume = this.mixerPaneController.getOscillator1Volume().getValue() / 100;

@@ -2,13 +2,15 @@ package com.synthesizer.channel.generator;
 
 import com.synthesizer.channel.Channel;
 
-import static com.synthesizer.swing.SimpleSynth.*;
+import static com.synthesizer.swing.SimpleSynth.SAMPLES;
+import static com.synthesizer.swing.SimpleSynth.SAMPLE_RATE;
 
 public abstract class Generator implements Channel {
     protected volatile double[] output;
     protected double volume;
     protected double frequency;
     private double step = 0;
+    private double syncPeriod;
 
     public Generator() {
     }
@@ -23,6 +25,14 @@ public abstract class Generator implements Channel {
 
     @Override
     public double[] readData() {
+        this.syncPeriod = 0;
+        output = new double[SAMPLES];
+        genetateWave(output);
+        return output;
+    }
+
+    public double[] readData(double syncPeriod) {
+        this.syncPeriod = syncPeriod;
         output = new double[SAMPLES];
         genetateWave(output);
         return output;
@@ -30,8 +40,13 @@ public abstract class Generator implements Channel {
 
     protected double nextStep() {
         double period = (double) SAMPLE_RATE / frequency; //in samples
-        step = step % period;
-        return step++;
+        if (syncPeriod == 0) {
+            step = step % period;
+            return step++;
+        } else {
+            step = step % syncPeriod;
+            return step++ % period;
+        }
     }
 
     protected abstract void genetateWave(double[] output);

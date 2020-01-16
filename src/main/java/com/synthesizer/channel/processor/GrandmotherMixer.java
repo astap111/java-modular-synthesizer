@@ -4,11 +4,13 @@ import com.synthesizer.channel.Channel;
 import com.synthesizer.channel.generator.Generator;
 import com.synthesizer.channel.generator.Noise;
 
+import static com.synthesizer.javafx.util.AudioConstants.SAMPLE_RATE;
 import static com.synthesizer.swing.SimpleSynth.SAMPLES;
 
 public class GrandmotherMixer extends Mixer {
 
     private volatile boolean syncOscillator2to1 = false;
+    private volatile boolean resetStepValue = false;
     private Noise noise;
     private Generator oscillator1;
     private Generator oscillator2;
@@ -26,7 +28,13 @@ public class GrandmotherMixer extends Mixer {
 
         double[] noiseData = noise.readData();
         double[] oscillator1Data = oscillator1.readData();
-        double[] oscillator2Data = oscillator2.readData();
+        double[] oscillator2Data;
+        if (syncOscillator2to1) {
+            oscillator2Data = oscillator2.readData(SAMPLE_RATE / oscillator1.getFrequency());
+        } else {
+            oscillator2Data = oscillator2.readData();
+        }
+
         for (int i = 0; i < noiseData.length; i++) {
             result[i] += noiseData[i] * noise.getVolume() * volumeEnvelopeData[i];
             result[i] += oscillator1Data[i] * oscillator1.getVolume() * volumeEnvelopeData[i];
@@ -41,6 +49,7 @@ public class GrandmotherMixer extends Mixer {
 
     public void setSyncOscillator2to1(boolean syncOscillator2to1) {
         this.syncOscillator2to1 = syncOscillator2to1;
+        resetStepValues();
     }
 
     public void setNoise(Noise noise) {
@@ -53,5 +62,9 @@ public class GrandmotherMixer extends Mixer {
 
     public void setOscillator2(Generator oscillator2) {
         this.oscillator2 = oscillator2;
+    }
+
+    public void resetStepValues() {
+        resetStepValue = true;
     }
 }

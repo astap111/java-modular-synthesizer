@@ -84,8 +84,9 @@ public class OscillatorsPaneController implements Initializable {
                     oscillator1 = new PulseWave(osc1Volume);
                     break;
             }
-            octaver1.addChannel(oscillator1);
-            octaver1.setFrequency(mixerPaneController.getNoise().getFrequency());
+            this.octaver1.addChannel(oscillator1);
+            this.octaver1.setFrequency(mixerPaneController.getNoise().getFrequency());
+            this.grandMotherController.getMixer().setOscillator1(oscillator1);
             this.grandMotherController.getMixer().resetStepValues();
         });
 
@@ -106,8 +107,9 @@ public class OscillatorsPaneController implements Initializable {
                     oscillator2 = new PulseWave(osc2Volume);
                     break;
             }
-            octaver2.addChannel(oscillator2);
-            octaver2.setFrequency(mixerPaneController.getNoise().getFrequency());
+            this.octaver2.addChannel(oscillator2);
+            this.octaver2.setFrequency(mixerPaneController.getNoise().getFrequency());
+            this.grandMotherController.getMixer().setOscillator2(oscillator2);
             this.grandMotherController.getMixer().resetStepValues();
         });
 

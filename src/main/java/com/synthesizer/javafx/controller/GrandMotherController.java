@@ -7,7 +7,6 @@ import com.synthesizer.javafx.form.Key;
 import com.synthesizer.javafx.form.KeyboardPane;
 import com.synthesizer.javafx.util.AudioByteConverter;
 import com.synthesizer.javafx.util.EventListener;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
@@ -36,8 +35,6 @@ public class GrandMotherController implements Initializable, EventListener {
     @FXML
     private Knob outputVolume;
 
-    private volatile int counter;
-
     private volatile double currentFrequency;
     private GrandmotherMixer mixer;
     private Compressor compressor;
@@ -58,6 +55,7 @@ public class GrandMotherController implements Initializable, EventListener {
         mixerPaneController.postInitialize(this, oscillatorsPaneController);
         oscillatorsPaneController.postInitialize(this, mixerPaneController);
         envelopePaneController.postInitialize(this, filterPaneController);
+        chartsPaneController.postInitialize(oscillatorsPaneController);
 
         outputLimiter.setVolume(outputVolume.getValue() / 100);
         outputVolume.valueProperty().addListener((observable, oldValue, newValue) -> {
@@ -121,14 +119,8 @@ public class GrandMotherController implements Initializable, EventListener {
 
     @Override
     public void fireEvent() {
-        counter++;
-        if (counter > 20) {
-            counter = 0;
-            Platform.runLater(() -> {
-                double[] values = audioByteConverter.getLastData();
-                chartsPaneController.setData(values);
-            });
-        }
+        double[] values = audioByteConverter.getLastData();
+        chartsPaneController.setData(values);
     }
 
     public void setScene(Scene scene) {

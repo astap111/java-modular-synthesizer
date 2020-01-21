@@ -34,7 +34,7 @@
             <Font name="Calibri" size="13.0"/>
         </font>
     </Label>
-    <Knob layoutX="35.0" layoutY="48.0" radius="30" min="0" max="100" value="100" fx:id="oscillator1Volume"/>
-    <Knob layoutX="35.0" layoutY="138.0" radius="30" min="0" max="100" value="50" fx:id="oscillator2Volume"/>
-    <Knob layoutX="35.0" layoutY="228.0" radius="30" min="0" max="100" value="10" fx:id="noiseVolume"/>
+    <Knob layoutX="35.0" layoutY="48.0" radius="30" min="0" max="200" value="100" fx:id="oscillator1Volume"/>
+    <Knob layoutX="35.0" layoutY="138.0" radius="30" min="0" max="200" value="0" fx:id="oscillator2Volume"/>
+    <Knob layoutX="35.0" layoutY="228.0" radius="30" min="0" max="200" value="0" fx:id="noiseVolume"/>
 </Pane>

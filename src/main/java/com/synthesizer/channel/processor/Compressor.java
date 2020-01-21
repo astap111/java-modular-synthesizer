@@ -8,11 +8,15 @@ public class Compressor implements Channel {
     private Channel channel;
     private double sensitivity;
     private double radius;
+    private double a;
+    private double b;
 
     public Compressor(Channel channel) {
         this.channel = channel;
-        this.sensitivity = Math.sqrt(2);
-        this.radius = 1;
+        this.sensitivity = 0.9;
+        this.radius = 1d / 3;
+        this.a = 0.8 + 1d / 3;
+        this.b = 2d / 3;
     }
 
     @Override
@@ -25,14 +29,14 @@ public class Compressor implements Channel {
         double[] result = new double[SAMPLES];
         double[] channelData = channel.readData();
         for (int i = 0; i < channelData.length; i++) {
-            if (channelData[i] > 1) {
+            if (channelData[i] > a) {
                 result[i] = 1;
-            } else if (channelData[i] < -1) {
+            } else if (channelData[i] < -a) {
                 result[i] = -1;
-            } else if (channelData[i] > sensitivity / 2) {
-                result[i] = Math.sqrt(radius * radius - Math.pow(channelData[i] - sensitivity, 2));
-            } else if (channelData[i] < -sensitivity / 2) {
-                result[i] = -Math.sqrt(radius * radius - Math.pow(sensitivity + channelData[i], 2));
+            } else if (channelData[i] > sensitivity) {
+                result[i] = Math.sqrt(radius * radius - Math.pow(channelData[i] - a, 2)) + b;
+            } else if (channelData[i] < -sensitivity) {
+                result[i] = -Math.sqrt(radius * radius - Math.pow(channelData[i] + a, 2)) - b;
             } else {
                 result[i] = channelData[i];
             }
@@ -77,5 +81,29 @@ public class Compressor implements Channel {
     @Override
     public double getStep() {
         return this.channel.getStep();
+    }
+
+    public static void main(String[] args) {
+        double sqrt2 = Math.sqrt(2);
+        double sqrt5 = Math.sqrt(5);
+        double b = (0.1 * sqrt2 * sqrt5 - sqrt5 + sqrt2) / (sqrt2 - sqrt5);
+        System.out.println("b=" + b);
+        double a = (b - 1 + sqrt5 * 0.9) / sqrt5;
+        System.out.println("a=" + a);
+        double r = 1 - b;
+        System.out.println("r=" + r);
+        a = 0.8 + 1.0 / 3;
+        b = 2.0 / 3;
+        r = 1.0 / 3;
+
+        System.out.println(func(0.9, a, b));
+        System.out.println(func(0.95, a, b));
+        System.out.println(func(1, a, b));
+
+    }
+
+    static double func(double x, double a, double b) {
+        double y = Math.sqrt(Math.pow(1 - b, 2) - Math.pow(x - a, 2)) + b;
+        return y;
     }
 }

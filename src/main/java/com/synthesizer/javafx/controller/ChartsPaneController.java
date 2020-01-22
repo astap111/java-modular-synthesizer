@@ -1,6 +1,5 @@
 package com.synthesizer.javafx.controller;
 
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.StackPane;
@@ -38,7 +37,7 @@ public class ChartsPaneController implements Initializable {
         this.oscillatorsPaneController = oscillatorsPaneController;
     }
 
-    public void setData(double[] values) {
+    public synchronized void setData(double[] values) {
         //old way
         //        updateChart(values);
 
@@ -49,27 +48,16 @@ public class ChartsPaneController implements Initializable {
         }
         counter++;
         if (counter > 20) {
-            Platform.runLater(() -> {
-                double frequency = oscillatorsPaneController.getOscillator1().getFrequency();
-                if (frequency == 0.0) {
-                    return;
-                }
-                double waveLength = SAMPLE_RATE / frequency;
-                waveLength = waveLength > 0 ? waveLength : SAMPLES;
-                for (int i = 1; i < buffer.size(); i++) {
-                    if (buffer.get(i - 1) < 0 && buffer.get(i) >= 0) {
-                        int waveEnd = i + (int) waveLength < buffer.size() ? i + (int) waveLength : buffer.size();
-                        synchronized (this) {
-                            updateChart(buffer.subList(i - 1, waveEnd));
-                        }
-                        break;
-                    }
-                }
-                counter = 0;
-                synchronized (this) {
-                    buffer.clear();
-                }
-            });
+            double frequency = oscillatorsPaneController.getOscillator1().getFrequency();
+            double currentStep = oscillatorsPaneController.getOscillator1().getStep();
+            if (frequency == 0.0) {
+                return;
+            }
+            double waveLength = SAMPLE_RATE / frequency;
+            List<Double> subList = buffer.subList((int) (buffer.size() - currentStep - waveLength), (int) (buffer.size() - currentStep));
+            updateChart(new ArrayList<>(subList));
+            buffer.clear();
+            counter = 0;
         }
     }
 

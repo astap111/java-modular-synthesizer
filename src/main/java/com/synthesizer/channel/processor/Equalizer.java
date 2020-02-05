@@ -1,8 +1,8 @@
 package com.synthesizer.channel.processor;
 
-import com.synthesizer.javafx.util.BiQuadraticFilter;
 import com.synthesizer.channel.Channel;
 import com.synthesizer.channel.generator.Generator;
+import com.synthesizer.javafx.util.BiQuadraticFilter;
 
 import static com.synthesizer.swing.SimpleSynth.SAMPLES;
 import static com.synthesizer.swing.SimpleSynth.SAMPLE_RATE;
@@ -14,6 +14,7 @@ public class Equalizer implements Channel {
     private double cutOffFrequency;
     private Generator cutoffEnvelope;
     private double cutoffEnvelopeDepth;
+    private double kbdTrack;
 
     public Equalizer(Channel channel, BiQuadraticFilter.FilterType filterType, double cutOffFrequency, double resonance, double gain) {
         this.cutOffFrequency = cutOffFrequency;
@@ -39,9 +40,15 @@ public class Equalizer implements Channel {
 
         for (int i = 0; i < channelData.length; i++) {
             if (enabled) {
+                double envelopeDelta = 0;
                 if (cutoffEnvelope != null) {
-                    this.biQuadraticFilter.reconfigure(this.cutOffFrequency + cutoffEnvelopeDepth * cutoffEnvelopeData[i]);
+                    envelopeDelta = cutoffEnvelopeDepth * cutoffEnvelopeData[i];
                 }
+                double kbdTrackDelta = 0;
+                if (kbdTrack != 0) {
+                    kbdTrackDelta = kbdTrack * getFrequency();
+                }
+                biQuadraticFilter.reconfigure(cutOffFrequency + envelopeDelta + kbdTrackDelta);
                 result[i] = biQuadraticFilter.filter(channelData[i]);
             } else {
                 result[i] = channelData[i];
@@ -110,5 +117,13 @@ public class Equalizer implements Channel {
     @Override
     public double getStep() {
         return this.channel.getStep();
+    }
+
+    public double getKbdTrack() {
+        return kbdTrack;
+    }
+
+    public void setKbdTrack(double kbdTrack) {
+        this.kbdTrack = kbdTrack;
     }
 }

@@ -41,13 +41,14 @@
     <Knob fx:id="filterCutoff" min="20" max="20000" value="300" layoutX="85.0" layoutY="48.0" radius="30"/>
     <Knob fx:id="filterEnvelopeAmt" min="0" max="3000" value="700" layoutX="35.0" layoutY="228.0" radius="30"/>
     <Knob fx:id="filterResonance" min="0.7" max="10" value="2" layoutX="135.0" layoutY="228.0" radius="30"/>
-    <Slider layoutX="68.0" layoutY="154.0" prefHeight="15.0" prefWidth="60.0"/>
-    <Label layoutX="69.0" layoutY="168.0" text="1:2">
+    <Slider fx:id="kbdTrack" layoutX="68.0" layoutY="154.0" prefHeight="15.0" prefWidth="60.0"
+            min="0" max="1" snapToTicks="true" majorTickUnit="0.5" minorTickCount="0"/>
+    <Label layoutX="69.0" layoutY="168.0" text="OFF">
         <font>
             <Font name="Calibri" size="10.0"/>
         </font>
     </Label>
-    <Label layoutX="89.0" layoutY="168.0" text="OFF">
+    <Label layoutX="93.0" layoutY="168.0" text="1:2">
         <font>
             <Font name="Calibri" size="10.0"/>
         </font>

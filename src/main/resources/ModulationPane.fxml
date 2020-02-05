@@ -33,7 +33,7 @@
         </font>
     </Label>
     <Knob fx:id="modulationPitchAmt" layoutX="35.0" layoutY="138.0" radius="30"/>
-    <Knob fx:id="modulationPulseWidthAmt" layoutX="35.0" layoutY="228.0" radius="30"/>
+    <Knob fx:id="modulationPulseWidthAmt" layoutX="35.0" layoutY="228.0" radius="30" min="1" max="99"/>
     <Knob fx:id="modulationCutoffAmt" layoutX="135.0" layoutY="138.0" radius="30"/>
     <DiscreteKnob fx:id="modulationWaveform" layoutX="135.0" layoutY="228.0" radius="30"/>
     <Knob fx:id="modulationRate" layoutX="85.0" layoutY="48.0" radius="30"/>

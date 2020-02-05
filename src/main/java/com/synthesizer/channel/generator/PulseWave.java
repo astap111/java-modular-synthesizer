@@ -3,6 +3,8 @@ package com.synthesizer.channel.generator;
 import static com.synthesizer.swing.SimpleSynth.SAMPLE_RATE;
 
 public class PulseWave extends Generator {
+    private double pulseWidth = 0.3;
+
     public PulseWave() {
         super();
     }
@@ -14,7 +16,7 @@ public class PulseWave extends Generator {
     @Override
     protected void genetateWave(double[] output) {
         double period = (double) SAMPLE_RATE / frequency;
-        double pulsePeriod = period / 3;
+        double pulsePeriod = period * pulseWidth;
 
         for (int i = 0; i < output.length; i++) {
             double step = nextStep();
@@ -24,5 +26,13 @@ public class PulseWave extends Generator {
                 output[i] = -1;
             }
         }
+    }
+
+    public double getPulseWidth() {
+        return pulseWidth;
+    }
+
+    public void setPulseWidth(double pulseWidth) {
+        this.pulseWidth = pulseWidth;
     }
 }

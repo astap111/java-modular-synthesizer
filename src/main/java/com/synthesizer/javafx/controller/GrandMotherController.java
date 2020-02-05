@@ -56,6 +56,7 @@ public class GrandMotherController implements Initializable, EventListener {
         oscillatorsPaneController.postInitialize(this, mixerPaneController);
         envelopePaneController.postInitialize(this, filterPaneController);
         chartsPaneController.postInitialize(oscillatorsPaneController);
+        modulationPaneController.postInitialize(oscillatorsPaneController);
 
         outputLimiter.setVolume(outputVolume.getValue() / 100);
         outputVolume.valueProperty().addListener((observable, oldValue, newValue) -> {

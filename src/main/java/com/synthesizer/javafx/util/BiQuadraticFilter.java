@@ -65,6 +65,11 @@ public class BiQuadraticFilter {
 
     // allow parameter change while running
     public void reconfigure(double cf) {
+        if (cf > 20000) {
+            cf = 20000;
+        } else if (cf < 20) {
+            cf = 20;
+        }
         Q = (Q == 0) ? 1e-9 : Q;
         center_freq = cf;
         // only used for peaking and shelving filters

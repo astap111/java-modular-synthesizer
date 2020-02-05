@@ -35,6 +35,7 @@ public class FilterPaneController implements Initializable {
             lpf.setCutoffEnvelopeDepth(newValue.doubleValue());
         });
 
+        lpf.setKbdTrack(kbdTrack.getValue());
         kbdTrack.setOnMouseReleased(event -> {
             lpf.setKbdTrack(((Slider) event.getSource()).getValue());
         });

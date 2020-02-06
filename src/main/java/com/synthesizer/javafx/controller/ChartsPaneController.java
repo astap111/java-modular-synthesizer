@@ -1,5 +1,6 @@
 package com.synthesizer.javafx.controller;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.StackPane;
@@ -38,9 +39,6 @@ public class ChartsPaneController implements Initializable {
     }
 
     public synchronized void setData(double[] values) {
-        //old way
-        //        updateChart(values);
-
         for (double v : values) {
             synchronized (this) {
                 buffer.add(v);
@@ -56,18 +54,22 @@ public class ChartsPaneController implements Initializable {
             double waveLength = SAMPLE_RATE / frequency;
             List<Double> subList = buffer.subList((int) (buffer.size() - currentStep - waveLength), (int) (buffer.size() - currentStep));
             updateChart(new ArrayList<>(subList));
-            buffer.clear();
+            synchronized (this) {
+                buffer.clear();
+            }
             counter = 0;
         }
     }
 
     private void updateChart(List<Double> values) {
-        chartLine.getPoints().clear();
-        double xChartMultiplier = (double) SAMPLES / values.size();
-        double yChartMultiplier = Math.abs(1 / values.stream().max(Comparator.comparingDouble(Math::abs)).get());
-        for (int i = 0; i < values.size(); i++) {
-            chartLine.getPoints().add(i * xChartMultiplier);
-            chartLine.getPoints().add(-values.get(i) * prefHeight * yChartMultiplier / 2 + prefHeight / 2);
-        }
+        Platform.runLater(() -> {
+            chartLine.getPoints().clear();
+            double xChartMultiplier = (double) SAMPLES / values.size();
+            double yChartMultiplier = Math.abs(1 / values.stream().max(Comparator.comparingDouble(Math::abs)).get());
+            for (int i = 0; i < values.size(); i++) {
+                chartLine.getPoints().add(i * xChartMultiplier);
+                chartLine.getPoints().add(-values.get(i) * prefHeight * yChartMultiplier / 2 + prefHeight / 2);
+            }
+        });
     }
 }

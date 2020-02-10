@@ -83,25 +83,6 @@ public class Compressor implements Channel {
         return this.channel.getStep();
     }
 
-    public static void main(String[] args) {
-        double sqrt2 = Math.sqrt(2);
-        double sqrt5 = Math.sqrt(5);
-        double b = (0.1 * sqrt2 * sqrt5 - sqrt5 + sqrt2) / (sqrt2 - sqrt5);
-        System.out.println("b=" + b);
-        double a = (b - 1 + sqrt5 * 0.9) / sqrt5;
-        System.out.println("a=" + a);
-        double r = 1 - b;
-        System.out.println("r=" + r);
-        a = 0.8 + 1.0 / 3;
-        b = 2.0 / 3;
-        r = 1.0 / 3;
-
-        System.out.println(func(0.9, a, b));
-        System.out.println(func(0.95, a, b));
-        System.out.println(func(1, a, b));
-
-    }
-
     static double func(double x, double a, double b) {
         double y = Math.sqrt(Math.pow(1 - b, 2) - Math.pow(x - a, 2)) + b;
         return y;

@@ -5,8 +5,7 @@
 
 .combo-box {
     -fx-background-color: BLACK;
-    -fx-font: Calibri;
-    -fx-font-size: 13;
+    -fx-font: 13px "Calibri";
 }
 
 .list-cell {

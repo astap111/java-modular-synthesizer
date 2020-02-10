@@ -1,0 +1,14 @@
+.combo-box .cell {
+    -fx-text-fill: WHITE;
+    -fx-font: 16px "Arial";
+}
+
+.combo-box {
+    -fx-background-color: BLACK;
+    -fx-font: Calibri;
+    -fx-font-size: 13;
+}
+
+.list-cell {
+    -fx-background-color: BLACK;
+}

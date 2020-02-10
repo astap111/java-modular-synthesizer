@@ -33,12 +33,14 @@ public class GrandMotherController implements Initializable, EventListener {
     @FXML
     private ChartsPaneController chartsPaneController;
     @FXML
+    private PresetsPaneController presetsPaneController;
+    @FXML
     private Knob outputVolume;
 
     private volatile double currentFrequency;
     private GrandmotherMixer mixer;
     private Compressor compressor;
-    Equalizer lpfChannel;
+    private Equalizer lpfChannel;
     private Limiter outputLimiter;
     private Channel rootChannel;
     private AudioByteConverter audioByteConverter;
@@ -57,6 +59,7 @@ public class GrandMotherController implements Initializable, EventListener {
         envelopePaneController.postInitialize(this, filterPaneController);
         chartsPaneController.postInitialize(oscillatorsPaneController);
         modulationPaneController.postInitialize(oscillatorsPaneController);
+        presetsPaneController.postInitialize(this, envelopePaneController, oscillatorsPaneController, mixerPaneController, filterPaneController);
 
         outputLimiter.setVolume(outputVolume.getValue() / 100);
         outputVolume.valueProperty().addListener((observable, oldValue, newValue) -> {
@@ -141,5 +144,9 @@ public class GrandMotherController implements Initializable, EventListener {
                         false, false, false, false, true, false, false, true, true, true, null));
             }
         });
+    }
+
+    public Knob getOutputVolume() {
+        return outputVolume;
     }
 }

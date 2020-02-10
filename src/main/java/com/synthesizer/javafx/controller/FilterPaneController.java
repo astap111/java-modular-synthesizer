@@ -42,8 +42,23 @@ public class FilterPaneController implements Initializable {
 
     }
 
-
     public Equalizer getLpf() {
         return lpf;
+    }
+
+    public Knob getFilterEnvelopeAmt() {
+        return filterEnvelopeAmt;
+    }
+
+    public Knob getFilterResonance() {
+        return filterResonance;
+    }
+
+    public Knob getFilterCutoff() {
+        return filterCutoff;
+    }
+
+    public Slider getKbdTrack() {
+        return kbdTrack;
     }
 }

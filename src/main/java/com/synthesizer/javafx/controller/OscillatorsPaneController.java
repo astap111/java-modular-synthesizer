@@ -165,4 +165,12 @@ public class OscillatorsPaneController implements Initializable {
     public DiscreteKnob getOscillator2Octave() {
         return oscillator2Octave;
     }
+
+    public Knob getDetuneFrequency() {
+        return detuneFrequency;
+    }
+
+    public ToggleButton getOscillatorSync() {
+        return oscillatorSync;
+    }
 }

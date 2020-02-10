@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<Pane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.synthesizer.javafx.controller.PresetsPaneController" prefHeight="200.0" prefWidth="200.0">
+    <VBox.margin>
+        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+    </VBox.margin>
+    <Label layoutX="168.0" layoutY="35.0" text="CHOOSE PRESETS FROM THE LIST">
+        <font>
+            <Font name="Calibri Bold" size="13.0"/>
+        </font>
+    </Label>
+    <ComboBox fx:id="presetsComboBox" layoutX="65.0" layoutY="55.0" prefHeight="30.0" prefWidth="400.0"
+              stylesheets="presets-pane.css"/>
+</Pane>

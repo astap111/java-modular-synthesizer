@@ -48,4 +48,20 @@ public class EnvelopePaneController implements Initializable {
     public ADSREnvelope getAdsrEnvelope() {
         return adsrEnvelope;
     }
+
+    public Knob getEnvelopeDecay() {
+        return envelopeDecay;
+    }
+
+    public Knob getEnvelopeRelease() {
+        return envelopeRelease;
+    }
+
+    public Knob getEnvelopeAttack() {
+        return envelopeAttack;
+    }
+
+    public Slider getEnvelopeSustain() {
+        return envelopeSustain;
+    }
 }

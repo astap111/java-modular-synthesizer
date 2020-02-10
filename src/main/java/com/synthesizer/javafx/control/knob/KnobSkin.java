@@ -58,13 +58,20 @@ public class KnobSkin extends SkinBase<Knob> {
                 / (getSkinnable().getMax() - getSkinnable().getMin());
         group.setRotate(SCALE_MIN + initialRotateRate * (SCALE_MAX - SCALE_MIN));
 
-        group.rotateProperty().addListener(observable -> {
-            Double angle = ((DoubleProperty) observable).getValue();
-            Double rate = (angle - SCALE_MIN) / (SCALE_MAX - SCALE_MIN);
+        group.rotateProperty().addListener((observable, oldValue, newValue) -> {
+            double angle = newValue.doubleValue();
+            double rate = (angle - SCALE_MIN) / (SCALE_MAX - SCALE_MIN);
             double range = (getSkinnable().getMax() - getSkinnable().getMin());
             double value = rate * range + getSkinnable().getMin();
             getSkinnable().setValue(value);
             label.setText(String.format("%.0f", value));
+        });
+
+        getSkinnable().valueProperty().addListener((observable, oldValue, newValue) -> {
+            double range = (getSkinnable().getMax() - getSkinnable().getMin());
+            double rate = (newValue.doubleValue() - getSkinnable().getMin()) / range;
+            double angle = rate * (SCALE_MAX - SCALE_MIN) + SCALE_MIN;
+            group.setRotate(angle);
         });
 
         clickable.setOnMouseDragged(event -> {

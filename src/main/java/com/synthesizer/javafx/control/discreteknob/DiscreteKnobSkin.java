@@ -1,7 +1,6 @@
 package com.synthesizer.javafx.control.discreteknob;
 
 import com.synthesizer.javafx.util.KnobContent;
-import javafx.beans.property.DoubleProperty;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.Group;
@@ -83,6 +82,12 @@ public class DiscreteKnobSkin extends SkinBase<DiscreteKnob> {
                     break;
                 }
             }
+        });
+
+        getSkinnable().valueProperty().addListener((observable, oldValue, newValue) -> {
+            int index = getSkinnable().getValues().indexOf(newValue);
+            index = index < 0 ? 0 : index;
+            group.setRotate(SCALE_MIN + anglePerTick * index);
         });
 
         stackPane = new StackPane();

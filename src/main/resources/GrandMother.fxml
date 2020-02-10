@@ -1,237 +1,245 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.synthesizer.javafx.control.knob.Knob?>
+<?import com.synthesizer.javafx.control.knob.*?>
 <?import com.synthesizer.javafx.form.KeyboardPane?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Slider?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.FlowPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
-
-<AnchorPane prefHeight="650.0" prefWidth="1234.0" style="-fx-background-color: BLACK;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.synthesizer.javafx.controller.GrandMotherController">
-    <VBox layoutX="14.0" layoutY="14.0" prefHeight="900.0" prefWidth="1234.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<AnchorPane prefHeight="650.0" prefWidth="1234.0" style="-fx-background-color: BLACK;"
+            xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.synthesizer.javafx.controller.GrandMotherController">
+    <VBox layoutX="14.0" layoutY="14.0" prefHeight="900.0" prefWidth="1234.0" AnchorPane.bottomAnchor="0.0"
+          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <HBox prefHeight="300.0" prefWidth="200.0" style="-fx-border-color: black;">
             <VBox prefHeight="200.0" prefWidth="100.0">
-                <Pane minHeight="-Infinity" minWidth="-Infinity" prefHeight="296.0" prefWidth="100.0" style="-fx-border-color: white; -fx-border-radius: 10;">
+                <Pane minHeight="-Infinity" minWidth="-Infinity" prefHeight="296.0" prefWidth="100.0"
+                      style="-fx-border-color: white; -fx-border-radius: 10;">
                     <VBox.margin>
-                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                     </VBox.margin>
-                    <Label alignment="CENTER" layoutX="2.0" layoutY="2.0" prefHeight="25.0" prefWidth="96.0" text="ARP/SEQ" textAlignment="CENTER" textFill="WHITE">
+                    <Label alignment="CENTER" layoutX="2.0" layoutY="2.0" prefHeight="25.0" prefWidth="96.0"
+                           text="ARP/SEQ" textAlignment="CENTER" textFill="WHITE">
                         <font>
-                            <Font name="Calibri Bold" size="13.0" />
+                            <Font name="Calibri Bold" size="13.0"/>
                         </font>
                     </Label>
                     <Label layoutX="35.0" layoutY="94.0" text="RATE" textFill="WHITE">
                         <font>
-                            <Font name="Calibri" size="13.0" />
+                            <Font name="Calibri" size="13.0"/>
                         </font>
                     </Label>
-                    <Knob layoutX="35.0" layoutY="48.0" radius="30" />
+                    <Knob layoutX="35.0" layoutY="48.0" radius="30"/>
                     <Label layoutX="33.0" layoutY="147.0" text="MODE" textFill="WHITE">
                         <font>
-                            <Font name="Calibri" size="13.0" />
+                            <Font name="Calibri" size="13.0"/>
                         </font>
                     </Label>
-                    <Slider layoutX="20.0" layoutY="121.0" prefHeight="15.0" prefWidth="60.0" />
+                    <Slider layoutX="20.0" layoutY="121.0" prefHeight="15.0" prefWidth="60.0"/>
                     <Label layoutX="19.0" layoutY="135.0" text="ARP" textFill="WHITE">
                         <font>
-                            <Font name="Calibri" size="10.0" />
+                            <Font name="Calibri" size="10.0"/>
                         </font>
                     </Label>
                     <Label layoutX="43.0" layoutY="135.0" text="SEQ" textFill="WHITE">
                         <font>
-                            <Font name="Calibri" size="10.0" />
+                            <Font name="Calibri" size="10.0"/>
                         </font>
                     </Label>
                     <Label layoutX="65.0" layoutY="135.0" text="REC" textFill="WHITE">
                         <font>
-                            <Font name="Calibri" size="10.0" />
+                            <Font name="Calibri" size="10.0"/>
                         </font>
                     </Label>
                     <Label layoutX="21.0" layoutY="206.0" text="DIRECTION" textFill="WHITE">
                         <font>
-                            <Font name="Calibri" size="13.0" />
+                            <Font name="Calibri" size="13.0"/>
                         </font>
                     </Label>
-                    <Slider layoutX="20.0" layoutY="180.0" prefHeight="15.0" prefWidth="60.0" />
+                    <Slider layoutX="20.0" layoutY="180.0" prefHeight="15.0" prefWidth="60.0"/>
                     <Label layoutX="12.0" layoutY="194.0" text="ORDR" textFill="WHITE">
                         <font>
-                            <Font name="Calibri" size="10.0" />
+                            <Font name="Calibri" size="10.0"/>
                         </font>
                     </Label>
                     <Label layoutX="42.0" layoutY="194.0" text="F/B" textFill="WHITE">
                         <font>
-                            <Font name="Calibri" size="10.0" />
+                            <Font name="Calibri" size="10.0"/>
                         </font>
                     </Label>
                     <Label layoutX="62.0" layoutY="194.0" text="RNDM" textFill="WHITE">
                         <font>
-                            <Font name="Calibri" size="10.0" />
+                            <Font name="Calibri" size="10.0"/>
                         </font>
                     </Label>
                     <Label layoutX="25.0" layoutY="265.0" text="OCT/SEQ" textFill="WHITE">
                         <font>
-                            <Font name="Calibri" size="13.0" />
+                            <Font name="Calibri" size="13.0"/>
                         </font>
                     </Label>
-                    <Slider layoutX="20.0" layoutY="239.0" prefHeight="15.0" prefWidth="60.0" />
+                    <Slider layoutX="20.0" layoutY="239.0" prefHeight="15.0" prefWidth="60.0"/>
                     <Label layoutX="21.0" layoutY="253.0" text="1" textFill="WHITE">
                         <font>
-                            <Font name="Calibri" size="10.0" />
+                            <Font name="Calibri" size="10.0"/>
                         </font>
                     </Label>
                     <Label layoutX="41.0" layoutY="253.0" text="2" textFill="WHITE">
                         <font>
-                            <Font name="Calibri" size="10.0" />
+                            <Font name="Calibri" size="10.0"/>
                         </font>
                     </Label>
                     <Label layoutX="65.0" layoutY="253.0" text="3" textFill="WHITE">
                         <font>
-                            <Font name="Calibri" size="10.0" />
+                            <Font name="Calibri" size="10.0"/>
                         </font>
                     </Label>
                 </Pane>
             </VBox>
             <VBox prefHeight="200.0" prefWidth="200.0">
-                <fx:include fx:id="modulationPane" source="ModulationPane.fxml" />
+                <fx:include fx:id="modulationPane" source="ModulationPane.fxml"/>
             </VBox>
             <VBox prefHeight="320.0" prefWidth="100.0">
-                <fx:include fx:id="oscillatorsPane" source="OscillatorsPane.fxml" />
+                <fx:include fx:id="oscillatorsPane" source="OscillatorsPane.fxml"/>
             </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0">
-                <fx:include fx:id="mixerPane" source="MixerPane.fxml" />
+                <fx:include fx:id="mixerPane" source="MixerPane.fxml"/>
             </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0">
-                <Pane minHeight="-Infinity" minWidth="-Infinity" prefHeight="296.0" prefWidth="100.0" style="-fx-border-color: white; -fx-border-radius: 10;">
+                <Pane minHeight="-Infinity" minWidth="-Infinity" prefHeight="296.0" prefWidth="100.0"
+                      style="-fx-border-color: white; -fx-border-radius: 10;">
                     <VBox.margin>
-                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                     </VBox.margin>
-                    <Label alignment="CENTER" layoutX="2.0" layoutY="2.0" prefHeight="25.0" prefWidth="96.0" text="UTILITIES" textAlignment="CENTER" textFill="WHITE">
+                    <Label alignment="CENTER" layoutX="2.0" layoutY="2.0" prefHeight="25.0" prefWidth="96.0"
+                           text="UTILITIES" textAlignment="CENTER" textFill="WHITE">
                         <font>
-                            <Font name="Calibri Bold" size="13.0" />
+                            <Font name="Calibri Bold" size="13.0"/>
                         </font>
                     </Label>
 
                     <Label layoutX="22.0" layoutY="94.0" text="HIGH PASS" textFill="WHITE">
                         <font>
-                            <Font name="Calibri" size="13.0" />
+                            <Font name="Calibri" size="13.0"/>
                         </font>
                     </Label>
                     <Label layoutX="14.0" layoutY="229.0" text="ATTENUATOR" textFill="WHITE">
                         <font>
-                            <Font name="Calibri" size="13.0" />
+                            <Font name="Calibri" size="13.0"/>
                         </font>
                     </Label>
-                    <Knob fx:id="attenuator" layoutX="35.0" layoutY="183.0" radius="30" />
-                    <Knob fx:id="UtilitiesHighPass" layoutX="35.0" layoutY="48.0" radius="30" />
+                    <Knob fx:id="attenuator" layoutX="35.0" layoutY="183.0" radius="30"/>
+                    <Knob fx:id="UtilitiesHighPass" layoutX="35.0" layoutY="48.0" radius="30"/>
                 </Pane>
             </VBox>
             <VBox prefHeight="320.0" prefWidth="100.0">
-                <fx:include fx:id="filterPane" source="FilterPane.fxml" />
+                <fx:include fx:id="filterPane" source="FilterPane.fxml"/>
             </VBox>
             <VBox prefHeight="200.0" prefWidth="200.0">
-                <fx:include fx:id="envelopePane" source="EnvelopePane.fxml" />
+                <fx:include fx:id="envelopePane" source="EnvelopePane.fxml"/>
             </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0">
-                <Pane minHeight="-Infinity" minWidth="-Infinity" prefHeight="182.0" prefWidth="100.0" style="-fx-border-color: white; -fx-border-radius: 10;">
+                <Pane minHeight="-Infinity" minWidth="-Infinity" prefHeight="182.0" prefWidth="100.0"
+                      style="-fx-border-color: white; -fx-border-radius: 10;">
                     <VBox.margin>
-                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                     </VBox.margin>
-                    <Label alignment="CENTER" layoutX="2.0" layoutY="2.0" prefHeight="25.0" prefWidth="96.0" text="OUTPUT" textAlignment="CENTER" textFill="WHITE">
+                    <Label alignment="CENTER" layoutX="2.0" layoutY="2.0" prefHeight="25.0" prefWidth="96.0"
+                           text="OUTPUT" textAlignment="CENTER" textFill="WHITE">
                         <font>
-                            <Font name="Calibri Bold" size="13.0" />
+                            <Font name="Calibri Bold" size="13.0"/>
                         </font>
                     </Label>
                     <Label layoutX="25.0" layoutY="94.0" text="VOLUME" textFill="WHITE">
                         <font>
-                            <Font name="Calibri" size="13.0" />
+                            <Font name="Calibri" size="13.0"/>
                         </font>
                     </Label>
-                    <Knob fx:id="outputVolume" layoutX="35.0" layoutY="48.0" radius="30" value="45" />
-                    <Slider layoutX="20.0" layoutY="136.0" prefHeight="15.0" prefWidth="60.0" />
+                    <Knob fx:id="outputVolume" layoutX="35.0" layoutY="48.0" radius="30" value="45"/>
+                    <Slider layoutX="20.0" layoutY="136.0" prefHeight="15.0" prefWidth="60.0"/>
                     <Label layoutX="63.0" layoutY="151.0" text="DRONE" textFill="WHITE">
                         <font>
-                            <Font name="Calibri" size="10.0" />
+                            <Font name="Calibri" size="10.0"/>
                         </font>
                     </Label>
                     <Label layoutX="21.0" layoutY="165.0" text="VCA MODE" textFill="WHITE">
                         <font>
-                            <Font name="Calibri" size="13.0" />
+                            <Font name="Calibri" size="13.0"/>
                         </font>
                     </Label>
                     <Label layoutX="32.0" layoutY="151.0" text="KB RLS" textFill="WHITE">
                         <font>
-                            <Font name="Calibri" size="10.0" />
+                            <Font name="Calibri" size="10.0"/>
                         </font>
                     </Label>
                     <Label layoutX="9.0" layoutY="151.0" text="ENV" textFill="WHITE">
                         <font>
-                            <Font name="Calibri" size="10.0" />
+                            <Font name="Calibri" size="10.0"/>
                         </font>
                     </Label>
                 </Pane>
-                <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: CORAL; -fx-background-radius: 10;">
+                <Pane prefHeight="200.0" prefWidth="200.0"
+                      style="-fx-background-color: CORAL; -fx-background-radius: 10;">
                     <opaqueInsets>
-                        <Insets />
+                        <Insets/>
                     </opaqueInsets>
                     <VBox.margin>
-                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                     </VBox.margin>
-                    <Label alignment="CENTER" layoutX="2.0" prefHeight="25.0" prefWidth="96.0" text="SPRING REVERB" textAlignment="CENTER" textFill="WHITE">
+                    <Label alignment="CENTER" layoutX="2.0" prefHeight="25.0" prefWidth="96.0" text="SPRING REVERB"
+                           textAlignment="CENTER" textFill="WHITE">
                         <font>
-                            <Font name="Calibri Bold" size="13.0" />
+                            <Font name="Calibri Bold" size="13.0"/>
                         </font>
                     </Label>
-                    <Knob fx:id="reverbAmt" layoutX="35.0" layoutY="43.0" radius="30" />
+                    <Knob fx:id="reverbAmt" layoutX="35.0" layoutY="43.0" radius="30"/>
                     <Label layoutX="39.0" layoutY="89.0" text="MIX" textFill="WHITE">
                         <font>
-                            <Font name="Calibri" size="13.0" />
+                            <Font name="Calibri" size="13.0"/>
                         </font>
                     </Label>
                 </Pane>
             </VBox>
         </HBox>
         <HBox prefHeight="150.0" prefWidth="241.0" style="-fx-background-color: LIGHTBLUE;">
-            <VBox prefHeight="150.0" prefWidth="241.0">
-                <fx:include fx:id="chartsPane" source="ChartsPane.fxml" />
+            <VBox minWidth="241.0" prefHeight="150.0" prefWidth="241.0">
+                <fx:include fx:id="chartsPane" source="ChartsPane.fxml"/>
             </VBox>
-         <VBox prefHeight="149.0" prefWidth="993.0">
-            <children>
-               <FlowPane alignment="CENTER_RIGHT" prefHeight="150.0" prefWidth="741.0">
-                  <children>
-                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="GRAND">
-                        <font>
-                           <Font name="Arial Black" size="45.0" />
-                        </font>
-                     </Text>
-                     <Text fill="TRANSPARENT" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-stroke: BLACK; -fx-stroke-width: 1;" text="MOTHER">
-                        <font>
-                           <Font name="Arial Black" size="45.0" />
-                        </font>
-                        <FlowPane.margin>
-                           <Insets right="20.0" />
-                        </FlowPane.margin>
-                     </Text>
-                  </children>
-               </FlowPane>
-            </children>
-         </VBox>
+            <VBox prefHeight="150.0" prefWidth="1150.0">
+                <fx:include fx:id="presetsPane" source="PresetsPane.fxml"/>
+            </VBox>
+            <VBox prefHeight="149.0" prefWidth="993.0">
+                <children>
+                    <FlowPane alignment="CENTER_RIGHT" maxWidth="420.0" prefHeight="150.0" prefWidth="405.0">
+                        <children>
+                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="GRAND">
+                                <font>
+                                    <Font name="Arial Black" size="45.0"/>
+                                </font>
+                            </Text>
+                            <Text fill="TRANSPARENT" strokeType="OUTSIDE" strokeWidth="0.0"
+                                  style="-fx-stroke: BLACK; -fx-stroke-width: 1;" text="MOTHER">
+                                <font>
+                                    <Font name="Arial Black" size="45.0"/>
+                                </font>
+                                <FlowPane.margin>
+                                    <Insets right="20.0"/>
+                                </FlowPane.margin>
+                            </Text>
+                        </children>
+                    </FlowPane>
+                </children>
+            </VBox>
         </HBox>
         <HBox prefHeight="200.0" prefWidth="1234.0">
             <VBox prefHeight="198.0" prefWidth="175.0">
                 <Pane prefHeight="194.0" prefWidth="105.0" style="-fx-border-color: WHITE; -fx-border-radius: 10;">
                     <VBox.margin>
-                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                     </VBox.margin>
                 </Pane>
             </VBox>
             <VBox prefHeight="198.0" prefWidth="1056.0">
-                <KeyboardPane fx:id="keyboardPane" prefHeight="198.0" prefWidth="1056.0" />
+                <KeyboardPane fx:id="keyboardPane" prefHeight="198.0" prefWidth="1056.0"/>
             </VBox>
         </HBox>
     </VBox>

@@ -63,14 +63,4 @@ public class Limiter implements Channel {
     public void release() {
         this.channel.release();
     }
-
-    @Override
-    public void setStep(double step) {
-        this.channel.setStep(step);
-    }
-
-    @Override
-    public double getStep() {
-        return this.channel.getStep();
-    }
 }

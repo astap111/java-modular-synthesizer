@@ -78,16 +78,4 @@ public class Mixer implements Channel {
             channel.release();
         }
     }
-
-    @Override
-    public void setStep(double step) {
-        for (Channel c : channels) {
-            c.setStep(step);
-        }
-    }
-
-    @Override
-    public double getStep() {
-        return 0;
-    }
 }

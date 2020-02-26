@@ -72,19 +72,4 @@ public class Compressor implements Channel {
     public void release() {
         this.channel.release();
     }
-
-    @Override
-    public void setStep(double step) {
-        this.channel.setStep(step);
-    }
-
-    @Override
-    public double getStep() {
-        return this.channel.getStep();
-    }
-
-    static double func(double x, double a, double b) {
-        double y = Math.sqrt(Math.pow(1 - b, 2) - Math.pow(x - a, 2)) + b;
-        return y;
-    }
 }

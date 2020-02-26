@@ -81,16 +81,6 @@ public class DelayWithHPF implements Channel {
         channel.release();
     }
 
-    @Override
-    public void setStep(double step) {
-        this.channel.setStep(step);
-    }
-
-    @Override
-    public double getStep() {
-        return this.channel.getStep();
-    }
-
     public Channel getChannel() {
         return channel;
     }

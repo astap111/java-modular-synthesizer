@@ -76,12 +76,10 @@ public abstract class Generator implements Channel {
         return output;
     }
 
-    @Override
     public double getStep() {
         return step;
     }
 
-    @Override
     public void setStep(double step) {
         this.step = step;
     }

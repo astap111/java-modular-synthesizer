@@ -20,9 +20,8 @@ public class GrandmotherMixer extends Mixer {
         double[] result = new double[SAMPLES];
         double[] volumeEnvelopeData = volumeEnvelope.readData();
         if (resetStepValue) {
-            for (Channel c : channels) {
-                c.setStep(0);
-            }
+            oscillator1.setStep(0);
+            oscillator2.setStep(0);
             resetStepValue = false;
         }
 

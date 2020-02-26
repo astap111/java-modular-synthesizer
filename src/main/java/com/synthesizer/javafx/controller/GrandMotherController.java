@@ -36,11 +36,14 @@ public class GrandMotherController implements Initializable, EventListener {
     private PresetsPaneController presetsPaneController;
     @FXML
     private Knob outputVolume;
+    @FXML
+    private Knob reverbAmt;
 
     private volatile double currentFrequency;
     private GrandmotherMixer mixer;
     private Compressor compressor;
     private Equalizer lpfChannel;
+    private DelayWithHPF reverb;
     private Limiter outputLimiter;
     private Channel rootChannel;
     private AudioByteConverter audioByteConverter;
@@ -51,7 +54,8 @@ public class GrandMotherController implements Initializable, EventListener {
         lpfChannel = filterPaneController.getLpf();
         lpfChannel.addChannel(compressor);
         lpfChannel.setEnabled(true);
-        outputLimiter = new Limiter(lpfChannel);
+        reverb = new DelayWithHPF(lpfChannel, 0.0619, 0.8, 0.5);
+        outputLimiter = new Limiter(reverb);
         rootChannel = outputLimiter;
 
         mixerPaneController.postInitialize(this, oscillatorsPaneController);
@@ -64,6 +68,11 @@ public class GrandMotherController implements Initializable, EventListener {
         outputLimiter.setVolume(outputVolume.getValue() / 100);
         outputVolume.valueProperty().addListener((observable, oldValue, newValue) -> {
             outputLimiter.setVolume(newValue.doubleValue() / 100);
+        });
+
+        reverb.setDryWetFactor(reverbAmt.getValue() / 100);
+        reverbAmt.valueProperty().addListener((observable, oldValue, newValue) -> {
+            reverb.setDryWetFactor(newValue.doubleValue() / 100);
         });
 
         audioByteConverter = new AudioByteConverter();
@@ -148,5 +157,9 @@ public class GrandMotherController implements Initializable, EventListener {
 
     public Knob getOutputVolume() {
         return outputVolume;
+    }
+
+    public Knob getReverbAmt() {
+        return reverbAmt;
     }
 }

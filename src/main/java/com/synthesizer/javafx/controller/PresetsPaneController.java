@@ -32,6 +32,7 @@ public class PresetsPaneController implements Initializable {
 
         presetsComboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
             grandMotherController.getOutputVolume().setValue(newValue.outputVolume);
+            grandMotherController.getReverbAmt().setValue(newValue.reverbAmt);
             envelopePaneController.getEnvelopeAttack().setValue(newValue.envelopeAttack);
             envelopePaneController.getEnvelopeDecay().setValue(newValue.envelopeDecay);
             envelopePaneController.getEnvelopeSustain().setValue(newValue.envelopeSustain);

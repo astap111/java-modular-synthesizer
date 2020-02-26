@@ -3,6 +3,7 @@ package com.synthesizer.model;
 public class GrandMotherPreset {
     public String name;
     public double outputVolume;
+    public double reverbAmt;
     public double envelopeAttack;
     public double envelopeDecay;
     public double envelopeSustain;

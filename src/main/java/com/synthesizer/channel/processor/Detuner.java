@@ -22,16 +22,6 @@ public class Detuner implements Channel {
     }
 
     @Override
-    public double getVolume() {
-        return this.channel.getVolume();
-    }
-
-    @Override
-    public void setVolume(double volume) {
-        this.channel.setVolume(volume);
-    }
-
-    @Override
     public void setFrequency(double frequency) {
         this.channel.setFrequency(frequency * Math.pow(2, detuneFactor / 12));
     }

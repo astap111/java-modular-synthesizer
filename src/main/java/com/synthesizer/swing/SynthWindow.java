@@ -300,11 +300,11 @@ public class SynthWindow extends JFrame implements EventListener {
         }
     }
 
-    private JSlider createVolumeSlider(Channel c) {
-        JSlider volumeSquare = new JSlider(JSlider.VERTICAL, 0, 100, (int) (c.getVolume() * 100));
+    private JSlider createVolumeSlider(Generator gen) {
+        JSlider volumeSquare = new JSlider(JSlider.VERTICAL, 0, 100, (int) (gen.getVolume() * 100));
         volumeSquare.addChangeListener(e1 -> {
             JSlider source = (JSlider) e1.getSource();
-            c.setVolume((double) source.getValue() / 100);
+            gen.setVolume((double) source.getValue() / 100);
         });
         return volumeSquare;
     }

@@ -29,7 +29,7 @@ public class Mixer implements Channel {
         for (Channel channel : channels) {
             double[] channelData = channel.readData();
             for (int i = 0; i < result.length; i++) {
-                result[i] += channelData[i] * channel.getVolume() * volumeEnvelopeData[i];
+                result[i] += channelData[i] * volumeEnvelopeData[i];
             }
         }
         return result;
@@ -42,15 +42,6 @@ public class Mixer implements Channel {
 
     public void addVolumeEnvelope(Generator volumeEnvelope) {
         this.volumeEnvelope = volumeEnvelope;
-    }
-
-    @Override
-    public double getVolume() {
-        return 1;
-    }
-
-    @Override
-    public void setVolume(double volume) {
     }
 
     @Override

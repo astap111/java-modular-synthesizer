@@ -1,6 +1,5 @@
 package com.synthesizer.channel.processor;
 
-import com.synthesizer.channel.Channel;
 import com.synthesizer.channel.generator.Generator;
 import com.synthesizer.channel.generator.Noise;
 

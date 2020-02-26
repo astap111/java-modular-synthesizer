@@ -51,12 +51,10 @@ public abstract class Generator implements Channel {
 
     protected abstract void genetateWave(double[] output);
 
-    @Override
     public double getVolume() {
         return volume;
     }
 
-    @Override
     public void setVolume(double volume) {
         this.volume = volume;
     }

@@ -45,15 +45,6 @@ public class Compressor implements Channel {
     }
 
     @Override
-    public double getVolume() {
-        return 1;
-    }
-
-    @Override
-    public void setVolume(double volume) {
-    }
-
-    @Override
     public void setFrequency(double frequency) {
         this.channel.setFrequency(frequency);
     }

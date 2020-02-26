@@ -52,16 +52,6 @@ public class DelayWithHPF implements Channel {
     }
 
     @Override
-    public double getVolume() {
-        return channel.getVolume();
-    }
-
-    @Override
-    public void setVolume(double volume) {
-        channel.setVolume(volume);
-    }
-
-    @Override
     public void setFrequency(double frequency) {
         channel.setFrequency(frequency);
     }

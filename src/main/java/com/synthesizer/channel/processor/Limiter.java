@@ -34,12 +34,10 @@ public class Limiter implements Channel {
         return result;
     }
 
-    @Override
     public double getVolume() {
         return this.volume;
     }
 
-    @Override
     public void setVolume(double volume) {
         this.volume = volume;
     }

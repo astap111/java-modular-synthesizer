@@ -66,16 +66,6 @@ public class Equalizer implements Channel {
     }
 
     @Override
-    public double getVolume() {
-        return channel.getVolume();
-    }
-
-    @Override
-    public void setVolume(double volume) {
-        this.channel.setVolume(volume);
-    }
-
-    @Override
     public void setFrequency(double frequency) {
         this.channel.setFrequency(frequency);
     }

@@ -14,6 +14,6 @@ Please use keys Z to / and Q to ] as whitekeys, A to \' and numbers as black key
 Today only 1 real sunthesizer was simulated - Moog Grandmother. Almost all was done except patching (this is the next step to code after I make reverb channel)
 
 # Goals
-1) Learn JavaFX
+1) Learn JavaFX and Java Sound API
 2) Make base Synthesis core to be able to combine all modules to a Synthesizer of any complexity
 3) Make devs aware of Sound Synthesis, give a real example

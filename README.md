@@ -9,6 +9,8 @@ Run the following command:
 
 java -jar target/SimpleSynth-1.0-SNAPSHOT-jar-with-dependencies.jar
 
+Please use keys Z to / and Q to ] as whitekeys, A to \' and numbers as black keys.
+
 Today only 1 real sunthesizer was simulated - Moog Grandmother. Almost all was done except patching (this is the next step to code after I make reverb channel)
 
 # Goals

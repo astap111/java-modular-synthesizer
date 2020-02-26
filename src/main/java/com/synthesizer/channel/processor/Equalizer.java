@@ -10,7 +10,7 @@ import static com.synthesizer.swing.SimpleSynth.SAMPLE_RATE;
 public class Equalizer implements Channel {
     private Channel channel;
     private BiQuadraticFilter biQuadraticFilter;
-    private boolean enabled;
+    private boolean enabled = true;
     private double cutOffFrequency;
     private Generator cutoffEnvelope;
     private double cutoffEnvelopeDepth;

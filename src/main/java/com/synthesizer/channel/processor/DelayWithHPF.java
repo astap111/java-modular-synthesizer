@@ -23,10 +23,12 @@ public class DelayWithHPF implements Channel {
 
     public DelayWithHPF(Channel channel, double delay, double decay, double dryWetFactor) {
         this.channel = channel;
-        setDelay(delay);
+        this.delay = delay;
         this.decay = decay;
         this.dryWetFactor = dryWetFactor;
-        delayBuffer = new double[delayInSamples];
+        this.delayInSamples = (int) (SAMPLE_RATE * delay);
+        this.delayBuffer = new double[delayInSamples];
+        this.bufferPosition = 0;
     }
 
     @Override
@@ -85,9 +87,6 @@ public class DelayWithHPF implements Channel {
 
     public void setDelay(double delay) {
         this.delay = delay;
-        delayInSamples = (int) (SAMPLE_RATE * delay);
-        delayBuffer = new double[delayInSamples];
-        bufferPosition = 0;
     }
 
     public double getDecay() {

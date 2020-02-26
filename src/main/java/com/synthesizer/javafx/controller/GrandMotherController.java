@@ -53,7 +53,6 @@ public class GrandMotherController implements Initializable, EventListener {
         compressor = new Compressor(mixer);
         lpfChannel = filterPaneController.getLpf();
         lpfChannel.addChannel(compressor);
-        lpfChannel.setEnabled(true);
         reverb = new DelayWithHPF(lpfChannel, 0.0619, 0.8, 0.5);
         outputLimiter = new Limiter(reverb);
         rootChannel = outputLimiter;

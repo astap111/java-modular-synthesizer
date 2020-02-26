@@ -26,7 +26,9 @@ public class PresetsPaneController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         presetList = PresetsFileReader.readAllFromFile();
-        presetsComboBox.setItems(FXCollections.observableArrayList(presetList));
+        if (presetList != null) {
+            presetsComboBox.setItems(FXCollections.observableArrayList(presetList));
+        }
 
         presetsComboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
             grandMotherController.getOutputVolume().setValue(newValue.outputVolume);

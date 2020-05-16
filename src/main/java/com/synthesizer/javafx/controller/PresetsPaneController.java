@@ -63,5 +63,9 @@ public class PresetsPaneController implements Initializable {
         this.oscillatorsPaneController = oscillatorsPaneController;
         this.mixerPaneController = mixerPaneController;
         this.filterPaneController = filterPaneController;
+
+        if (presetList.get(0) != null) {
+            presetsComboBox.setValue(presetList.get(0));
+        }
     }
 }

@@ -2,7 +2,8 @@ package com.synthesizer.channel.processor;
 
 import com.synthesizer.channel.Channel;
 
-import static com.synthesizer.swing.SimpleSynth.SAMPLES;
+import static com.synthesizer.javafx.util.AudioConstants.SAMPLES;
+
 
 public class Compressor implements Channel {
     private Channel channel;

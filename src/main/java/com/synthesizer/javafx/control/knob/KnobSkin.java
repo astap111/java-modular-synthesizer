@@ -54,22 +54,41 @@ public class KnobSkin extends SkinBase<Knob> {
         clickable.setOpacity(0);
 
         group = new Group(line, rotatable);
-        double initialRotateRate = (getSkinnable().getValue() - getSkinnable().getMin())
-                / (getSkinnable().getMax() - getSkinnable().getMin());
+        double initialRotateRate;
+        if (getSkinnable().isLogScale()) {
+            initialRotateRate = (log(getSkinnable().getValue()) - log(getSkinnable().getMin()))
+                    / (log(getSkinnable().getMax()) - log(getSkinnable().getMin()));
+        } else {
+            initialRotateRate = (getSkinnable().getValue() - getSkinnable().getMin())
+                    / (getSkinnable().getMax() - getSkinnable().getMin());
+        }
         group.setRotate(SCALE_MIN + initialRotateRate * (SCALE_MAX - SCALE_MIN));
 
         group.rotateProperty().addListener((observable, oldValue, newValue) -> {
             double angle = newValue.doubleValue();
             double rate = (angle - SCALE_MIN) / (SCALE_MAX - SCALE_MIN);
-            double range = (getSkinnable().getMax() - getSkinnable().getMin());
-            double value = rate * range + getSkinnable().getMin();
+            double value;
+            if (getSkinnable().isLogScale()) {
+                double range = log(getSkinnable().getMax()) - log(getSkinnable().getMin());
+                double logValue = rate * range + log(getSkinnable().getMin());
+                value = Math.pow(Math.E, logValue);
+            } else {
+                double range = (getSkinnable().getMax() - getSkinnable().getMin());
+                value = rate * range + getSkinnable().getMin();
+            }
             getSkinnable().setValue(value);
             label.setText(String.format("%.0f", value));
         });
 
         getSkinnable().valueProperty().addListener((observable, oldValue, newValue) -> {
-            double range = (getSkinnable().getMax() - getSkinnable().getMin());
-            double rate = (newValue.doubleValue() - getSkinnable().getMin()) / range;
+            double rate;
+            if (getSkinnable().isLogScale()) {
+                double range = log(getSkinnable().getMax()) - log(getSkinnable().getMin());
+                rate = (log(newValue.doubleValue()) - log(getSkinnable().getMin())) / range;
+            } else {
+                double range = getSkinnable().getMax() - getSkinnable().getMin();
+                rate = (newValue.doubleValue() - getSkinnable().getMin()) / range;
+            }
             double angle = rate * (SCALE_MAX - SCALE_MIN) + SCALE_MIN;
             group.setRotate(angle);
         });
@@ -83,6 +102,10 @@ public class KnobSkin extends SkinBase<Knob> {
         stackPane.getChildren().addAll(outerCircle, innerCircle, label, group, clickable);
         getChildren().clear();
         getChildren().add(stackPane);
+    }
+
+    private double log(double value) {
+        return value <= 0 ? 0 : Math.log(value);
     }
 
     private double getAngle(MouseEvent event) {

@@ -1,5 +1,6 @@
 package com.synthesizer.javafx.control.knob;
 
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.control.Control;
 import javafx.scene.control.Skin;
@@ -9,11 +10,13 @@ public class Knob extends Control {
     private SimpleDoubleProperty min = new SimpleDoubleProperty();
     private SimpleDoubleProperty max = new SimpleDoubleProperty();
     private SimpleDoubleProperty radius = new SimpleDoubleProperty();
+    private SimpleBooleanProperty logScale = new SimpleBooleanProperty();
 
     public Knob() {
         setMin(0);
         setMax(100);
         setValue(0);
+        setLogScale(false);
     }
 
     public double getValue() {
@@ -67,5 +70,17 @@ public class Knob extends Control {
 
     public void setRadius(double radius) {
         this.radius.set(radius);
+    }
+
+    public boolean isLogScale() {
+        return logScale.get();
+    }
+
+    public SimpleBooleanProperty logScaleProperty() {
+        return logScale;
+    }
+
+    public void setLogScale(boolean logScale) {
+        this.logScale.set(logScale);
     }
 }

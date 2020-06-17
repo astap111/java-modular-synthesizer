@@ -19,6 +19,7 @@ public class Mixer implements Channel {
 
     public Mixer(Channel... channels) {
         this.channels.addAll(Arrays.asList(channels));
+        this.volumeEnvelope = new Constant(1.0 / channels.length);
     }
 
     @Override

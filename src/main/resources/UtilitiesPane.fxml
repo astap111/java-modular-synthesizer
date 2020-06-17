@@ -31,5 +31,5 @@
         </font>
     </Label>
     <Knob fx:id="attenuator" layoutX="35.0" layoutY="183.0" radius="30"/>
-    <Knob fx:id="highPass" layoutX="35.0" layoutY="48.0" radius="30"/>
+    <Knob fx:id="highPass" logScale="true" min="0" max="20000" layoutX="35.0" layoutY="48.0" radius="30"/>
 </Pane>

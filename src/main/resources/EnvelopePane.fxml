@@ -30,7 +30,7 @@
             <Font name="Calibri" size="13.0"/>
         </font>
     </Label>
-    <Knob fx:id="envelopeAttack" min="0" max="1000" value="1" layoutX="35.0" layoutY="48.0" radius="30"/>
+    <Knob fx:id="envelopeAttack" min="0" max="1000" value="1" logScale="true" layoutX="35.0" layoutY="48.0" radius="30"/>
     <Knob fx:id="envelopeDecay" min="0" max="1000" value="600" layoutX="35.0" layoutY="138.0" radius="30"/>
     <Knob fx:id="envelopeRelease" min="0" max="1000" value="600" layoutX="35.0" layoutY="228.0" radius="30"/>
     <Slider fx:id="envelopeSustain" min="0" max="1" value="0.6" layoutX="131.0" layoutY="41.0" minorTickCount="5"

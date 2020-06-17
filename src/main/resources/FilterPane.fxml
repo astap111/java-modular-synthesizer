@@ -38,7 +38,7 @@
             <Font name="Calibri" size="13.0"/>
         </font>
     </Label>
-    <Knob fx:id="filterCutoff" min="20" max="20000" value="300" layoutX="85.0" layoutY="48.0" radius="30"/>
+    <Knob fx:id="filterCutoff" min="20" max="20000" value="300" logScale="true" layoutX="85.0" layoutY="48.0" radius="30"/>
     <Knob fx:id="filterEnvelopeAmt" min="-5000" max="5000" value="700" layoutX="35.0" layoutY="228.0" radius="30"/>
     <Knob fx:id="filterResonance" min="0.7" max="10" value="2" layoutX="135.0" layoutY="228.0" radius="30"/>
     <Slider fx:id="kbdTrack" layoutX="68.0" layoutY="154.0" prefHeight="15.0" prefWidth="60.0"

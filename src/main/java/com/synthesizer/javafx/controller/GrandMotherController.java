@@ -43,7 +43,7 @@ public class GrandMotherController implements Initializable, EventListener {
     private GrandmotherMixer mixer;
     private Compressor compressor;
     private Equalizer lpfChannel;
-    private DelayWithHPF reverb;
+    private JCReverb delayComposite;
     private Limiter outputLimiter;
     private Channel rootChannel;
     private AudioByteConverter audioByteConverter;
@@ -53,8 +53,8 @@ public class GrandMotherController implements Initializable, EventListener {
         compressor = new Compressor(mixer);
         lpfChannel = filterPaneController.getLpf();
         lpfChannel.addChannel(compressor);
-        reverb = new DelayWithHPF(lpfChannel, 0.0619, 0.8, 0.5);
-        outputLimiter = new Limiter(reverb);
+        delayComposite = new JCReverb(lpfChannel, reverbAmt.getValue() / 100);
+        outputLimiter = new Limiter(delayComposite);
         rootChannel = outputLimiter;
 
         mixerPaneController.postInitialize(this, oscillatorsPaneController);
@@ -62,16 +62,13 @@ public class GrandMotherController implements Initializable, EventListener {
         envelopePaneController.postInitialize(this, filterPaneController);
         chartsPaneController.postInitialize(oscillatorsPaneController);
         modulationPaneController.postInitialize(oscillatorsPaneController);
-        presetsPaneController.postInitialize(this, envelopePaneController, oscillatorsPaneController, mixerPaneController, filterPaneController);
 
-        outputLimiter.setVolume(outputVolume.getValue() / 100);
         outputVolume.valueProperty().addListener((observable, oldValue, newValue) -> {
             outputLimiter.setVolume(newValue.doubleValue() / 100);
         });
 
-        reverb.setDryWetFactor(reverbAmt.getValue() / 100);
         reverbAmt.valueProperty().addListener((observable, oldValue, newValue) -> {
-            reverb.setDryWetFactor(newValue.doubleValue() / 100);
+            delayComposite.setDryWetFactor(newValue.doubleValue() / 100);
         });
 
         audioByteConverter = new AudioByteConverter();
@@ -80,6 +77,7 @@ public class GrandMotherController implements Initializable, EventListener {
         rootChannel.setFrequency(440);
 
         initializeKeyboardPane();
+        presetsPaneController.postInitialize(this, envelopePaneController, oscillatorsPaneController, mixerPaneController, filterPaneController);
     }
 
     private void initializeKeyboardPane() {

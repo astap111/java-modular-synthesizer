@@ -25,7 +25,7 @@ public class JCReverb implements Channel {
         reverbFork = new Fork(channel, delay1, delay2, delay3, delay4);
         reverbForkMixer = new Mixer(delay1, delay2, delay3, delay4);
         allPassReverb1 = new AllPassReverb(reverbForkMixer, 0.050813973567, 0.7, dryWetFactor);
-        allPassReverb2 = new AllPassReverb(allPassReverb1, 0.130356445672, 0.7, dryWetFactor);
+        allPassReverb2 = new AllPassReverb(allPassReverb1, 0.0172356445672, 0.7, dryWetFactor);
     }
 
     @Override

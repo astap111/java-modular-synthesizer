@@ -1,6 +1,7 @@
 # java-modular-synthesizer
 It's a Modular Synthesizer written in java
 
+![Image of Moog Grandmother emulator](/images/Grandmother.png)
 # How to run
 Please clone this repository and run maven goal 'mvn clean package' (use java 8).
 You can find the jar under 'target/' directory.
